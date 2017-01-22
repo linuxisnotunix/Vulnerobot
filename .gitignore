@@ -26,6 +26,7 @@ _testmain.go
 #Specific to this project
 /vulnerobot
 /Vulnerobot
+/vulnerobot.upx
 /coverage.*
 /build
 /cover

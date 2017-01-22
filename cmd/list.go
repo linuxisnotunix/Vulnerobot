@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	log "github.com/Sirupsen/logrus"
-
+	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
 	"github.com/urfave/cli"
 )
 
@@ -22,6 +21,6 @@ var CmdList = cli.Command{
 }
 
 func runList(c *cli.Context) error {
-	log.Info("Command not implemented !")
-	return nil
+	cl := collectors.Init(nil)
+	return cl.List()
 }
