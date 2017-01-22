@@ -10,7 +10,7 @@ import (
 
 var (
 	//Version version of app set by build flag
-	Version string
+	Version = "testing"
 	//Branch git branch of app set by build flag
 	Branch string
 	//Commit git commit of app set by build flag
@@ -32,10 +32,15 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "Vulnerobot"
 	app.Usage = "Index CVE related to a list of progs"
-	if Version != "" && Branch != "" && Commit != "" {
-		app.Version = Version + "-" + Branch + "#" + Commit
-	} else {
-		app.Version = "testing"
+	app.Version = Version
+	if Branch != "" {
+		app.Version += "-" + Branch
+	}
+	if Commit != "" {
+		app.Version += "#" + Commit
+	}
+	if BuildTime != "" {
+		app.Version += "@" + BuildTime
 	}
 	app.Commands = []cli.Command{
 		cmd.CmdCollect,
