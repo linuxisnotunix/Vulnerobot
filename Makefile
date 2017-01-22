@@ -13,6 +13,8 @@ LDFLAGS = \
   -s -w \
   -X main.Version=$(APP_VERSION) -X main.Branch=$(GIT_BRANCH) -X main.Commit=$(GIT_HASH) -X main.BuildTime=$(DATE)
 
+LDFLAGS_RELEASE = -s -w -X main.Version=$(APP_VERSION)
+
 GO15VENDOREXPERIMENT=1
 #GOPATH ?= $(GOPATH:):./vendor
 DOC_PORT = 6060
@@ -29,43 +31,42 @@ build: clean deps format compile
 
 compile:
 	@echo -e "$(OK_COLOR)==> Building...$(NO_COLOR)"
-	@mkdir build || echo -e "$(WARN_COLOR)==> Build dir (/build) allready exist.$(NO_COLOR)"
-	go build -o build/vulnerobot -v -ldflags "$(LDFLAGS)"
+	go build -o ${APP_NAME} -v -ldflags "$(LDFLAGS)"
 
 release: clean deps format
 	@mkdir build || echo -e "$(WARN_COLOR)==> Build dir (/build) allready exist.$(NO_COLOR)"
 	@echo -e "$(OK_COLOR)==> Building for linux 32 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -o build/${APP_NAME}-linux-386 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -o build/${APP_NAME}-linux-386 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-linux-386 || upx-ucl --brute  build/${APP_NAME}-linux-386 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for linux 64 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o build/${APP_NAME}-linux-amd64 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o build/${APP_NAME}-linux-amd64 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-linux-amd64 || upx-ucl --brute  build/${APP_NAME}-linux-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for linux arm ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o build/${APP_NAME}-linux-armv6 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o build/${APP_NAME}-linux-armv6 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-linux-armv6 || upx-ucl --brute  build/${APP_NAME}-linux-armv6 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for darwin32 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -o build/${APP_NAME}-darwin-386 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -o build/${APP_NAME}-darwin-386 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-darwin-386 || upx-ucl --brute  build/${APP_NAME}-darwin-386 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for darwin64 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o build/${APP_NAME}-darwin-amd64 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o build/${APP_NAME}-darwin-amd64 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-darwin-amd64 || upx-ucl --brute  build/${APP_NAME}-darwin-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for win32 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o build/${APP_NAME}-win-386 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o build/${APP_NAME}-win-386 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-win-386 || upx-ucl --brute  build/${APP_NAME}-win-386 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for win64 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o build/${APP_NAME}-win-amd64 -ldflags "$(LDFLAGS)"
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o build/${APP_NAME}-win-amd64 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-win-amd64 || upx-ucl --brute  build/${APP_NAME}-win-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
@@ -79,11 +80,13 @@ clean:
 
 compress:
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
-	@upx --brute build/${APP_NAME} || upx-ucl --brute build/${APP_NAME} || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
+	@upx --brute ${APP_NAME} || upx-ucl --brute ${APP_NAME} || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 format:
 	@echo -e "$(OK_COLOR)==> Formatting...$(NO_COLOR)"
-	@find ./ -iname \*.go | grep -v -e "^$$" $(addprefix -e ,vendor/) | xargs $(GOPATH)/bin/goimports -w
+	go fmt ./ ./modules/... ./cmd/... 
+#@find ./ -iname \*.go | grep -v -e "^$$" $(addprefix -e ,/vendor/) | xargs $(GOPATH)/bin/goimports -w
+#go fmt ./...
 
 test: deps format
 	@echo -e "$(OK_COLOR)==> Running tests...$(NO_COLOR)"
@@ -123,12 +126,12 @@ update-dev-deps:
 deps:
 	@echo -e "$(OK_COLOR)==> Installing dependencies ...$(NO_COLOR)"
 	$(GOPATH)/bin/vendetta
-	#@go get -d -v ./...
+#@go get -d -v ./...
 
 update-deps:
 	@echo "$(OK_COLOR)==> Updating all dependencies ...$(NO_COLOR)"
 	$(GOPATH)/bin/vendetta -u -p
-	#@go get -d -v -u ./...
+#@go get -d -v -u ./...
 
 done:
 	@echo -e "$(OK_COLOR)==> Done.$(NO_COLOR)"
