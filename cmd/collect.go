@@ -15,7 +15,7 @@ var CmdCollect = cli.Command{
 	Flags: []cli.Flag{
 		cli.StringFlag{
 			Name:  "config, c",
-			Value: "data/applist.csv",
+			Value: "data/configuration",
 			Usage: "Application list to monitor?",
 		},
 	},
