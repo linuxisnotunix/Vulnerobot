@@ -87,10 +87,12 @@ format:
 
 test: deps format
 	@echo -e "$(OK_COLOR)==> Running tests...$(NO_COLOR)"
-	go vet . ./gvfs/... || true
-	go test -v -race -coverprofile=coverage.out -covermode=atomic ./gvfs/drivers
-	go tool cover -html=coverage.out -o coverage.html
+	go vet . ./... || true
+	go test -v -race . ./cmd/... ./modules/...
 
+#TODO cover with gocovmerge
+#go tool cover -html=coverage.out -o coverage.html
+#go test -v -race -coverprofile=coverage.out -covermode=atomic . ./cmd/... ./modules/...
 docs: dev-deps
 	@echo -e "$(OK_COLOR)==> Serving docs at http://localhost:$(DOC_PORT).$(NO_COLOR)"
 	@$(GOPATH)/bin/godoc -http=:$(DOC_PORT)
@@ -131,4 +133,4 @@ update-deps:
 done:
 	@echo -e "$(OK_COLOR)==> Done.$(NO_COLOR)"
 
-.PHONY: all build compile clean compress format test docs lint dev-deps deps update-deps done
+.PHONY: all build compile clean compress format test docs lint dev-deps deps update-deps update-dev-deps done
