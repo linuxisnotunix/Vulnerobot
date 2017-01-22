@@ -16,7 +16,7 @@ var CmdCollect = cli.Command{
 		cli.StringFlag{
 			Name:  "config, c",
 			Value: "data/configuration",
-			Usage: "Application list to monitor?",
+			Usage: "Application list to monitor",
 		},
 	},
 }
