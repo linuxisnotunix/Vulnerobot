@@ -2,6 +2,7 @@ package anssi
 
 import (
 	"fmt"
+	"regexp"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -12,8 +13,9 @@ import (
 const (
 	id                 = "ANSSI"
 	listURLFormat      = `http://cert.ssi.gouv.fr/site/%dindex.html`
-	cveURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
-	cveDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
+	aviURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
+	aviDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
+	aviRegex           = `^CERT(FR|A)-%d-AVI-[0-9]+$`
 	minYear            = 2000
 )
 
@@ -51,8 +53,11 @@ func (m *ModuleANSSI) IsAvailable() bool {
 //Collect collect and parse data to put in database
 func (m *ModuleANSSI) Collect() error {
 	log.WithFields(log.Fields{}).Debugf("Start collect for : '%s'", id)
+
 	for y := minYear; y <= maxYear; y++ {
 		url := fmt.Sprintf(listURLFormat, y)
+		validAVI := regexp.MustCompile(fmt.Sprintf(aviRegex, y))
+
 		log.WithFields(log.Fields{
 			"year":    y,
 			"yearURL": url,
@@ -67,7 +72,11 @@ func (m *ModuleANSSI) Collect() error {
 			// Find the review items
 			doc.Find(".corps a.mg").Each(func(i int, s *goquery.Selection) {
 				title := s.Text()
-				fmt.Printf("CVE found %d: %s\n", i, title)
+				if validAVI.MatchString(title) {
+					log.Debugf("CVE found %d: %s", i, title)
+				} else {
+					log.Debugf("Skipping id : %s", title)
+				}
 			})
 		}
 	}
