@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
-	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
 
 const id = "ANSSI"
+const listURLFormat = `http://cert.ssi.gouv.fr/site/%dindex.html`
 
 //ModuleANSSI retrieve information form http://cert.ssi.gouv.fr/
 type ModuleANSSI struct {
@@ -20,9 +20,11 @@ func New(options map[string]string) models.Collector {
 		"id":      id,
 		"options": options,
 	}).Debug("Creating new Module")
-	log.WithFields(log.Fields{
-		"Orm": db.Orm,
-	}).Debug("DB Orm debug")
+	/*
+		log.WithFields(log.Fields{
+			"Orm": db.Orm(),
+		}).Debug("DB Orm debug")
+	*/
 	return &ModuleANSSI{}
 }
 

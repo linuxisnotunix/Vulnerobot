@@ -52,7 +52,7 @@ func main() {
 	})
 	app.EnableBashCompletion = true
 
-	app.Before = setupLogger
+	app.Before = setup
 
 	app.Commands = []cli.Command{
 		cmd.CmdCollect,
@@ -63,7 +63,7 @@ func main() {
 		log.Fatalf("Fail to run app with %s: %v", os.Args, err)
 	}
 }
-func setupLogger(c *cli.Context) error {
+func setup(c *cli.Context) error {
 	if settings.AppVerbose {
 		log.SetLevel(log.DebugLevel)
 	} else {
