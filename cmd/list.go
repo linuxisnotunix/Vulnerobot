@@ -8,6 +8,7 @@ import (
 // CmdList list collected vulnerability based on a list of apps.
 var CmdList = cli.Command{
 	Name:        "list",
+	Aliases:     []string{"l"},
 	Usage:       "List known CVE in database from a application list",
 	Description: `Ask each modules to list known vulnerability in database based on application list.`,
 	Action:      runList,

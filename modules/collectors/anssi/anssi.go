@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
+	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
 
@@ -19,6 +20,9 @@ func New(options map[string]string) models.Collector {
 		"id":      id,
 		"options": options,
 	}).Debug("Creating new Module")
+	log.WithFields(log.Fields{
+		"Orm": db.Orm,
+	}).Debug("DB Orm debug")
 	return &ModuleANSSI{}
 }
 
