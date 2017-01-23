@@ -2,13 +2,22 @@ package anssi
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/PuerkitoBio/goquery"
 	log "github.com/Sirupsen/logrus"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
 
-const id = "ANSSI"
-const listURLFormat = `http://cert.ssi.gouv.fr/site/%dindex.html`
+const (
+	id                 = "ANSSI"
+	listURLFormat      = `http://cert.ssi.gouv.fr/site/%dindex.html`
+	cveURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
+	cveDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
+	minYear            = 2000
+)
+
+var maxYear = 2000 //Updated at run time
 
 //ModuleANSSI retrieve information form http://cert.ssi.gouv.fr/
 type ModuleANSSI struct {
@@ -20,6 +29,7 @@ func New(options map[string]string) models.Collector {
 		"id":      id,
 		"options": options,
 	}).Debug("Creating new Module")
+	maxYear = time.Now().Year()
 	/*
 		log.WithFields(log.Fields{
 			"Orm": db.Orm(),
@@ -40,7 +50,29 @@ func (m *ModuleANSSI) IsAvailable() bool {
 
 //Collect collect and parse data to put in database
 func (m *ModuleANSSI) Collect() error {
-	return fmt.Errorf("Module '%s' does not implement Collect().", id) //TODO
+	log.WithFields(log.Fields{}).Debugf("Start collect for : '%s'", id)
+	for y := minYear; y <= maxYear; y++ {
+		url := fmt.Sprintf(listURLFormat, y)
+		log.WithFields(log.Fields{
+			"year":    y,
+			"yearURL": url,
+		}).Debugf("Getting list from : '%s'", url)
+		doc, err := goquery.NewDocument(url)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"year":    y,
+				"yearURL": url,
+			}).Warnf("Faild to get list : %v", err)
+		} else {
+			// Find the review items
+			doc.Find(".corps a.mg").Each(func(i int, s *goquery.Selection) {
+				title := s.Text()
+				fmt.Printf("CVE found %d: %s\n", i, title)
+			})
+		}
+	}
+	return nil
+	//return fmt.Errorf("Module '%s' does not implement Collect().", id) //TODO
 }
 
 //List display known CVE stored by this module in DB
