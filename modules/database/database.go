@@ -53,7 +53,8 @@ func setup() {
 		if err != nil {
 			log.Debugf("Fail to access DB file(%s) but this is ok since the file don't exist: %v\n", settings.DBPath, err)
 		}
-		orm.CreateTable(models.CVE{}) //TODO testing
+		//orm.CreateTable(models.CVE{})      //TODO testing
+		orm.CreateTable(models.AnssiAVI{}) //TODO testing
 
 	} else {
 		//DB exist
@@ -64,5 +65,5 @@ func setup() {
 		}
 		log.Debugf("Db init ok: %v\n", settings.DBPath, err)
 	}
-	defer orm.Close()
+	//defer orm.Close()
 }

@@ -31,3 +31,4 @@ _testmain.go
 /build
 /cover
 /data/sqlite.db
+/dump.log
