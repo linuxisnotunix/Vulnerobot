@@ -3,6 +3,7 @@ package anssi
 import (
 	"fmt"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -16,10 +17,10 @@ const (
 	aviURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
 	aviDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
 	aviRegex           = `^CERT(FR|A)-%d-AVI-[0-9]+$`
-	minYear            = 2017
+	minYear            = 2000
 )
 
-var maxYear = 2000 //Updated at run time
+var maxYear = 2017 //Updated at run time
 
 //ModuleANSSI retrieve information form http://cert.ssi.gouv.fr/
 type ModuleANSSI struct {
@@ -112,10 +113,17 @@ func parseAVI(id string) error {
 		title := doc.Find("head>title").Text()
 
 		headers := make(map[string]string)
+		var lastTitle string
 		doc.Find("td.corps > div[align='center'] > table  div[align='center'] > table tr[valign='baseline']").Each(func(i int, s *goquery.Selection) {
-			title := s.Find("td:nth-child(1)").Text()
+			title := strings.TrimSpace(s.Find("td:nth-child(1)").Text())
+
 			value := s.Find("td:nth-child(2)").Text()
+			if len(title) == 0 { //Keep previous title index but append value //TODO better
+				title = lastTitle
+				value += ", " + value
+			}
 			headers[title] = value
+			lastTitle = title
 		})
 
 		contents := make(map[string]string)
