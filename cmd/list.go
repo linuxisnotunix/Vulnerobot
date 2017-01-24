@@ -18,6 +18,11 @@ var CmdList = cli.Command{
 			Value: "data/configuration",
 			Usage: "Application list to monitor",
 		},
+		cli.StringFlag{
+			Name:  "plugins, p",
+			Value: "all",
+			Usage: "Plugins to load",
+		},
 	},
 }
 

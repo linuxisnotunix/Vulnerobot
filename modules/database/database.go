@@ -53,9 +53,10 @@ func setup() {
 		if err != nil {
 			log.Debugf("Fail to access DB file(%s) but this is ok since the file don't exist: %v\n", settings.DBPath, err)
 		}
-		//orm.CreateTable(models.CVE{})      //TODO testing
-		orm.CreateTable(models.AnssiAVI{}) //TODO testing
 
+		orm.CreateTable(models.AnssiAVI{})
+		orm.CreateTable(models.Component{})
+		orm.CreateTable(models.Function{})
 	} else {
 		//DB exist
 		orm, err = gorm.Open("sqlite3", settings.DBPath)
@@ -63,6 +64,7 @@ func setup() {
 		if err != nil {
 			log.Fatalf("Fail to access DB file(%s): %v\n", settings.DBPath, err)
 		}
+		orm.AutoMigrate(&models.AnssiAVI{}, &models.Component{}, &models.Function{})
 		log.Debugf("Db init ok: %v\n", settings.DBPath, err)
 	}
 	//defer orm.Close()

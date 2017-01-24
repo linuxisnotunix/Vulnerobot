@@ -23,6 +23,11 @@ const (
 
 var maxYear = 2017 //Updated at run time
 
+//TODO implement force and update since last view
+//TODO implement all dield to store in DB (parseAVI)
+//TODO implement match
+//TODO implement system to view progess
+
 //ModuleANSSI retrieve information form http://cert.ssi.gouv.fr/
 type ModuleANSSI struct {
 }

@@ -19,6 +19,15 @@ var CmdCollect = cli.Command{
 			Value: "data/configuration",
 			Usage: "Application list to monitor",
 		},
+		cli.StringFlag{
+			Name:  "plugins, p",
+			Value: "all",
+			Usage: "Plugins to load",
+		},
+		cli.BoolFlag{
+			Name:  "force, f",
+			Usage: "Force reload of data",
+		},
 	},
 }
 
