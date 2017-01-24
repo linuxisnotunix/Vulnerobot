@@ -84,7 +84,7 @@ compress:
 
 format:
 	@echo -e "$(OK_COLOR)==> Formatting...$(NO_COLOR)"
-	go fmt ./ ./modules/... ./cmd/... 
+	go fmt ./ ./modules/... ./cmd/...
 #@find ./ -iname \*.go | grep -v -e "^$$" $(addprefix -e ,/vendor/) | xargs $(GOPATH)/bin/goimports -w
 #go fmt ./...
 
@@ -98,7 +98,7 @@ test: deps format
 #go test -v -race -coverprofile=coverage.out -covermode=atomic . ./cmd/... ./modules/...
 docs: dev-deps
 	@echo -e "$(OK_COLOR)==> Serving docs at http://localhost:$(DOC_PORT).$(NO_COLOR)"
-	@$(GOPATH)/bin/godoc -http=:$(DOC_PORT)
+	$(GOPATH)/bin/godoc -http=:$(DOC_PORT)
 
 lint: dev-deps
 	$(GOPATH)/bin/gometalinter --deadline=5m --concurrency=2 --vendor ./...

@@ -84,7 +84,7 @@ func (m *ModuleANSSI) Collect() error {
 			}).Warnf("Faild to get list : %v", err)
 		} else {
 			// Find AVI link
-			doc.Find(".corps a.mg").Each(func(i int, s *goquery.Selection) {
+			doc.Find(".corps a.mg, .corps a.ale").Each(func(i int, s *goquery.Selection) {
 				title := s.Text()
 				if validAVI.MatchString(title) {
 					log.Debugf("AVI found %d: %s", i, title)
