@@ -62,8 +62,8 @@ func getLastKnownAVI() string {
 	var lastAVI models.AnssiAVI
 	db.Orm().Last(&lastAVI)
 	log.WithFields(log.Fields{
-		"ID":      lastAVI.ID,
-		"lastAVI": lastAVI,
+		"ID": lastAVI.ID,
+		//"lastAVI": lastAVI,
 	}).Infof("%s: Getting last AVI in DB", id)
 	return lastAVI.ID
 }
