@@ -102,7 +102,8 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 	list := arraylist.New()
 
 	aviMatch := regexp.MustCompile(aviRegex)
-	if aviMatch.MatchString(lastAVIInDB) { //Match AVI format
+	hasStartAvi := aviMatch.MatchString(lastAVIInDB)
+	if hasStartAvi { //Match AVI format
 		matchs := aviMatch.FindAllStringSubmatch(lastAVIInDB, -1)
 		y, err := strconv.ParseInt(matchs[0][2], 10, 64)
 		if err != nil {
@@ -125,13 +126,13 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 		log.WithFields(log.Fields{
 			"year":    y,
 			"yearURL": url,
-		}).Debugf("Getting list from : '%s'", url)
+		}).Debugf("%s: Getting list from : '%s'", id, url)
 		doc, err := goquery.NewDocument(url) //Get list of the year
 		if err != nil {
 			log.WithFields(log.Fields{
 				"year":    y,
 				"yearURL": url,
-			}).Warnf("Failed to get list : %v", err)
+			}).Warnf("%s: Failed to get list : %v", id, err)
 			continue //Skip if we need blockin should use next line
 			//return nil, fmt.Errorf("Module '%s' failed to get list of AVI to parse", id)
 		}
@@ -140,13 +141,16 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 		doc.Find(".corps a.mg, .corps a.ale").Each(func(i int, s *goquery.Selection) {
 			avi := s.Text()
 			if validYearAVI.MatchString(avi) { //TODO check if newer than lastAVIInDB
+				if hasStartAvi && avi <= lastAVIInDB {
+					return //Skipping
+				}
 				list.Add(avi)
 			}
 		})
 	}
 	log.WithFields(log.Fields{
 		"size": list.Size(),
-	}).Debugf("Finish collecting list of AVI")
+	}).Infof("%s: Finish collecting list of AVI", id)
 	return list, nil
 }
 
@@ -157,20 +161,25 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 	if err != nil {
 		return err
 	}
-	bar.Total = neededAVI.Size()
+	if neededAVI.Size() > 0 {
+		bar.Total = neededAVI.Size()
 
-	tx := db.Orm().Begin() //Start sql session
-	it := neededAVI.Iterator()
-	for it.Next() {
-		avi, err := parseAVI(it.Value().(string))
-		if err != nil {
-			log.Warnf("Failed to get AVI : %s", it.Value().(string))
-		} else {
-			tx.Create(avi)
+		tx := db.Orm().Begin() //Start sql session
+		it := neededAVI.Iterator()
+		for it.Next() {
+			avi, err := parseAVI(it.Value().(string))
+			if err != nil {
+				log.Warnf("Failed to get AVI : %s", it.Value().(string))
+			} else {
+				tx.Create(avi)
+			}
+			bar.Incr()
 		}
-		bar.Incr()
+		tx.Commit() //Commit session
+	} else {
+		//Nothing to do
+		log.Infof("%s: No new AVI to collect.", id)
 	}
-	tx.Commit() //Commit session
 	return nil
 }
 
@@ -179,14 +188,14 @@ func parseAVI(AVIid string) (*models.AnssiAVI, error) {
 	log.WithFields(log.Fields{
 		"AVIid": AVIid,
 		"url":   url,
-	}).Debugf("Getting AVI (%s) from : '%s'", AVIid, url)
+	}).Debugf("%s: Getting AVI (%s) from : '%s'", id, AVIid, url)
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"AVIid": AVIid,
 			"url":   url,
-		}).Warnf("Faild to get AVI : %v", err)
+		}).Warnf("%s: Faild to get AVI : %v", id, err)
 		return nil, err
 	}
 
