@@ -13,6 +13,7 @@ import (
 	"github.com/gosuri/uiprogress"
 	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
+	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
 )
 
 const (
@@ -22,6 +23,7 @@ const (
 	aviDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
 	aviRegex           = `^CERT(FR|A)-([0-9]{4})-AVI-[0-9]+$`
 	aviYearRegex       = `^CERT(FR|A)-%d-AVI-[0-9]+$`
+	dateRegex          = `^(\d{2}) (.+) (\d{4})$`
 )
 
 var (
@@ -36,6 +38,35 @@ var (
 
 //ModuleANSSI retrieve information form http://cert.ssi.gouv.fr/
 type ModuleANSSI struct {
+}
+
+func parseDate(date string) time.Time {
+	validDate := regexp.MustCompile(dateRegex)
+	if !validDate.MatchString(date) {
+		return time.Time{}
+	}
+	matchsParu := validDate.FindAllStringSubmatch(date, -1)
+	/*
+		log.WithFields(log.Fields{
+			"date":       date,
+			"matchsParu": matchsParu,
+		}).Debugf("%s: extracting date ...", id)
+	*/
+	y, err := strconv.ParseInt(matchsParu[0][3], 10, 64)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"date":       date,
+			"matchsParu": matchsParu,
+		}).Warnf("%s: Failed to extract year from date", id)
+	}
+	d, err := strconv.ParseInt(matchsParu[0][1], 10, 64)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"date":       date,
+			"matchsParu": matchsParu,
+		}).Warnf("%s: Failed to extract day from date", id)
+	}
+	return time.Date(int(y), tools.GetFrMonth(matchsParu[0][2]), int(d), 0, 0, 0, 0, time.UTC)
 }
 
 //New constructor for Module
@@ -200,8 +231,7 @@ func parseAVI(id string) (*models.AnssiAVI, error) {
 		"headers": headers,
 		//"contents": contents,
 	}).Debug("AVI parsed")
-	return &models.AnssiAVI{ID: id, Title: title}, nil
-
+	return &models.AnssiAVI{ID: id, Title: title, Risk: contents["Risques"], SystemAffected: contents["Systèmes"], Release: parseDate(headers["Date de la première version"]), LastUpdate: parseDate(headers["Date de la dernière version"])}, nil
 }
 
 //List display known AVI stored by this module in DB
