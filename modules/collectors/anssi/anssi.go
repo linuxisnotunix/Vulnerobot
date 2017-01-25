@@ -174,18 +174,18 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 	return nil
 }
 
-func parseAVI(id string) (*models.AnssiAVI, error) {
-	url := fmt.Sprintf(aviDirectURLFormat, id, id)
+func parseAVI(AVIid string) (*models.AnssiAVI, error) {
+	url := fmt.Sprintf(aviDirectURLFormat, AVIid, AVIid)
 	log.WithFields(log.Fields{
-		"id":  id,
-		"url": url,
-	}).Debugf("Getting AVI (%s) from : '%s'", id, url)
+		"AVIid": AVIid,
+		"url":   url,
+	}).Debugf("Getting AVI (%s) from : '%s'", AVIid, url)
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		log.WithFields(log.Fields{
-			"id":  id,
-			"url": url,
+			"AVIid": AVIid,
+			"url":   url,
 		}).Warnf("Faild to get AVI : %v", err)
 		return nil, err
 	}
@@ -223,15 +223,17 @@ func parseAVI(id string) (*models.AnssiAVI, error) {
 			contents["Résumé"] = s.Text()
 		}
 	})
-
+	if strings.HasPrefix(AVIid, "CERTA") { //Switch for CERTA (diff from CERTFR)
+		contents["Systèmes"], contents["Risques"] = contents["Risques"], contents["Systèmes"]
+	}
 	log.WithFields(log.Fields{
-		"id":      id,
+		"AVIid":   AVIid,
 		"url":     url,
 		"title":   title,
 		"headers": headers,
 		//"contents": contents,
 	}).Debug("AVI parsed")
-	return &models.AnssiAVI{ID: id, Title: title, Risk: contents["Risques"], SystemAffected: contents["Systèmes"], Release: parseDate(headers["Date de la première version"]), LastUpdate: parseDate(headers["Date de la dernière version"])}, nil
+	return &models.AnssiAVI{ID: AVIid, Title: title, Risk: contents["Risques"], SystemAffected: contents["Systèmes"], Release: parseDate(headers["Date de la première version"]), LastUpdate: parseDate(headers["Date de la dernière version"])}, nil
 }
 
 //List display known AVI stored by this module in DB
