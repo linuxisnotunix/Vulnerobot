@@ -28,6 +28,10 @@ var CmdCollect = cli.Command{
 			Name:  "force, f",
 			Usage: "Force reload of data",
 		},
+		cli.BoolFlag{
+			Name:  "no-progress",
+			Usage: "Don't display progress bar",
+		},
 	},
 }
 

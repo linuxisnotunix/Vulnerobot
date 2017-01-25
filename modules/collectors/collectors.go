@@ -46,6 +46,7 @@ func getCollectors(options map[string]string) map[string]models.Collector {
 //Collect ask modules to collect and parse data to put in database
 func (cl *CollectorList) Collect() error {
 	p := uiprogress.New()
+	p.RefreshInterval = 50 * time.Millisecond
 	p.Start()
 	log.SetOutput(p.Bypass())
 	var wg sync.WaitGroup
@@ -56,7 +57,7 @@ func (cl *CollectorList) Collect() error {
 		}
 	}
 	wg.Wait()
-	time.Sleep(25 * time.Millisecond) //Wait to UI finish
+	time.Sleep(p.RefreshInterval) //Wait to UI finish
 	log.SetOutput(os.Stdout)
 	p.Stop()
 	return nil
