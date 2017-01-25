@@ -3,7 +3,7 @@ package dummy
 import (
 	"fmt"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/gosuri/uiprogress"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
 
@@ -15,10 +15,12 @@ type ModuleDUMMY struct {
 
 //New constructor for Module
 func New(options map[string]string) models.Collector {
-	log.WithFields(log.Fields{
-		"id":      id,
-		"options": options,
-	}).Debug("Creating new Module")
+	/*
+		log.WithFields(log.Fields{
+			"id":      id,
+			"options": options,
+		}).Debug("Creating new Module")
+	*/
 	return &ModuleDUMMY{}
 }
 
@@ -29,15 +31,16 @@ func (m *ModuleDUMMY) ID() string {
 
 //IsAvailable Return the availability of the module
 func (m *ModuleDUMMY) IsAvailable() bool {
-	return false //TODO
+	return true
 }
 
 //Collect collect and parse data to put in database
-func (m *ModuleDUMMY) Collect() error {
-	return fmt.Errorf("Module '%s' does not implement Collect().", id) //TODO
+func (m *ModuleDUMMY) Collect(bar *uiprogress.Bar) error {
+	//return nil
+	return fmt.Errorf("Module '%s' does not implement Collect().", id)
 }
 
 //List display known CVE stored by this module in DB
 func (m *ModuleDUMMY) List() error {
-	return fmt.Errorf("Module '%s' does not implement List().", id) //TODO
+	return fmt.Errorf("Module '%s' does not implement List().", id)
 }

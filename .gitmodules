@@ -22,3 +22,12 @@
 [submodule "vendor/github.com/andybalholm/cascadia"]
 	path = vendor/github.com/andybalholm/cascadia
 	url = https://github.com/andybalholm/cascadia
+[submodule "vendor/github.com/gosuri/uiprogress"]
+	path = vendor/github.com/gosuri/uiprogress
+	url = https://github.com/gosuri/uiprogress
+[submodule "vendor/github.com/gosuri/uilive"]
+	path = vendor/github.com/gosuri/uilive
+	url = https://github.com/gosuri/uilive
+[submodule "vendor/github.com/emirpasic/gods"]
+	path = vendor/github.com/emirpasic/gods
+	url = https://github.com/emirpasic/gods

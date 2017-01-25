@@ -8,6 +8,8 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	log "github.com/Sirupsen/logrus"
+	"github.com/emirpasic/gods/lists/arraylist"
+	"github.com/gosuri/uiprogress"
 	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
@@ -17,11 +19,14 @@ const (
 	listURLFormat      = `http://cert.ssi.gouv.fr/site/%dindex.html`
 	aviURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
 	aviDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
-	aviRegex           = `^CERT(FR|A)-%d-AVI-[0-9]+$`
-	minYear            = 2000
+	aviRegex           = `^CERT(FR|A)-[0-9]{4}-AVI-[0-9]+$`
+	aviYearRegex       = `^CERT(FR|A)-%d-AVI-[0-9]+$`
 )
 
-var maxYear = 2017 //Updated at run time
+var (
+	minYear = 2000 //Update at runtime if needed
+	maxYear = 2017 //Updated at run time
+)
 
 //TODO implement force and update since last view
 //TODO implement all dield to store in DB (parseAVI)
@@ -39,11 +44,6 @@ func New(options map[string]string) models.Collector {
 		"options": options,
 	}).Debug("Creating new Module")
 	maxYear = time.Now().Year()
-	/*
-		log.WithFields(log.Fields{
-			"Orm": db.Orm(),
-		}).Debug("DB Orm debug")
-	*/
 	return &ModuleANSSI{}
 }
 
@@ -54,60 +54,75 @@ func (m *ModuleANSSI) ID() string {
 
 //IsAvailable Return the availability of the module
 func (m *ModuleANSSI) IsAvailable() bool {
-	return false //TODO
+	return true //TODO
 }
 
-//Collect collect and parse data to put in database
-func (m *ModuleANSSI) Collect() error {
+func listNeededCVE(lastAVIInDB string) (*arraylist.List, error) {
+	list := arraylist.New()
 	log.WithFields(log.Fields{
 		"minYear": minYear,
 		"maxYear": maxYear,
-	}).Infof("Start collect for : '%s'", id)
+	}).Debugf("Getting list of AVI to collect for : '%s'", id)
 
-	o := db.Orm()
-	parsedAVI := 0
+	if regexp.MustCompile(aviRegex).MatchString(lastAVIInDB) { //Match AVI format
+		minYear = 2000 //TODO setup minYear from lastAVIInDB
+	}
+	//minYear = 2016 //Debug force to limit requests
 
 	for y := minYear; y <= maxYear; y++ {
-		tx := o.Begin()
 		url := fmt.Sprintf(listURLFormat, y)
-		validAVI := regexp.MustCompile(fmt.Sprintf(aviRegex, y))
-
+		validYearAVI := regexp.MustCompile(fmt.Sprintf(aviYearRegex, y))
 		log.WithFields(log.Fields{
 			"year":    y,
 			"yearURL": url,
 		}).Debugf("Getting list from : '%s'", url)
-		doc, err := goquery.NewDocument(url)
+		doc, err := goquery.NewDocument(url) //Get list of the year
 		if err != nil {
 			log.WithFields(log.Fields{
 				"year":    y,
 				"yearURL": url,
-			}).Warnf("Faild to get list : %v", err)
-		} else {
-			// Find AVI link
-			doc.Find(".corps a.mg, .corps a.ale").Each(func(i int, s *goquery.Selection) {
-				title := s.Text()
-				if validAVI.MatchString(title) {
-					log.Debugf("AVI found %d: %s", i, title)
-					avi, err := parseAVI(title)
-					if err != nil {
-						log.Warnf("Failed to get AVI : %s", title)
-					} else {
-						tx.Create(avi)
-					}
-					parsedAVI++
-				} else {
-					log.Debugf("Skipping id : %s", title)
-				}
-			})
+			}).Warnf("Failed to get list : %v", err)
+			continue //Skip if we need blockin should use next line
+			//return nil, fmt.Errorf("Module '%s' failed to get list of AVI to parse", id)
 		}
-		tx.Commit()
-	}
 
+		// Find all AVI link
+		doc.Find(".corps a.mg, .corps a.ale").Each(func(i int, s *goquery.Selection) {
+			avi := s.Text()
+			if validYearAVI.MatchString(avi) {
+				list.Add(avi)
+			}
+		})
+	}
 	log.WithFields(log.Fields{
-		"parsedAVI": parsedAVI,
-	}).Infof("Ended collect for : '%s'", id)
+		"size": list.Size(),
+	}).Debugf("Finish collecting list of AVI")
+	return list, nil
+}
+
+//Collect collect and parse data to put in database
+func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
+
+	o := db.Orm()
+	neededAVI, err := listNeededCVE("") //TODO get last AVI from DB
+	if err != nil {
+		return err
+	}
+	bar.Total = neededAVI.Size()
+
+	tx := o.Begin() //Start sql session
+	it := neededAVI.Iterator()
+	for it.Next() {
+		avi, err := parseAVI(it.Value().(string))
+		if err != nil {
+			log.Warnf("Failed to get AVI : %s", it.Value().(string))
+		} else {
+			tx.Create(avi)
+		}
+		bar.Incr()
+	}
+	tx.Commit() //Commit session
 	return nil
-	//return fmt.Errorf("Module '%s' does not implement Collect().", id) //TODO
 }
 
 func parseAVI(id string) (*models.AnssiAVI, error) {
@@ -116,8 +131,8 @@ func parseAVI(id string) (*models.AnssiAVI, error) {
 		"id":  id,
 		"url": url,
 	}).Debugf("Getting AVI (%s) from : '%s'", id, url)
-	doc, err := goquery.NewDocument(url)
 
+	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"id":  id,

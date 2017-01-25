@@ -1,9 +1,14 @@
 package collectors
 
 import (
+	"fmt"
+	"os"
 	"strings"
+	"sync"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/gosuri/uiprogress"
 
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/anssi"
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/dummy"
@@ -16,13 +21,15 @@ var (
 
 //CollectorList list of collector
 type CollectorList struct {
-	list map[string]models.Collector
+	options map[string]string
+	list    map[string]models.Collector
 }
 
 //Init a collector list and init them
 func Init(options map[string]string) *CollectorList {
 	return &CollectorList{
-		list: getCollectors(options),
+		options: options,
+		list:    getCollectors(options),
 	}
 }
 
@@ -38,15 +45,20 @@ func getCollectors(options map[string]string) map[string]models.Collector {
 
 //Collect ask modules to collect and parse data to put in database
 func (cl *CollectorList) Collect() error {
+	p := uiprogress.New()
+	p.Start()
+	log.SetOutput(p.Bypass())
+	var wg sync.WaitGroup
 	for id, collector := range cl.list {
-		if collector != nil {
-			if err := collector.Collect(); handleCollectorError(err) != nil {
-				return err
-			}
-		} else {
-			log.Debug("Skipping empty module ", id, " !")
+		if err := executeCollectorCollect(p, &wg, id, collector); err != nil {
+			//return err
+			log.Fatalf("A uncatched error occured : %s", err.Error())
 		}
 	}
+	wg.Wait()
+	time.Sleep(25 * time.Millisecond) //Wait to UI finish
+	log.SetOutput(os.Stdout)
+	p.Stop()
 	return nil
 }
 
@@ -64,13 +76,38 @@ func (cl *CollectorList) List() error {
 	return nil
 }
 
+//executeCollector start the collector
+func executeCollectorCollect(p *uiprogress.Progress, wg *sync.WaitGroup, id string, collector models.Collector) error {
+	wg.Add(1)
+	if collector != nil {
+		log.Info("Starting module ", id, " ...")
+		bar := p.AddBar(1).AppendCompleted().PrependElapsed()
+		bar.PrependFunc(func(b *uiprogress.Bar) string {
+			return fmt.Sprintf("%s", id)
+		})
+		bar.AppendFunc(func(b *uiprogress.Bar) string {
+			return fmt.Sprintf("(%d/%d)", b.Current(), b.Total)
+		})
+		go func() {
+			defer wg.Done()
+			if err := collector.Collect(bar); err != nil {
+				handleCollectorError(err)
+			}
+		}()
+	} else {
+		log.Debug("Skipping empty module ", id, " !")
+	}
+	return nil
+}
+
 //handleCollectorError handle some common errors
 func handleCollectorError(err error) error {
 	if err != nil {
 		if strings.Contains(err.Error(), "does not implement") {
-			log.Warn(err)
+			log.Warnf("%s", err.Error())
 			return nil
 		}
+		log.Fatalf("Unhandled error : %s", err.Error())
 	}
 	return err
 }
