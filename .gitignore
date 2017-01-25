@@ -32,3 +32,4 @@ _testmain.go
 /cover
 /data/sqlite.db
 /dump.log
+/data/dump.sql

@@ -57,6 +57,8 @@ func main() {
 	app.Commands = []cli.Command{
 		cmd.CmdCollect,
 		cmd.CmdList,
+		cmd.CmdPlugins,
+		cmd.CmdWeb,
 	}
 	err := app.Run(os.Args)
 	if err != nil {

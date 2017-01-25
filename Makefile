@@ -71,7 +71,7 @@ release: clean deps format
 	@upx --brute  build/${APP_NAME}-win-amd64 || upx-ucl --brute  build/${APP_NAME}-win-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Archiving ...$(NO_COLOR)"
-	@tar -zcvf build/$(ARCHIVE) LICENSE README.md build/
+	@tar -zcvf $(ARCHIVE) LICENSE README.md build/
 
 clean:
 	@if [ -x ${APP_NAME} ]; then rm ${APP_NAME}; fi
@@ -128,7 +128,7 @@ deps:
 	$(GOPATH)/bin/vendetta
 #@go get -d -v ./...
 
-update-deps:
+update-deps: dev-deps
 	@echo "$(OK_COLOR)==> Updating all dependencies ...$(NO_COLOR)"
 	$(GOPATH)/bin/vendetta -u -p
 #@go get -d -v -u ./...
