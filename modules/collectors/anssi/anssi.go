@@ -3,6 +3,7 @@ package anssi
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -19,7 +20,7 @@ const (
 	listURLFormat      = `http://cert.ssi.gouv.fr/site/%dindex.html`
 	aviURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
 	aviDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
-	aviRegex           = `^CERT(FR|A)-[0-9]{4}-AVI-[0-9]+$`
+	aviRegex           = `^CERT(FR|A)-([0-9]{4})-AVI-[0-9]+$`
 	aviYearRegex       = `^CERT(FR|A)-%d-AVI-[0-9]+$`
 )
 
@@ -57,17 +58,35 @@ func (m *ModuleANSSI) IsAvailable() bool {
 	return true //TODO
 }
 
-func listNeededCVE(lastAVIInDB string) (*arraylist.List, error) {
+func getLastKnownAVI() string {
+	var lastAVI models.AnssiAVI
+	db.Orm().Last(&lastAVI)
+	log.WithFields(log.Fields{
+		"ID":      lastAVI.ID,
+		"lastAVI": lastAVI,
+	}).Infof("%s: Getting last AVI in DB", id)
+	return lastAVI.ID
+}
+func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 	list := arraylist.New()
+
+	aviMatch := regexp.MustCompile(aviRegex)
+	if aviMatch.MatchString(lastAVIInDB) { //Match AVI format
+		matchs := aviMatch.FindAllStringSubmatch(lastAVIInDB, -1)
+		y, err := strconv.ParseInt(matchs[0][2], 10, 64)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"lastAVIInDB": lastAVIInDB,
+				"matchs":      matchs,
+			}).Warnf("%s: Failed to extract year from lastAVIInDB", id)
+		}
+		minYear = int(y)
+	}
+	//minYear = 2016 //Debug force to limit requests
 	log.WithFields(log.Fields{
 		"minYear": minYear,
 		"maxYear": maxYear,
-	}).Debugf("Getting list of AVI to collect for : '%s'", id)
-
-	if regexp.MustCompile(aviRegex).MatchString(lastAVIInDB) { //Match AVI format
-		minYear = 2000 //TODO setup minYear from lastAVIInDB
-	}
-	//minYear = 2016 //Debug force to limit requests
+	}).Infof("%s: Getting list of AVI to collect", id)
 
 	for y := minYear; y <= maxYear; y++ {
 		url := fmt.Sprintf(listURLFormat, y)
@@ -89,7 +108,7 @@ func listNeededCVE(lastAVIInDB string) (*arraylist.List, error) {
 		// Find all AVI link
 		doc.Find(".corps a.mg, .corps a.ale").Each(func(i int, s *goquery.Selection) {
 			avi := s.Text()
-			if validYearAVI.MatchString(avi) {
+			if validYearAVI.MatchString(avi) { //TODO check if newer than lastAVIInDB
 				list.Add(avi)
 			}
 		})
@@ -103,14 +122,13 @@ func listNeededCVE(lastAVIInDB string) (*arraylist.List, error) {
 //Collect collect and parse data to put in database
 func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 
-	o := db.Orm()
-	neededAVI, err := listNeededCVE("") //TODO get last AVI from DB
+	neededAVI, err := listNeededAVI(getLastKnownAVI())
 	if err != nil {
 		return err
 	}
 	bar.Total = neededAVI.Size()
 
-	tx := o.Begin() //Start sql session
+	tx := db.Orm().Begin() //Start sql session
 	it := neededAVI.Iterator()
 	for it.Next() {
 		avi, err := parseAVI(it.Value().(string))
