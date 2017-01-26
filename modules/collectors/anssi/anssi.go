@@ -216,25 +216,119 @@ func parseAVI(AVIid string) (*models.AnssiAVI, error) {
 	})
 
 	contents := make(map[string]string)
-	doc.Find("td.corps > ul").Each(func(i int, s *goquery.Selection) {
-		switch i {
-		case 0:
-			contents["Risques"] = s.Text()
-		case 1:
-			contents["Documentation"] = s.Text()
+	s := doc.Find("td.corps > h1 > a, td.corps > ul, td.corps > p, td.corps > dl")
+	//.Each(func(i int, s *goquery.Selection) {
+	for i := 0; i < s.Length(); i++ {
+		h := s.Eq(i)
+		if h.Is("a") {
+			if h.Is("#SECTION00010000000000000000") {
+				continue //Skip "Gestion du document"
+			}
+			/*
+				h1 := h.Text()
+				if strings.Contains(h1, "-") && len(h1) > 4 {
+					h1 = h1[4:]
+				}
+				if (strings.Contains(h1, "1") || strings.Contains(h1, "2") || strings.Contains(h1, "3") || strings.Contains(h1, "4") || strings.Contains(h1, "5") || strings.Contains(h1, "6") || strings.Contains(h1, "7") || strings.Contains(h1, "8")) && len(h1) > 4 {
+					h1 = h1[4:]
+				}*/
+			/*
+				ref, exists := h.Attr("id")
+				if !exists {
+					log.WithFields(log.Fields{
+						"AVIid": AVIid,
+						"title": h.Text(),
+					}).Warnf("%s: Failed to parse AVI header title", id)
+					continue
+				}
+			*/
+			h1 := h.Text()
+			if strings.Contains(h1, "Système") {
+				h1 = "Systèmes"
+			}
+			if strings.Contains(h1, "sumé") {
+				h1 = "Résumé"
+			}
+			if strings.Contains(h1, "Risque") {
+				h1 = "Risque"
+			}
+			if strings.Contains(h1, "escription") || strings.Contains(h1, "desccription") {
+				h1 = "Description"
+			}
+			if strings.Contains(h1, "Contournement") || strings.Contains(h1, "solution provisoire") {
+				h1 = "Contournement"
+			}
+			if strings.Contains(h1, "Solution") {
+				h1 = "Solution"
+			}
+			if strings.Contains(h1, "Documentation") || strings.Contains(h1, "document") {
+				h1 = "Documentation"
+			}
+			if strings.Contains(h1, "Vulnérabilité") {
+				h1 = "Vulnérabilités"
+			}
+			if strings.Contains(h1, "Détection") {
+				h1 = "Détection"
+			}
+			if strings.Contains(h1, "Recommandation") {
+				h1 = "Recommandation"
+			}
+			if strings.Contains(h1, "Remerciements") {
+				h1 = "Remerciements"
+			}
+
+			switch h1 {
+			case "Systèmes":
+				h1 = "Systèmes"
+			case "Résumé":
+				h1 = "Résumé"
+			case "Risque":
+				h1 = "Risque"
+			case "description":
+			case "Desccription":
+			case "Description":
+				h1 = "Description"
+			case "Recommendation":
+				h1 = "Recommendation"
+			case "Vulnérabilités":
+				h1 = "Vulnérabilités"
+			case "Détection":
+				h1 = "Détection"
+			case "Contournement":
+				h1 = "Contournement"
+			case "Solution":
+				h1 = "Solution"
+			case "Documentation":
+			case "Gestion détaillée du document":
+				h1 = "Documentation"
+			case "Recommandation":
+				h1 = "Recommandation"
+			case "Remerciements":
+				h1 = "Remerciements"
+
+			default:
+				if len(strings.TrimSpace(h1)) > 0 {
+					log.Warnf("Un-catched H1 format : %s", h1)
+				}
+			}
+			n := 1
+			content := ""
+			for i+n < s.Length() {
+				c := s.Eq(i + n)
+				if !c.Is("a") {
+					content += c.Text()
+				} else {
+					break
+				}
+				n++
+			}
+			//log.Info("ID : ", ref)
+			//log.Info("Content", content)
+			contents[h1] = content
 		}
-	})
-	doc.Find("td.corps > p").Each(func(i int, s *goquery.Selection) {
-		switch i {
-		case 5:
-			contents["Systèmes"] = s.Text()
-		case 6:
-			contents["Résumé"] = s.Text()
-		}
-	})
-	if strings.HasPrefix(AVIid, "CERTA") { //Switch for CERTA (diff from CERTFR)
-		contents["Systèmes"], contents["Risques"] = contents["Risques"], contents["Systèmes"]
 	}
+	//})
+	//log.Info(contents)
 	log.WithFields(log.Fields{
 		"AVIid":   AVIid,
 		"url":     url,
@@ -242,7 +336,7 @@ func parseAVI(AVIid string) (*models.AnssiAVI, error) {
 		"headers": headers,
 		//"contents": contents,
 	}).Debug("AVI parsed")
-	return &models.AnssiAVI{ID: AVIid, Title: title, Risk: contents["Risques"], SystemAffected: contents["Systèmes"], Release: parseDate(headers["Date de la première version"]), LastUpdate: parseDate(headers["Date de la dernière version"])}, nil
+	return &models.AnssiAVI{ID: AVIid, Title: title, Risk: contents["Risque"], SystemAffected: contents["Systèmes"], Release: parseDate(headers["Date de la première version"]), LastUpdate: parseDate(headers["Date de la dernière version"])}, nil
 }
 
 //List display known AVI stored by this module in DB
