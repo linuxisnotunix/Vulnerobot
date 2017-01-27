@@ -19,6 +19,7 @@ var (
 	AppVerbose   bool
 	AppPath      string
 	DBPath       string
+	ConfigPath   string
 )
 
 func init() {
