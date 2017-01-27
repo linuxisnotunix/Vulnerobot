@@ -96,6 +96,9 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 	} else {
 		//Nothing to do
 		log.Infof("%s: No new CVE to collect.", id)
+		if bar != nil {
+			bar.Incr()
+		}
 	}
 	return nil
 	//return fmt.Errorf("Module '%s' does not implement Collect().", id)

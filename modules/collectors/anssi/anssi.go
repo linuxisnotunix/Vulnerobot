@@ -179,6 +179,9 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 	} else {
 		//Nothing to do
 		log.Infof("%s: No new AVI to collect.", id)
+		if bar != nil {
+			bar.Incr()
+		}
 	}
 	return nil
 }

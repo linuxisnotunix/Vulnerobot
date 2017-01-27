@@ -93,7 +93,7 @@ func executeCollectorCollect(p *uiprogress.Progress, wg *sync.WaitGroup, id stri
 		log.Info("Starting module ", id, " ...")
 		var bar *uiprogress.Bar
 		if p != nil {
-			bar := p.AddBar(1).AppendCompleted().PrependElapsed()
+			bar = p.AddBar(1).AppendCompleted().PrependElapsed()
 			bar.PrependFunc(func(b *uiprogress.Bar) string {
 				return pad.Right(id, 5, " ")
 				//fmt.Sprintf("%s", id)
