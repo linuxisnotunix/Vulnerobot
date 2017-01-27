@@ -149,12 +149,17 @@ func parseList(year int, r io.Reader) ([]models.NvdCVE, error) {
 				"error":         err,
 			}).Errorf("%s: Failed to decode LastUpdate time format %v", id, err)
 		}
+		var cpes string
+		for _, val := range entrie.XsdGoPkgHasElem_VulnerableSoftwareListsequencevulnerabilityTypeschema_VulnerableSoftwareList_TvulnerableSoftwareType_.VulnerableSoftwareList.XsdGoPkgHasElems_ProductsequencevulnerableSoftwareTypeschema_Product_CpeLangTnamePattern_.Products {
+			cpes += val.String() + ","
+		}
 
 		results[i] = models.NvdCVE{
-			ID:         entrie.XsdGoPkgHasElem_CveIdchoicesequencevulnerabilityTypeschema_CveId_CveTcveNamePatternType_.CveId.String(), //entrie.XsdGoPkgHasAttr_Id_TvulnerabilityIdType_.Id.String(),
-			Summary:    entrie.XsdGoPkgHasElem_SummarysequencevulnerabilityTypeschema_Summary_XsdtString_.Summary.String(),
-			Release:    release,
-			LastUpdate: lastUpdt,
+			ID:           entrie.XsdGoPkgHasElem_CveIdchoicesequencevulnerabilityTypeschema_CveId_CveTcveNamePatternType_.CveId.String(), //entrie.XsdGoPkgHasAttr_Id_TvulnerabilityIdType_.Id.String(),
+			Summary:      entrie.XsdGoPkgHasElem_SummarysequencevulnerabilityTypeschema_Summary_XsdtString_.Summary.String(),
+			Release:      release,
+			AffectedCPEs: cpes,
+			LastUpdate:   lastUpdt,
 		}
 	}
 
