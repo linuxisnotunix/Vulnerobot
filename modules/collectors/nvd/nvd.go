@@ -119,7 +119,6 @@ type xmlCVE struct {
 */
 func parseList(year int, r io.Reader) ([]models.NvdCVE, error) {
 	var l feed.TxsdNvd
-
 	bs, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to read list data. (read-list) %v", err)
@@ -149,17 +148,21 @@ func parseList(year int, r io.Reader) ([]models.NvdCVE, error) {
 				"error":         err,
 			}).Errorf("%s: Failed to decode LastUpdate time format %v", id, err)
 		}
-		var cpes string
-		for _, val := range entrie.XsdGoPkgHasElem_VulnerableSoftwareListsequencevulnerabilityTypeschema_VulnerableSoftwareList_TvulnerableSoftwareType_.VulnerableSoftwareList.XsdGoPkgHasElems_ProductsequencevulnerableSoftwareTypeschema_Product_CpeLangTnamePattern_.Products {
-			cpes += val.String() + ","
+		var cpes []models.NvdCPE
+		if entrie.XsdGoPkgHasElem_VulnerableSoftwareListsequencevulnerabilityTypeschema_VulnerableSoftwareList_TvulnerableSoftwareType_.VulnerableSoftwareList != nil && entrie.XsdGoPkgHasElem_VulnerableSoftwareListsequencevulnerabilityTypeschema_VulnerableSoftwareList_TvulnerableSoftwareType_.VulnerableSoftwareList.XsdGoPkgHasElems_ProductsequencevulnerableSoftwareTypeschema_Product_CpeLangTnamePattern_.Products != nil {
+			cpes = make([]models.NvdCPE, len(entrie.XsdGoPkgHasElem_VulnerableSoftwareListsequencevulnerabilityTypeschema_VulnerableSoftwareList_TvulnerableSoftwareType_.VulnerableSoftwareList.XsdGoPkgHasElems_ProductsequencevulnerableSoftwareTypeschema_Product_CpeLangTnamePattern_.Products))
+			for i, val := range entrie.XsdGoPkgHasElem_VulnerableSoftwareListsequencevulnerabilityTypeschema_VulnerableSoftwareList_TvulnerableSoftwareType_.VulnerableSoftwareList.XsdGoPkgHasElems_ProductsequencevulnerableSoftwareTypeschema_Product_CpeLangTnamePattern_.Products {
+				cpes[i] = models.NvdCPE{
+					ID: val.String(),
+				}
+			}
 		}
-
 		results[i] = models.NvdCVE{
-			ID:           entrie.XsdGoPkgHasElem_CveIdchoicesequencevulnerabilityTypeschema_CveId_CveTcveNamePatternType_.CveId.String(), //entrie.XsdGoPkgHasAttr_Id_TvulnerabilityIdType_.Id.String(),
-			Summary:      entrie.XsdGoPkgHasElem_SummarysequencevulnerabilityTypeschema_Summary_XsdtString_.Summary.String(),
-			Release:      release,
-			AffectedCPEs: cpes,
-			LastUpdate:   lastUpdt,
+			ID:          entrie.XsdGoPkgHasElem_CveIdchoicesequencevulnerabilityTypeschema_CveId_CveTcveNamePatternType_.CveId.String(), //entrie.XsdGoPkgHasAttr_Id_TvulnerabilityIdType_.Id.String(),
+			Summary:     entrie.XsdGoPkgHasElem_SummarysequencevulnerabilityTypeschema_Summary_XsdtString_.Summary.String(),
+			Release:     release,
+			AffectedCPE: cpes,
+			LastUpdate:  lastUpdt,
 		}
 	}
 

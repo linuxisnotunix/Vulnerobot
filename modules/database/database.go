@@ -59,6 +59,7 @@ func setup() {
 		orm.CreateTable(models.Function{})
 		orm.CreateTable(models.NvdList{})
 		orm.CreateTable(models.NvdCVE{})
+		orm.CreateTable(models.NvdCPE{})
 	} else {
 		//DB exist
 		orm, err = gorm.Open("sqlite3", settings.DBPath)
@@ -66,7 +67,7 @@ func setup() {
 		if err != nil {
 			log.Fatalf("Fail to access DB file(%s): %v\n", settings.DBPath, err)
 		}
-		orm.AutoMigrate(&models.AnssiAVI{}, &models.Component{}, &models.Function{}, &models.NvdList{}, &models.NvdCVE{})
+		orm.AutoMigrate(&models.AnssiAVI{}, &models.Component{}, &models.Function{}, &models.NvdList{}, &models.NvdCVE{}, &models.NvdCPE{})
 		log.Debugf("Db init ok: %v\n", settings.DBPath, err)
 	}
 	//defer orm.Close()
