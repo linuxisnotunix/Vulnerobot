@@ -12,11 +12,14 @@ import (
 
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/anssi"
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/dummy"
+	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/nvd"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
+	"github.com/willf/pad"
 )
 
 var (
-	listCollector = []func(map[string]string) models.Collector{anssi.New, dummy.New}
+	listCollector = []func(map[string]string) models.Collector{anssi.New, dummy.New, nvd.New}
+	//listCollector = []func(map[string]string) models.Collector{nvd.New}
 )
 
 //CollectorList list of collector
@@ -84,7 +87,8 @@ func executeCollectorCollect(p *uiprogress.Progress, wg *sync.WaitGroup, id stri
 		log.Info("Starting module ", id, " ...")
 		bar := p.AddBar(1).AppendCompleted().PrependElapsed()
 		bar.PrependFunc(func(b *uiprogress.Bar) string {
-			return fmt.Sprintf("%s", id)
+			return pad.Right(id, 5, " ")
+			//fmt.Sprintf("%s", id)
 		})
 		bar.AppendFunc(func(b *uiprogress.Bar) string {
 			return fmt.Sprintf("(%d/%d)", b.Current(), b.Total)

@@ -46,12 +46,7 @@ func parseDate(date string) time.Time {
 		return time.Time{}
 	}
 	matchsParu := validDate.FindAllStringSubmatch(date, -1)
-	/*
-		log.WithFields(log.Fields{
-			"date":       date,
-			"matchsParu": matchsParu,
-		}).Debugf("%s: extracting date ...", id)
-	*/
+
 	y, err := strconv.ParseInt(matchsParu[0][3], 10, 64)
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -95,7 +90,7 @@ func getLastKnownAVI() string {
 	log.WithFields(log.Fields{
 		"ID": lastAVI.ID,
 		//"lastAVI": lastAVI,
-	}).Infof("%s: Getting last AVI in DB", id)
+	}).Debugf("%s: Getting last AVI in DB", id)
 	return lastAVI.ID
 }
 func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
@@ -118,7 +113,7 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 	log.WithFields(log.Fields{
 		"minYear": minYear,
 		"maxYear": maxYear,
-	}).Infof("%s: Getting list of AVI to collect", id)
+	}).Debugf("%s: Getting list of AVI to collect", id)
 
 	for y := minYear; y <= maxYear; y++ {
 		url := fmt.Sprintf(listURLFormat, y)
@@ -150,7 +145,7 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 	}
 	log.WithFields(log.Fields{
 		"size": list.Size(),
-	}).Infof("%s: Finish collecting list of AVI", id)
+	}).Debugf("%s: Finish collecting list of AVI", id)
 	return list, nil
 }
 
@@ -252,7 +247,7 @@ func parseAVI(AVIid string) (*models.AnssiAVI, error) {
 			if strings.Contains(h1, "Risque") {
 				h1 = "Risque"
 			}
-			if strings.Contains(h1, "escription") || strings.Contains(h1, "desccription") {
+			if strings.Contains(h1, "escription") || strings.Contains(h1, "esccription") {
 				h1 = "Description"
 			}
 			if strings.Contains(h1, "Contournement") || strings.Contains(h1, "solution provisoire") {

@@ -31,3 +31,9 @@
 [submodule "vendor/github.com/emirpasic/gods"]
 	path = vendor/github.com/emirpasic/gods
 	url = https://github.com/emirpasic/gods
+[submodule "vendor/github.com/metaleap/go-xsd"]
+	path = vendor/github.com/metaleap/go-xsd
+	url = https://github.com/metaleap/go-xsd
+[submodule "vendor/github.com/willf/pad"]
+	path = vendor/github.com/willf/pad
+	url = https://github.com/willf/pad

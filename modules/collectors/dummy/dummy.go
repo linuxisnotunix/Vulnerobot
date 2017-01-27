@@ -3,6 +3,7 @@ package dummy
 import (
 	"fmt"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/gosuri/uiprogress"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
@@ -15,12 +16,10 @@ type ModuleDUMMY struct {
 
 //New constructor for Module
 func New(options map[string]string) models.Collector {
-	/*
-		log.WithFields(log.Fields{
-			"id":      id,
-			"options": options,
-		}).Debug("Creating new Module")
-	*/
+	log.WithFields(log.Fields{
+		"id":      id,
+		"options": options,
+	}).Debug("Creating new Module")
 	return &ModuleDUMMY{}
 }
 

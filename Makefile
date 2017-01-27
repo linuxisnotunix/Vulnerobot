@@ -27,13 +27,28 @@ WARN_COLOR=\033[33;01m
 
 all: build compress done
 
-build: clean deps format compile
+build: clean generate deps format compile
 
 compile:
 	@echo -e "$(OK_COLOR)==> Building...$(NO_COLOR)"
 	go build -o ${APP_NAME} -v -ldflags "$(LDFLAGS)"
 
-release: clean deps format
+generate: dev-deps
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/nvd-cve-feed_2.0.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/vulnerability_0.4.1.xsd
+
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/cce_0.1.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/cve_0.1.1.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/cvss-v2_0.2.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/patch_0.1.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/scap-core_0.1.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://scap.nist.gov/schema/cpe/2.2/cpe-language_2.2a.xsd
+	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://www.w3.org/2009/01/xml.xsd
+	echo "type XsdtString xsdt.String" >> modules/models/xsd/nvd.nist.gov/schema/scap-core_0.1.xsd_go/scap-core_0.1.xsd.go
+	echo "type XsdtString xsdt.String" >> modules/models/xsd/scap.nist.gov/schema/cpe/2.2/cpe-language_2.2a.xsd_go/cpe-language_2.2a.xsd.go
+#find ./modules/models/scap.nist.gov -type f -name "*.go" -exec sed -i 's/XsdtString/xsdt.String/g' {} \;
+
+release: clean generate deps format
 	@mkdir build || echo -e "$(WARN_COLOR)==> Build dir (/build) allready exist.$(NO_COLOR)"
 	@echo -e "$(OK_COLOR)==> Building for linux 32 ...$(NO_COLOR)"
 	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -o build/${APP_NAME}-linux-386 -ldflags "$(LDFLAGS_RELEASE)"
@@ -109,6 +124,7 @@ dev-deps:
 	@go get golang.org/x/tools/cmd/goimports
 	@go get golang.org/x/tools/cmd/godoc
 	@go get github.com/alecthomas/gometalinter
+	@go get github.com/metaleap/go-xsd/xsd-makepkg
 	@go get github.com/dpw/vendetta #Vendoring
 	@$(GOPATH)/bin/gometalinter --install > /dev/null
 #@go get -u https://github.com/wadey/gocovmerge #Test coverage
