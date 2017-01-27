@@ -11,7 +11,7 @@ import (
 
 //HandlePublic handlerfunc to publish assets
 func HandlePublic(res http.ResponseWriter, req *http.Request) {
-	log.Debug("GET " + req.URL.Path)
+	log.Debug("public: GET " + req.URL.Path)
 	path := strings.TrimPrefix(req.URL.Path, "/public")
 	data, hash, contentType, err := assets.Asset("public", path)
 	if err != nil {
@@ -36,11 +36,37 @@ func HandlePublic(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusOK)
 		_, err := res.Write(data)
 		if err != nil {
-			panic(err)
+			log.Warn(err)
 		}
 	}
 }
 
 //HandleAPI handlerfunc to publish assets
 func HandleAPI(res http.ResponseWriter, req *http.Request) {
+	log.Debug("api: GET " + req.URL.Path)
+	path := strings.TrimPrefix(req.URL.Path, "/api")
+
+	res.Header().Set("Content-Type", "application/json")
+	switch path {
+	case "/collect":
+		_, err := res.Write([]byte("{error:'not implemented'}"))
+		if err != nil {
+			log.Warn(err)
+		}
+	case "/list":
+		_, err := res.Write([]byte("{error:'not implemented'}"))
+		if err != nil {
+			log.Warn(err)
+		}
+	case "/status":
+		_, err := res.Write([]byte("{error:'not implemented'}"))
+		if err != nil {
+			log.Warn(err)
+		}
+	default:
+		_, err := res.Write([]byte("{error:'not found'}"))
+		if err != nil {
+			log.Warn(err)
+		}
+	}
 }
