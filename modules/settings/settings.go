@@ -20,6 +20,7 @@ var (
 	AppPath      string
 	DBPath       string
 	ConfigPath   string
+	WebPort      string
 )
 
 func init() {

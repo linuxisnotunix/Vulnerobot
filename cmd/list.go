@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
+	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
 	"github.com/urfave/cli"
 )
 
@@ -14,9 +15,10 @@ var CmdList = cli.Command{
 	Action:      runList,
 	Flags: []cli.Flag{
 		cli.StringFlag{
-			Name:  "config, c",
-			Value: "data/configuration",
-			Usage: "Application list to monitor",
+			Name:        "config, c",
+			Value:       "data/configuration",
+			Usage:       "Application list to monitor",
+			Destination: &settings.ConfigPath,
 		},
 		cli.StringFlag{
 			Name:  "plugins, p",

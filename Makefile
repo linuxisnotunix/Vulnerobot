@@ -34,6 +34,8 @@ compile:
 	go build -o ${APP_NAME} -v -ldflags "$(LDFLAGS)"
 
 generate: dev-deps
+	$(GOPATH)/bin/go-embed -input public/ -output modules/assets/main.go
+
 	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/nvd-cve-feed_2.0.xsd
 	$(GOPATH)/bin/xsd-makepkg -goinst=false --basepath github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/ -uri https://nvd.nist.gov/schema/vulnerability_0.4.1.xsd
 
@@ -125,6 +127,7 @@ dev-deps:
 	@go get golang.org/x/tools/cmd/godoc
 	@go get github.com/alecthomas/gometalinter
 	@go get github.com/metaleap/go-xsd/xsd-makepkg
+	@go get github.com/pyros2097/go-embed
 	@go get github.com/dpw/vendetta #Vendoring
 	@$(GOPATH)/bin/gometalinter --install > /dev/null
 #@go get -u https://github.com/wadey/gocovmerge #Test coverage
@@ -134,10 +137,12 @@ update-dev-deps:
 	go get -u github.com/nsf/gocode
 	go get -u golang.org/x/tools/cmd/goimports
 	go get -u golang.org/x/tools/cmd/godoc
-	#go get -u https://github.com/wadey/gocovmerge #Test coverage
 	go get -u github.com/alecthomas/gometalinter
+	go get -u github.com/metaleap/go-xsd/xsd-makepkg
+	go get -u github.com/pyros2097/go-embed
 	go get -u github.com/dpw/vendetta #Vendoring
 	$(GOPATH)/bin/gometalinter --install --update
+#go get -u https://github.com/wadey/gocovmerge #Test coverage
 
 deps:
 	@echo -e "$(OK_COLOR)==> Installing dependencies ...$(NO_COLOR)"
