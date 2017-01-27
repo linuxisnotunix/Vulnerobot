@@ -157,7 +157,9 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 		return err
 	}
 	if neededAVI.Size() > 0 {
-		bar.Total = neededAVI.Size()
+		if bar != nil {
+			bar.Total = neededAVI.Size()
+		}
 
 		tx := db.Orm().Begin() //Start sql session
 		it := neededAVI.Iterator()
@@ -168,7 +170,9 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 			} else {
 				tx.Create(avi)
 			}
-			bar.Incr()
+			if bar != nil {
+				bar.Incr()
+			}
 		}
 		tx.Commit() //Commit session
 	} else {

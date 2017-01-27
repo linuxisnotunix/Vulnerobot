@@ -60,7 +60,9 @@ func (m *ModuleNVD) IsAvailable() bool {
 func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 	neededList := listUpdatedList()
 	if neededList.Size() > 0 {
-		bar.Total = neededList.Size()
+		if bar != nil {
+			bar.Total = neededList.Size()
+		}
 		tx := db.Orm().Begin() //Start sql session
 		it := neededList.Iterator()
 		for it.Next() {
@@ -84,7 +86,9 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 				}
 
 			}
-			bar.Incr()
+			if bar != nil {
+				bar.Incr()
+			}
 		}
 		tx.Commit() //Commit session
 	} else {

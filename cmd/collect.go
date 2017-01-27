@@ -35,8 +35,9 @@ var CmdCollect = cli.Command{
 			Usage: "Force reload of data",
 		},
 		cli.BoolFlag{
-			Name:  "no-progress",
-			Usage: "Don't display progress bar",
+			Name:        "no-progress",
+			Usage:       "Don't display progress bar",
+			Destination: &settings.UIDontDisplayProgress,
 		},
 	},
 }

@@ -11,16 +11,17 @@ import (
 
 // settings
 var (
-	AppName      string
-	AppVersion   string
-	AppBranch    string
-	AppCommit    string
-	AppBuildTime string
-	AppVerbose   bool
-	AppPath      string
-	DBPath       string
-	ConfigPath   string
-	WebPort      string
+	AppName               string
+	AppVersion            string
+	AppBranch             string
+	AppCommit             string
+	AppBuildTime          string
+	AppVerbose            bool
+	AppPath               string
+	DBPath                string
+	ConfigPath            string
+	WebPort               string
+	UIDontDisplayProgress bool
 )
 
 func init() {

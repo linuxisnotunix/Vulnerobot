@@ -14,6 +14,7 @@ import (
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/dummy"
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/nvd"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
+	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
 	"github.com/willf/pad"
 )
 
@@ -48,10 +49,13 @@ func getCollectors(options map[string]string) map[string]models.Collector {
 
 //Collect ask modules to collect and parse data to put in database
 func (cl *CollectorList) Collect() error {
-	p := uiprogress.New()
-	p.RefreshInterval = 50 * time.Millisecond
-	p.Start()
-	log.SetOutput(p.Bypass())
+	var p *uiprogress.Progress
+	if !settings.UIDontDisplayProgress {
+		p = uiprogress.New()
+		p.RefreshInterval = 50 * time.Millisecond
+		p.Start()
+		log.SetOutput(p.Bypass())
+	}
 	var wg sync.WaitGroup
 	for id, collector := range cl.list {
 		if err := executeCollectorCollect(p, &wg, id, collector); err != nil {
@@ -60,9 +64,11 @@ func (cl *CollectorList) Collect() error {
 		}
 	}
 	wg.Wait()
-	time.Sleep(p.RefreshInterval) //Wait to UI finish
-	log.SetOutput(os.Stdout)
-	p.Stop()
+	if !settings.UIDontDisplayProgress {
+		time.Sleep(p.RefreshInterval) //Wait to UI finish
+		log.SetOutput(os.Stdout)
+		p.Stop()
+	}
 	return nil
 }
 
@@ -85,14 +91,17 @@ func executeCollectorCollect(p *uiprogress.Progress, wg *sync.WaitGroup, id stri
 	wg.Add(1)
 	if collector != nil {
 		log.Info("Starting module ", id, " ...")
-		bar := p.AddBar(1).AppendCompleted().PrependElapsed()
-		bar.PrependFunc(func(b *uiprogress.Bar) string {
-			return pad.Right(id, 5, " ")
-			//fmt.Sprintf("%s", id)
-		})
-		bar.AppendFunc(func(b *uiprogress.Bar) string {
-			return fmt.Sprintf("(%d/%d)", b.Current(), b.Total)
-		})
+		var bar *uiprogress.Bar
+		if p != nil {
+			bar := p.AddBar(1).AppendCompleted().PrependElapsed()
+			bar.PrependFunc(func(b *uiprogress.Bar) string {
+				return pad.Right(id, 5, " ")
+				//fmt.Sprintf("%s", id)
+			})
+			bar.AppendFunc(func(b *uiprogress.Bar) string {
+				return fmt.Sprintf("(%d/%d)", b.Current(), b.Total)
+			})
+		}
 		go func() {
 			defer wg.Done()
 			if err := collector.Collect(bar); err != nil {
