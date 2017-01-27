@@ -151,6 +151,7 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 
 //Collect collect and parse data to put in database
 func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
+	log.Infof("%s: Start Collect() ", id)
 
 	neededAVI, err := listNeededAVI(getLastKnownAVI())
 	if err != nil {

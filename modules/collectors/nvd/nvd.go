@@ -58,6 +58,8 @@ func (m *ModuleNVD) IsAvailable() bool {
 
 //Collect collect and parse data to put in database
 func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
+	log.Infof("%s: Start Collect() ", id)
+
 	neededList := listUpdatedList()
 	if neededList.Size() > 0 {
 		if bar != nil {
@@ -207,19 +209,19 @@ func getListMeta(year string) (*models.NvdList, error) {
 	}
 	return parseListMeta(year, string(bs))
 }
-func hasBeenUpdated(l models.NvdList) bool {
-	log.WithFields(log.Fields{
-		"year": l.Year,
-	}).Debugf("%s: Check update of list via meta", id)
-	newL, err := getListMeta(l.Year)
+func hasBeenUpdated(old, new *models.NvdList, err error) bool {
 	if err != nil {
 		log.WithFields(log.Fields{
-			"year":  l.Year,
+			"year":  old.Year,
 			"error": err,
 		}).Warnf("%s: Failed to get list information.", id)
 		return true
 	}
-	return strings.Compare(l.Sha256, newL.Sha256) != 0
+	log.WithFields(log.Fields{
+		"year": old.Year,
+	}).Debugf("%s: Check update of list via meta", id)
+
+	return strings.Compare(old.Sha256, new.Sha256) != 0
 }
 func listUpdatedList() *arraylist.List {
 	log.WithFields(log.Fields{
@@ -232,10 +234,19 @@ func listUpdatedList() *arraylist.List {
 		db.Orm().Where("year = ?", y).First(&listInDB)
 		if listInDB.Year == strconv.Itoa(y) {
 			//Check if object has been updated
-			if hasBeenUpdated(listInDB) {
+			newList, err := getListMeta(listInDB.Year)
+			if hasBeenUpdated(&listInDB, newList, err) {
+				log.WithFields(log.Fields{
+					"year":     y,
+					"previous": listInDB,
+					"new":      newList,
+				}).Infof("%s: Adding year to list of CVE to collect since it has changed", id)
 				list.Add(y) //List updated we need to parse it
 			}
 		} else {
+			log.WithFields(log.Fields{
+				"year": y,
+			}).Infof("%s: Adding year to list of CVE to collect since we have no trace of it", id)
 			list.Add(y) //Not found in DB so we need it
 		}
 	}
