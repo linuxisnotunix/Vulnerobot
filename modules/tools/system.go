@@ -1,8 +1,10 @@
 package tools
 
 import (
-	"github.com/emirpasic/gods/lists/arraylist"
 	"strings"
+
+	"github.com/emirpasic/gods/lists/arraylist"
+	"github.com/emirpasic/gods/sets/hashset"
 )
 
 // ParseConfiguration parses a csv string and return a array of configurations
@@ -27,4 +29,17 @@ func ParseConfiguration(data string) *arraylist.List {
 		list.Add(tab)
 	}
 	return list
+}
+
+//ParseFlagList get plugin and return a formatted array
+func ParseFlagList(flag string) *hashset.Set {
+	if flag != "" && flag == "all" {
+		return nil
+	}
+	ret := strings.Split(flag, ",")
+	l := hashset.New()
+	for _, val := range ret {
+		l.Add(strings.ToLower(strings.TrimSpace(val)))
+	}
+	return l
 }

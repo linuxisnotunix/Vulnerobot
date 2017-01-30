@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
 	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
+	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
 	"github.com/urfave/cli"
 )
 
@@ -45,9 +46,12 @@ var CmdList = cli.Command{
 }
 
 func runList(c *cli.Context) error {
-	cl := collectors.Init(nil)
-	return cl.List(map[string]interface{}{
-		"appList":    ParseConfigurationFlag(),
-		"pluginList": ParsePluginFlag(),
+	cl := collectors.Init(map[string]interface{}{
+		"appList":       ParseConfigurationFlag(),
+		"pluginList":    ParsePluginFlag(),
+		"outputFormat":  tools.ParseFlagList(c.String("format")),
+		"functionList":  tools.ParseFlagList(c.String("functions")),
+		"componentList": tools.ParseFlagList(c.String("components")),
 	})
+	return cl.List()
 }

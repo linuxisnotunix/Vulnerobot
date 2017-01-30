@@ -13,6 +13,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/emirpasic/gods/lists/arraylist"
+	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gosuri/uiprogress"
 	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
@@ -34,6 +35,7 @@ var (
 
 //ModuleNVD NVD/Mitre module cparse data from https://nvd.nist.gov/download.cfm
 type ModuleNVD struct {
+	opts map[string]interface{}
 }
 
 //New constructor for Module
@@ -43,7 +45,7 @@ func New(options map[string]interface{}) models.Collector {
 		"options": options,
 	}).Debug("Creating new Module")
 	maxYear = time.Now().Year()
-	return &ModuleNVD{}
+	return &ModuleNVD{opts: options}
 }
 
 //ID Return the id of the module
@@ -259,7 +261,44 @@ func listUpdatedList() *arraylist.List {
 	return list
 }
 
+func (m *ModuleNVD) cpeToCollect() *hashset.Set {
+	log.WithFields(log.Fields{
+		"options": m.opts,
+	}).Warnf("%s: Start cpeToCollect() Debug", id)
+	l := hashset.New()
+	if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil {
+		for _, fp := range m.opts["functionList"].(*hashset.Set).Values() {
+			for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+				_, okf := app.(map[string]string)["Function"]
+				if okf && strings.Contains(strings.ToLower(app.(map[string]string)["Function"]), strings.ToLower(fp.(string))) { //TODO better like split by comma ...
+					l.Add(app.(map[string]string)["CPE"])
+				}
+			}
+		}
+	}
+
+	if m.opts["componentList"] != nil && m.opts["componentList"].(*hashset.Set) != nil {
+		for _, cp := range m.opts["componentList"].(*hashset.Set).Values() {
+			for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+				_, okv := app.(map[string]string)["Version"]
+				_, okn := app.(map[string]string)["Name"]
+				if okn && okv && strings.Contains(strings.ToLower(app.(map[string]string)["Name"]+":"+app.(map[string]string)["Version"]), strings.ToLower(cp.(string))) { //TODO better match for components
+					l.Add(app.(map[string]string)["CPE"])
+				}
+			}
+		}
+	}
+
+	log.WithFields(log.Fields{
+		"list": l.Values(),
+	}).Warnf("%s: Finish cpeToCollect() Debug", id)
+	return l
+}
+
 //List display known CVE stored by this module in DB
 func (m *ModuleNVD) List() error {
-	return fmt.Errorf("Module '%s' does not implement List().", id)
+	log.Infof("%s: Start List() ", id)
+	m.cpeToCollect()
+	return nil
+	//return fmt.Errorf("Module '%s' does not implement List().", id)
 }

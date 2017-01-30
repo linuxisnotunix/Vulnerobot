@@ -93,7 +93,7 @@ func (cl *CollectorList) Collect() error {
 }
 
 //List ask module to display known CVE stored by them in DB
-func (cl *CollectorList) List(options map[string]interface{}) error {
+func (cl *CollectorList) List() error {
 	for id, collector := range cl.list {
 		if collector != nil {
 			if err := collector.List(); handleCollectorError(err) != nil {

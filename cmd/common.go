@@ -3,7 +3,6 @@ package cmd
 import (
 	"io/ioutil"
 	"log"
-	"strings"
 
 	"github.com/emirpasic/gods/lists/arraylist"
 	"github.com/emirpasic/gods/sets/hashset"
@@ -13,15 +12,7 @@ import (
 
 //ParsePluginFlag get flag plugin and return a formatted obj
 func ParsePluginFlag() *hashset.Set {
-	if settings.PluginList != "" && settings.PluginList == "all" {
-		return nil
-	}
-	ret := strings.Split(settings.PluginList, ",")
-	l := hashset.New()
-	for _, val := range ret {
-		l.Add(strings.ToLower(strings.TrimSpace(val)))
-	}
-	return l
+	return tools.ParseFlagList(settings.PluginList)
 }
 
 //ParseConfigurationFlag get flag config and return a formatted obj
@@ -32,3 +23,5 @@ func ParseConfigurationFlag() *arraylist.List {
 	}
 	return tools.ParseConfiguration(string(data))
 }
+
+//TODO store in BD config ?
