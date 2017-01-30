@@ -21,29 +21,33 @@ var CmdList = cli.Command{
 			Destination: &settings.ConfigPath,
 		},
 		cli.StringFlag{
-			Name:  "plugins, p",
-			Value: "all",
-			Usage: "Plugins to load (ex : p1,p4,...)",
+			Name:        "plugins, p",
+			Value:       "all",
+			Usage:       "Plugins to load (all or separated by comma)",
+			Destination: &settings.PluginList,
 		},
 		cli.StringFlag{
 			Name:  "format, f",
 			Value: "csv",
-			Usage: "Format to output (ex : csv or json)",
+			Usage: "Format to output (ex : csv or json)", //TODO
 		},
 		cli.StringFlag{
 			Name:  "functions",
 			Value: "all",
-			Usage: "Functions to match from configuration (ex : f1,f5,...)",
+			Usage: "Functions to match from configuration (ex : f1,f5,...)", //TODO
 		},
 		cli.StringFlag{
 			Name:  "components",
 			Value: "all",
-			Usage: "Components to match from configuration (ex : c1,c5,...)",
+			Usage: "Components to match from configuration (ex : c1,c5,...)", //TODO
 		},
 	},
 }
 
 func runList(c *cli.Context) error {
 	cl := collectors.Init(nil)
-	return cl.List()
+	return cl.List(map[string]interface{}{
+		"appList":    ParseConfigurationFlag(),
+		"pluginList": ParsePluginFlag(),
+	})
 }

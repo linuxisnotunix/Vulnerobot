@@ -8,8 +8,11 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gosuri/uiprogress"
 
+	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/anssi"
+	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/dummy"
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/nvd"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
@@ -17,8 +20,8 @@ import (
 )
 
 var (
-	//listCollector = []func(map[string]string) models.Collector{anssi.New, dummy.New, nvd.New}
-	listCollector = []func(map[string]interface{}) models.Collector{nvd.New}
+	listCollector = []func(map[string]interface{}) models.Collector{anssi.New, dummy.New, nvd.New}
+	//listCollector = []func(map[string]interface{}) models.Collector{nvd.New}
 )
 
 //CollectorList list of collector
@@ -37,10 +40,25 @@ func Init(options map[string]interface{}) *CollectorList {
 
 //getCollectors Return collector list initalized
 func getCollectors(options map[string]interface{}) map[string]models.Collector {
-	l := make(map[string]models.Collector, len(listCollector)) //TODO only init collectors based on options args ?
+	l := make(map[string]models.Collector, len(listCollector))
+	pluginList, ok := options["pluginList"].(*hashset.Set)
+	if !ok {
+		log.WithFields(log.Fields{
+			"options": options,
+		}).Debug("No plugins list -> all plugins will be init !")
+	}
 	for _, builder := range listCollector {
 		collector := builder(options)
-		l[collector.ID()] = collector
+		if pluginList == nil || pluginList.Contains(strings.ToLower(strings.TrimSpace(collector.ID()))) { //Only init collectors based on options args
+			l[collector.ID()] = collector
+			pluginList.Remove(strings.ToLower(strings.TrimSpace(collector.ID())))
+		}
+	}
+	if !pluginList.Empty() {
+		log.WithFields(log.Fields{
+			"options":  options,
+			"missings": pluginList.Values(),
+		}).Warnf("Missing plugins from cli : %v", pluginList.Values())
 	}
 	return l
 }
@@ -71,7 +89,7 @@ func (cl *CollectorList) Collect() error {
 }
 
 //List ask module to display known CVE stored by them in DB
-func (cl *CollectorList) List() error {
+func (cl *CollectorList) List(options map[string]interface{}) error {
 	for id, collector := range cl.list {
 		if collector != nil {
 			if err := collector.List(); handleCollectorError(err) != nil {

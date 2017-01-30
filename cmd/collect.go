@@ -3,11 +3,7 @@ package cmd
 import (
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
 	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
-	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
 
-	"io/ioutil"
-
-	log "github.com/Sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
@@ -26,13 +22,14 @@ var CmdCollect = cli.Command{
 			Destination: &settings.ConfigPath,
 		},
 		cli.StringFlag{
-			Name:  "plugins, p",
-			Value: "all",
-			Usage: "Plugins to load",
+			Name:        "plugins, p",
+			Value:       "all",
+			Usage:       "Plugins to load (all or separated by comma)",
+			Destination: &settings.PluginList,
 		},
 		cli.BoolFlag{
 			Name:  "force, f",
-			Usage: "Force reload of data",
+			Usage: "Force reload of data", //TODO
 		},
 		cli.BoolFlag{
 			Name:        "no-progress",
@@ -43,15 +40,9 @@ var CmdCollect = cli.Command{
 }
 
 func runCollect(c *cli.Context) error {
-	data, err := ioutil.ReadFile(settings.ConfigPath)
-	if err != nil {
-		log.Fatalf("Fail to get config file : %v", err)
-	}
-	log.Info(string(data))
-	tableauConfig := tools.ParseConfiguration(string(data))
-	log.Info("Debug: Configuration : ", tableauConfig)
 	cl := collectors.Init(map[string]interface{}{
-		"appList": tableauConfig,
+		"appList":    ParseConfigurationFlag(),
+		"pluginList": ParsePluginFlag(),
 	})
 	return cl.Collect()
 	//return nil

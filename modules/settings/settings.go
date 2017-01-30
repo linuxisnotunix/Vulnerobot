@@ -22,6 +22,7 @@ var (
 	ConfigPath            string
 	WebPort               string
 	UIDontDisplayProgress bool
+	PluginList            string
 )
 
 func init() {
