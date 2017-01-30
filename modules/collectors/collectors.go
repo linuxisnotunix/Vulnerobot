@@ -51,10 +51,14 @@ func getCollectors(options map[string]interface{}) map[string]models.Collector {
 		collector := builder(options)
 		if pluginList == nil || pluginList.Contains(strings.ToLower(strings.TrimSpace(collector.ID()))) { //Only init collectors based on options args
 			l[collector.ID()] = collector
-			pluginList.Remove(strings.ToLower(strings.TrimSpace(collector.ID())))
+			if pluginList != nil {
+				pluginList.Remove(strings.ToLower(strings.TrimSpace(collector.ID())))
+			}
+		} else {
+			log.Infof("Ignoring plugin %s based on args from cli.", collector.ID())
 		}
 	}
-	if !pluginList.Empty() {
+	if pluginList != nil && !pluginList.Empty() {
 		log.WithFields(log.Fields{
 			"options":  options,
 			"missings": pluginList.Values(),
