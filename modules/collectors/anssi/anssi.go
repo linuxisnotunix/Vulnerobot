@@ -169,7 +169,7 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 			if err != nil {
 				log.Warnf("Failed to get AVI : %s", it.Value().(string))
 			} else {
-				tx.Create(avi)
+				tx.Save(avi)
 			}
 			if bar != nil {
 				bar.Incr()

@@ -76,7 +76,8 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 			} else {
 				//tx.Create(avi)
 				for _, cve := range cveList {
-					tx.Create(cve)
+					//tx.Create(cve)
+					tx.Save(cve)
 				}
 				cveListMeta, err := getListMeta(strconv.Itoa(it.Value().(int)))
 				if err != nil {
@@ -84,7 +85,8 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 						"error": err,
 					}).Warnf("%s: Failed to get CVE List Meta : %d", id, it.Value().(int))
 				} else {
-					tx.Create(cveListMeta) //Store in DB for history
+					//tx.Create(cveListMeta) //Store in DB for history
+					tx.Save(cveListMeta) //Store in DB for history
 				}
 
 			}
