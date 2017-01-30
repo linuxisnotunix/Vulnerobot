@@ -50,7 +50,9 @@ func runCollect(c *cli.Context) error {
 	log.Info(string(data))
 	tableauConfig := tools.ParseConfiguration(string(data))
 	log.Info("Debug: Configuration : ", tableauConfig)
-	cl := collectors.Init(nil)
+	cl := collectors.Init(map[string]interface{}{
+		"appList": tableauConfig,
+	})
 	return cl.Collect()
 	//return nil
 }

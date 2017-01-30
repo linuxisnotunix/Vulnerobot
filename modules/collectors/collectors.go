@@ -18,17 +18,17 @@ import (
 
 var (
 	//listCollector = []func(map[string]string) models.Collector{anssi.New, dummy.New, nvd.New}
-	listCollector = []func(map[string]string) models.Collector{nvd.New}
+	listCollector = []func(map[string]interface{}) models.Collector{nvd.New}
 )
 
 //CollectorList list of collector
 type CollectorList struct {
-	options map[string]string
+	options map[string]interface{}
 	list    map[string]models.Collector
 }
 
 //Init a collector list and init them
-func Init(options map[string]string) *CollectorList {
+func Init(options map[string]interface{}) *CollectorList {
 	return &CollectorList{
 		options: options,
 		list:    getCollectors(options),
@@ -36,7 +36,7 @@ func Init(options map[string]string) *CollectorList {
 }
 
 //getCollectors Return collector list initalized
-func getCollectors(options map[string]string) map[string]models.Collector {
+func getCollectors(options map[string]interface{}) map[string]models.Collector {
 	l := make(map[string]models.Collector, len(listCollector)) //TODO only init collectors based on options args ?
 	for _, builder := range listCollector {
 		collector := builder(options)

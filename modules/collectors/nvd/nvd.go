@@ -37,7 +37,7 @@ type ModuleNVD struct {
 }
 
 //New constructor for Module
-func New(options map[string]string) models.Collector {
+func New(options map[string]interface{}) models.Collector {
 	log.WithFields(log.Fields{
 		"id":      id,
 		"options": options,
@@ -104,21 +104,9 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 	//return fmt.Errorf("Module '%s' does not implement Collect().", id)
 }
 
-/*
-type xmlList struct {
-	CVEList []xmlCVE `xml:"http://scap.nist.gov/schema/feed/vulnerability/2.0 entry"`
-}
-
-//xmlCVE represente a xmlCVE stored in xml
-type xmlCVE struct {
-	ID string `xml:"vuln:cve-id"`
-	//Summary    string
-	Release    string `xml:"vuln:published-datetime"`
-	LastUpdate string `xml:"vuln:last-modified-datetime"`
-}
-*/
 func parseList(year int, r io.Reader) ([]models.NvdCVE, error) {
 	var l feed.TxsdNvd
+	//listCPE := arraylist.New()
 	bs, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to read list data. (read-list) %v", err)
@@ -155,14 +143,19 @@ func parseList(year int, r io.Reader) ([]models.NvdCVE, error) {
 				cpes[i] = models.NvdCPE{
 					ID: val.String(),
 				}
+				/*
+					if !list.Contains(val.String()) {
+						listCPE.Add(val.String())
+					}
+				*/
 			}
 		}
 		results[i] = models.NvdCVE{
-			ID:          entrie.XsdGoPkgHasElem_CveIdchoicesequencevulnerabilityTypeschema_CveId_CveTcveNamePatternType_.CveId.String(), //entrie.XsdGoPkgHasAttr_Id_TvulnerabilityIdType_.Id.String(),
-			Summary:     entrie.XsdGoPkgHasElem_SummarysequencevulnerabilityTypeschema_Summary_XsdtString_.Summary.String(),
-			Release:     release,
-			AffectedCPE: cpes,
-			LastUpdate:  lastUpdt,
+			ID:           entrie.XsdGoPkgHasElem_CveIdchoicesequencevulnerabilityTypeschema_CveId_CveTcveNamePatternType_.CveId.String(), //entrie.XsdGoPkgHasAttr_Id_TvulnerabilityIdType_.Id.String(),
+			Summary:      entrie.XsdGoPkgHasElem_SummarysequencevulnerabilityTypeschema_Summary_XsdtString_.Summary.String(),
+			Release:      release,
+			AffectedCPEs: cpes,
+			LastUpdate:   lastUpdt,
 		}
 	}
 

@@ -65,7 +65,7 @@ func parseDate(date string) time.Time {
 }
 
 //New constructor for Module
-func New(options map[string]string) models.Collector {
+func New(options map[string]interface{}) models.Collector {
 	log.WithFields(log.Fields{
 		"id":      id,
 		"options": options,
