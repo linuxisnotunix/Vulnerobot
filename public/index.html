@@ -1,1 +1,57 @@
-Hello Gopher
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<script src="js/javascript.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+	<h1>VulneRobot</h1>
+	<div ng-app="App" ng-controller="AppCtrl">
+		<span> Please choose a data source </span><br>
+		<select ng-model="SelectedDataSource" ng-change="loadData()">
+			<option ng-repeat="src in sources" value={{src.Name}}>{{src.Name}}</option>
+		</select>
+		<br>
+		<br>
+		<span>Select a specific software or function</span><br>
+		<input list="listenters" name="specificEnter">
+		<datalist id="listenters">
+			<option ng-repeat="item in ListEnter" value={{item.value}}>
+		</datalist>
+		<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
+		<input type="submit">
+		<br>
+		<table class="table tableCustom">
+			<thead>
+				<tr>
+					<th>Software</th>
+					<th>Version</th>
+					<th>Function</th>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Date</th>
+					<th>Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="line in Result">
+					<td>{{line.Software}}</td>
+					<td>{{line.Version}}</td>
+					<td>{{line.Function}}</td>
+					<td>{{line.IDVuln}}</td>
+					<td>{{line.NameVuln}}</td>
+					<td>{{line.Date}}</td>
+					<td>{{line.Link}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<br>
+	</div>
+</body>
+</html>		
