@@ -67,6 +67,18 @@ func getCollectors(options map[string]interface{}) map[string]models.Collector {
 	return l
 }
 
+//Info display information on all available plugins
+func (cl *CollectorList) Info() error {
+	for id, collector := range cl.list {
+		if collector != nil {
+			log.Infof("%s is loaded and %s", collector.ID(), map[bool]string{true: "available", false: "un-available"}[collector.IsAvailable()])
+		} else {
+			log.Debug("Skipping empty module ", id, " !")
+		}
+	}
+	return nil
+}
+
 //Collect ask modules to collect and parse data to put in database
 func (cl *CollectorList) Collect() error {
 	var p *uiprogress.Progress

@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
 	"github.com/urfave/cli"
 )
 
@@ -17,5 +16,6 @@ var CmdPlugins = cli.Command{
 }
 
 func runListDesc(c *cli.Context) error {
-	return fmt.Errorf("Command not implemented !")
+	cl := collectors.Init(map[string]interface{}{})
+	return cl.Info() //TODO use a format output
 }
