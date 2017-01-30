@@ -9,7 +9,11 @@ go:
 - 1.7
 - tip
 install:
-- make update-dev-deps deps
+- cd $HOME/gopath
+- git clone --depth=50 --branch=master https://github.com/linuxisnotunix/Vulnerobot.git src/github.com/linuxisnotunix/Vulnerobot
+- cd $HOME/gopath/src/github.com/linuxisnotunix/Vulnerobot
+- git submodule update --init --recursive
+- make update-dev-deps
 script:
 - make
 - make test
