@@ -1,0 +1,20 @@
+language: go
+sudo: false
+addons:
+  apt:
+    packages:
+    - upx-ucl
+go:
+- 1.6
+- 1.7
+- tip
+install:
+- make update-dev-deps deps
+script:
+- make
+- make test
+- make lint || true
+- ./vulnerobot
+- ./vulnerobot plugins
+after_success:
+- make release
