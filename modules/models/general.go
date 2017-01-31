@@ -37,5 +37,6 @@ type ResponseListVuln struct {
 
 //ResponseStatus represent the status of the app
 type ResponseStatus struct {
-	Plugins []string
+	Plugins    []string
+	Components []map[string]string
 }

@@ -1,9 +1,13 @@
 package cmd
 
 import (
+	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
+	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
+	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
 	"github.com/urfave/cli"
 )
 
@@ -14,10 +18,23 @@ var CmdInfo = cli.Command{
 	Usage:       "Display global info like the of list plugins availables",
 	Description: `Ask each modules to describe itself.`,
 	Action:      runListDesc,
-	Flags:       []cli.Flag{},
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:        "config, c",
+			Value:       "data/configuration",
+			Usage:       "Application list to monitor",
+			Destination: &settings.ConfigPath,
+		},
+	},
 }
 
 func runListDesc(c *cli.Context) error {
-	cl := collectors.Init(map[string]interface{}{})
+	data, err := ioutil.ReadFile(settings.ConfigPath)
+	if err != nil {
+		log.Fatalf("Fail to get config file : %v", err)
+	}
+	cl := collectors.Init(map[string]interface{}{
+		"appList": tools.ParseConfiguration(string(data)),
+	})
 	return cl.Info(os.Stdout) //TODO use a format output
 }

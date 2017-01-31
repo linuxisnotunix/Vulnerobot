@@ -10,6 +10,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/emirpasic/gods/lists/arraylist"
 	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gosuri/uiprogress"
 
@@ -80,8 +81,16 @@ func (cl *CollectorList) Info(o io.Writer) error {
 			log.Debug("Skipping empty module ", id, " !")
 		}
 	}
+	var cs []map[string]string
+	if cl.options["appList"] != nil && cl.options["appList"].(*arraylist.List) != nil {
+		cs = make([]map[string]string, cl.options["appList"].(*arraylist.List).Size())
+		for i, line := range cl.options["appList"].(*arraylist.List).Values() {
+			cs[i] = line.(map[string]string)
+		}
+	}
 	j, _ := json.Marshal(models.ResponseStatus{
-		Plugins: keys,
+		Plugins:    keys,
+		Components: cs,
 	})
 	fmt.Fprint(o, string(j))
 	return nil

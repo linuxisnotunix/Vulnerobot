@@ -80,7 +80,13 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 			}
 		*/
 	case "/info":
-		cl := collectors.Init(map[string]interface{}{})
+		data, err := ioutil.ReadFile(settings.ConfigPath)
+		if err != nil {
+			log.Fatalf("Fail to get config file : %v", err)
+		}
+		cl := collectors.Init(map[string]interface{}{
+			"appList": tools.ParseConfiguration(string(data)),
+		})
 		cl.Info(res)
 	default:
 		_, err := res.Write([]byte("{error:'not found'}"))
