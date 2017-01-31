@@ -115,7 +115,9 @@ func (cl *CollectorList) List(o io.Writer) error {
 			if handleCollectorError(err) != nil {
 				return err
 			}
-			hl[collector.ID()] = l.Values()
+			if l != nil {
+				hl[collector.ID()] = l.Values()
+			}
 		} else {
 			log.Debug("Skipping empty module ", id, " !")
 		}

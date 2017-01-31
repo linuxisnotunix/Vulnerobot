@@ -359,34 +359,39 @@ func (m *ModuleNVD) List() (*arraylist.List, error) {
 		cpes := make([]models.NvdCPE, 0)
 		db.Orm().Where("id LIKE ?", el.Component["CPE"]+"%").Find(&cpes)
 		//.Preload("NvdCPE", "id LIKE ?", el.Component["CPE"]+"%").Find(&vulns)
+		resVulns := arraylist.New()
 		for _, cpe := range cpes {
 			log.WithFields(log.Fields{
 				"cpe": el.Component["CPE"],
 			}).Infof("%s: Found CPE : %s", id, cpe.ID)
 			vulns := make([]models.NvdCVE, 0)
 			db.Orm().Model(&cpe).Association("RelatedCVEs").Find(&vulns)
-			resVulns := make([]models.ResponseListVuln, len(vulns))
-			for i, vuln := range vulns {
+			for _, vuln := range vulns {
 				log.WithFields(log.Fields{
 					"cpe": el.Component["CPE"],
 				}).Debugf("%s: Found Vuln : %s", id, vuln.ID)
-				resVulns[i] = models.ResponseListVuln{
+				resVulns.Add(models.ResponseListVuln{
 					Source: id,
 					Value: map[string]string{
 						"ID":      vuln.ID,
+						"CPE":     cpe.ID,
 						"Summary": vuln.Summary,
 						"URL":     fmt.Sprintf(nvdURLFormat, vuln.ID),
 					},
-				}
+				})
 				nbVulns++
 			}
-			l.Add(models.ResponseListEntry{
-				Component: el.Component,
-				Matchs:    el.Matchs,
-				Vulns:     resVulns,
-			})
 		}
-
+		//Switch format (casting)
+		vs := make([]models.ResponseListVuln, resVulns.Size())
+		for i, v := range resVulns.Values() {
+			vs[i] = v.(models.ResponseListVuln)
+		}
+		l.Add(models.ResponseListEntry{
+			Component: el.Component,
+			Matchs:    el.Matchs,
+			Vulns:     vs,
+		})
 	}
 	log.Infof("%s: Found %d vulns", id, nbVulns)
 	return l, nil
