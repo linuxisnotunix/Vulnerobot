@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"net/http"
+	"strings"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/linuxisnotunix/Vulnerobot/modules/server"
@@ -24,10 +25,10 @@ var CmdWeb = cli.Command{
 			Destination: &settings.ConfigPath,
 		},
 		cli.StringFlag{
-			Name:        "port, p",
-			Value:       ":8080",
-			Destination: &settings.WebPort,
-			Usage:       "TCP port ot listen",
+			Name:        "listen, l",
+			Value:       "127.0.0.1:8080",
+			Destination: &settings.WebListen,
+			Usage:       "Addres and port ot listen (ex: 127.0.0.1:8080 or 127.0.0.1:4242 or :8080)",
 		}},
 }
 
@@ -36,8 +37,8 @@ func runWeb(c *cli.Context) error {
 	http.HandleFunc("/public/", server.HandlePublic)
 	http.HandleFunc("/api/", server.HandleAPI)
 
-	log.Info("Server running on http://127.0.0.1" + settings.WebPort + "/public/index.html")
+	log.Info("Server running on http://localhost:" + strings.Split(settings.WebListen, ":")[1] + "/public/index.html")
 
-	http.ListenAndServe(settings.WebPort, nil)
+	http.ListenAndServe(settings.WebListen, nil)
 	return nil
 }

@@ -20,7 +20,7 @@ var (
 	AppPath               string
 	DBPath                string
 	ConfigPath            string
-	WebPort               string
+	WebListen             string
 	UIDontDisplayProgress bool
 	PluginList            string
 )
