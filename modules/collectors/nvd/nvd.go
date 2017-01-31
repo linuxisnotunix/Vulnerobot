@@ -270,72 +270,82 @@ func (m *ModuleNVD) elToMatch() *arraylist.List {
 	listComponents := hashmap.New()
 	listMatchs := hashmap.New()
 
-	if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil {
-		for _, fp := range m.opts["functionList"].(*hashset.Set).Values() {
-			for _, app := range m.opts["appList"].(*arraylist.List).Values() {
-				_, okf := app.(map[string]string)["Function"]
-				if okf && strings.Contains(strings.ToLower(app.(map[string]string)["Function"]), strings.ToLower(fp.(string))) { //TODO better like split by comma ...
-					c := app.(map[string]string)
-					if _, ok := listComponents.Get(c["CPE"]); ok {
-						lMatch, _ := listMatchs.Get(c["CPE"])
-						lMatch.(*arraylist.List).Add(models.ResponseListMatch{
-							Type:  "Function",
-							Value: fp.(string),
-						})
-					} else {
-						listComponents.Put(c["CPE"], c)
-						lMatch := arraylist.New()
-						lMatch.Add(models.ResponseListMatch{
-							Type:  "Function",
-							Value: fp.(string),
-						})
-						listMatchs.Put(c["CPE"], lMatch)
+	if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil || m.opts["componentList"] != nil && m.opts["componentList"].(*hashset.Set) != nil {
+		if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil {
+			for _, fp := range m.opts["functionList"].(*hashset.Set).Values() {
+				for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+					_, okf := app.(map[string]string)["Function"]
+					if okf && strings.Contains(strings.ToLower(app.(map[string]string)["Function"]), strings.ToLower(fp.(string))) { //TODO better like split by comma ...
+						c := app.(map[string]string)
+						if _, ok := listComponents.Get(c["CPE"]); ok {
+							lMatch, _ := listMatchs.Get(c["CPE"])
+							lMatch.(*arraylist.List).Add(models.ResponseListMatch{
+								Type:  "Function",
+								Value: fp.(string),
+							})
+						} else {
+							listComponents.Put(c["CPE"], c)
+							lMatch := arraylist.New()
+							lMatch.Add(models.ResponseListMatch{
+								Type:  "Function",
+								Value: fp.(string),
+							})
+							listMatchs.Put(c["CPE"], lMatch)
+						}
 					}
 				}
 			}
 		}
-	}
 
-	if m.opts["componentList"] != nil && m.opts["componentList"].(*hashset.Set) != nil {
-		for _, cp := range m.opts["componentList"].(*hashset.Set).Values() {
-			for _, app := range m.opts["appList"].(*arraylist.List).Values() {
-				_, okv := app.(map[string]string)["Version"]
-				_, okn := app.(map[string]string)["Name"]
-				if okn && okv && strings.Contains(strings.ToLower(app.(map[string]string)["Name"]+":"+app.(map[string]string)["Version"]), strings.ToLower(cp.(string))) { //TODO better match for components
-					c := app.(map[string]string)
-					if _, ok := listComponents.Get(c["CPE"]); ok {
-						lMatch, _ := listMatchs.Get(c["CPE"])
-						lMatch.(*arraylist.List).Add(models.ResponseListMatch{
-							Type:  "Component",
-							Value: cp.(string),
-						})
-					} else {
-						listComponents.Put(c["CPE"], c)
-						lMatch := arraylist.New()
-						lMatch.Add(models.ResponseListMatch{
-							Type:  "Component",
-							Value: cp.(string),
-						})
-						listMatchs.Put(c["CPE"], lMatch)
+		if m.opts["componentList"] != nil && m.opts["componentList"].(*hashset.Set) != nil {
+			for _, cp := range m.opts["componentList"].(*hashset.Set).Values() {
+				for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+					_, okv := app.(map[string]string)["Version"]
+					_, okn := app.(map[string]string)["Name"]
+					if okn && okv && strings.Contains(strings.ToLower(app.(map[string]string)["Name"]+":"+app.(map[string]string)["Version"]), strings.ToLower(cp.(string))) { //TODO better match for components
+						c := app.(map[string]string)
+						if _, ok := listComponents.Get(c["CPE"]); ok {
+							lMatch, _ := listMatchs.Get(c["CPE"])
+							lMatch.(*arraylist.List).Add(models.ResponseListMatch{
+								Type:  "Component",
+								Value: cp.(string),
+							})
+						} else {
+							listComponents.Put(c["CPE"], c)
+							lMatch := arraylist.New()
+							lMatch.Add(models.ResponseListMatch{
+								Type:  "Component",
+								Value: cp.(string),
+							})
+							listMatchs.Put(c["CPE"], lMatch)
+						}
 					}
 				}
 			}
 		}
-	}
-
-	//Reconstruct
-	for _, c := range listComponents.Values() {
-		lMatch, _ := listMatchs.Get(c.(map[string]string)["CPE"])
-		matchs := make([]models.ResponseListMatch, lMatch.(*arraylist.List).Size())
-		for i, d := range lMatch.(*arraylist.List).Values() {
-			matchs[i] = d.(models.ResponseListMatch)
+		//Reconstruct
+		for _, c := range listComponents.Values() {
+			lMatch, _ := listMatchs.Get(c.(map[string]string)["CPE"])
+			matchs := make([]models.ResponseListMatch, lMatch.(*arraylist.List).Size())
+			for i, d := range lMatch.(*arraylist.List).Values() {
+				matchs[i] = d.(models.ResponseListMatch)
+			}
+			l.Add(models.ResponseListEntry{
+				Component: c.(map[string]string),
+				Matchs:    matchs,
+			})
 		}
+		return l
+	}
+	//By default Load all components by defaults
+	for _, app := range m.opts["appList"].(*arraylist.List).Values() {
 		l.Add(models.ResponseListEntry{
-			Component: c.(map[string]string),
-			Matchs:    matchs,
+			Component: app.(map[string]string),
+			Matchs:    []models.ResponseListMatch{},
 		})
 	}
 	return l
+
 }
 
 //List display known CVE stored by this module in DB

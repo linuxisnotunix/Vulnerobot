@@ -33,7 +33,7 @@ func ParseConfiguration(data string) *arraylist.List {
 
 //ParseFlagList get plugin and return a formatted array
 func ParseFlagList(flag string) *hashset.Set {
-	if flag != "" && flag == "all" {
+	if flag == "all" || flag == "" {
 		return nil
 	}
 	ret := strings.Split(flag, ",")

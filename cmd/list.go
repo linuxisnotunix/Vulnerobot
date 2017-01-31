@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
 	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
 	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
@@ -53,5 +55,5 @@ func runList(c *cli.Context) error {
 		"functionList":  tools.ParseFlagList(c.String("functions")),
 		"componentList": tools.ParseFlagList(c.String("components")),
 	})
-	return cl.List()
+	return cl.List(os.Stdout)
 }

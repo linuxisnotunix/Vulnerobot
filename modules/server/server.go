@@ -1,12 +1,16 @@
 package server
 
 import (
+	"io/ioutil"
 	"net/http"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/linuxisnotunix/Vulnerobot/modules/assets"
+	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
+	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
+	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
 )
 
 //HandlePublic handlerfunc to publish assets
@@ -43,8 +47,9 @@ func HandlePublic(res http.ResponseWriter, req *http.Request) {
 
 //HandleAPI handlerfunc to publish assets
 func HandleAPI(res http.ResponseWriter, req *http.Request) {
-	log.Debug("api: GET " + req.URL.Path)
 	path := strings.TrimPrefix(req.URL.Path, "/api")
+	q := req.URL.Query()
+	log.WithField("query", q).Info("api: GET " + req.URL.Path)
 
 	res.Header().Set("Content-Type", "application/json")
 	switch path {
@@ -54,10 +59,26 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 			log.Warn(err)
 		}
 	case "/list":
-		_, err := res.Write([]byte("{error:'not implemented'}"))
+		data, err := ioutil.ReadFile(settings.ConfigPath)
 		if err != nil {
-			log.Warn(err)
+			log.Fatalf("Fail to get config file : %v", err)
 		}
+		cl := collectors.Init(map[string]interface{}{
+			"appList":       tools.ParseConfiguration(string(data)),
+			"pluginList":    tools.ParseFlagList(q.Get("plugins")),
+			"functionList":  tools.ParseFlagList(q.Get("functions")),
+			"componentList": tools.ParseFlagList(q.Get("components")),
+			/* TODO from args
+			"outputFormat":  tools.ParseFlagList(c.String("format")),
+			*/
+		})
+		cl.List(res)
+		/*
+			_, err := res.Write([]byte("{error:'not implemented'}"))
+			if err != nil {
+				log.Warn(err)
+			}
+		*/
 	case "/status":
 		_, err := res.Write([]byte("{error:'not implemented'}"))
 		if err != nil {

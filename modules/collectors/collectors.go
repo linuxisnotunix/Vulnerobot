@@ -3,6 +3,7 @@ package collectors
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"sync"
@@ -106,7 +107,7 @@ func (cl *CollectorList) Collect() error {
 }
 
 //List ask module to display known CVE stored by them in DB
-func (cl *CollectorList) List() error {
+func (cl *CollectorList) List(o io.Writer) error {
 	hl := make(map[string][]interface{}, len(cl.list))
 	for id, collector := range cl.list {
 		if collector != nil {
@@ -120,7 +121,8 @@ func (cl *CollectorList) List() error {
 		}
 	}
 	j, _ := json.Marshal(hl)
-	fmt.Print(string(j))
+	//fmt.Print(string(j)) //TODO handle other export module
+	fmt.Fprint(o, string(j))
 	return nil
 }
 
