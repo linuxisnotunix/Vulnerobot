@@ -1,6 +1,7 @@
 package collectors
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
@@ -106,15 +107,20 @@ func (cl *CollectorList) Collect() error {
 
 //List ask module to display known CVE stored by them in DB
 func (cl *CollectorList) List() error {
+	hl := make(map[string][]interface{}, len(cl.list))
 	for id, collector := range cl.list {
 		if collector != nil {
-			if err := collector.List(); handleCollectorError(err) != nil {
+			l, err := collector.List()
+			if handleCollectorError(err) != nil {
 				return err
 			}
+			hl[collector.ID()] = l.Values()
 		} else {
 			log.Debug("Skipping empty module ", id, " !")
 		}
 	}
+	j, _ := json.Marshal(hl)
+	fmt.Print(string(j))
 	return nil
 }
 

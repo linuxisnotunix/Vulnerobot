@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/emirpasic/gods/lists/arraylist"
 	"github.com/gosuri/uiprogress"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 )
@@ -40,6 +41,6 @@ func (m *ModuleDUMMY) Collect(bar *uiprogress.Bar) error {
 }
 
 //List display known CVE stored by this module in DB
-func (m *ModuleDUMMY) List() error {
-	return fmt.Errorf("Module '%s' does not implement List().", id)
+func (m *ModuleDUMMY) List() (*arraylist.List, error) {
+	return nil, fmt.Errorf("Module '%s' does not implement List().", id)
 }

@@ -21,5 +21,6 @@ type NvdCVE struct {
 
 //NvdCPE represente a NvdCPE stored in db
 type NvdCPE struct {
-	ID string `gorm:"primary_key"`
+	RelatedCVEs []NvdCVE `gorm:"many2many:nvdcve_affect_nvdcpe;"`
+	ID          string   `gorm:"primary_key"`
 }

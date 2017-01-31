@@ -15,3 +15,22 @@ type Function struct {
 	Name         string      `gorm:"primary_key"`
 	UseComponent []Component `gorm:"many2many:components_functions;"`
 }
+
+//ResponseListEntry entry match in list response
+type ResponseListEntry struct {
+	Component map[string]string //TODO replace by struct
+	Matchs    []ResponseListMatch
+	Vulns     []ResponseListVuln
+}
+
+//ResponseListMatch  what entry match in list reponse
+type ResponseListMatch struct {
+	Type  string
+	Value string
+}
+
+//ResponseListVuln what Vuln match in list reponse
+type ResponseListVuln struct {
+	Source string
+	Value  map[string]string
+}

@@ -13,6 +13,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/emirpasic/gods/lists/arraylist"
+	"github.com/emirpasic/gods/maps/hashmap"
 	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gosuri/uiprogress"
 	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
@@ -261,17 +262,35 @@ func listUpdatedList() *arraylist.List {
 	return list
 }
 
-func (m *ModuleNVD) cpeToCollect() *hashset.Set {
+func (m *ModuleNVD) elToMatch() *arraylist.List {
 	log.WithFields(log.Fields{
 		"options": m.opts,
-	}).Warnf("%s: Start cpeToCollect() Debug", id)
-	l := hashset.New()
+	}).Debugf("%s: Start elToMatch()", id)
+	l := arraylist.New()
+	listComponents := hashmap.New()
+	listMatchs := hashmap.New()
+
 	if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil {
 		for _, fp := range m.opts["functionList"].(*hashset.Set).Values() {
 			for _, app := range m.opts["appList"].(*arraylist.List).Values() {
 				_, okf := app.(map[string]string)["Function"]
 				if okf && strings.Contains(strings.ToLower(app.(map[string]string)["Function"]), strings.ToLower(fp.(string))) { //TODO better like split by comma ...
-					l.Add(app.(map[string]string)["CPE"])
+					c := app.(map[string]string)
+					if _, ok := listComponents.Get(c["CPE"]); ok {
+						lMatch, _ := listMatchs.Get(c["CPE"])
+						lMatch.(*arraylist.List).Add(models.ResponseListMatch{
+							Type:  "Function",
+							Value: fp.(string),
+						})
+					} else {
+						listComponents.Put(c["CPE"], c)
+						lMatch := arraylist.New()
+						lMatch.Add(models.ResponseListMatch{
+							Type:  "Function",
+							Value: fp.(string),
+						})
+						listMatchs.Put(c["CPE"], lMatch)
+					}
 				}
 			}
 		}
@@ -283,22 +302,83 @@ func (m *ModuleNVD) cpeToCollect() *hashset.Set {
 				_, okv := app.(map[string]string)["Version"]
 				_, okn := app.(map[string]string)["Name"]
 				if okn && okv && strings.Contains(strings.ToLower(app.(map[string]string)["Name"]+":"+app.(map[string]string)["Version"]), strings.ToLower(cp.(string))) { //TODO better match for components
-					l.Add(app.(map[string]string)["CPE"])
+					c := app.(map[string]string)
+					if _, ok := listComponents.Get(c["CPE"]); ok {
+						lMatch, _ := listMatchs.Get(c["CPE"])
+						lMatch.(*arraylist.List).Add(models.ResponseListMatch{
+							Type:  "Component",
+							Value: cp.(string),
+						})
+					} else {
+						listComponents.Put(c["CPE"], c)
+						lMatch := arraylist.New()
+						lMatch.Add(models.ResponseListMatch{
+							Type:  "Component",
+							Value: cp.(string),
+						})
+						listMatchs.Put(c["CPE"], lMatch)
+					}
 				}
 			}
 		}
 	}
 
-	log.WithFields(log.Fields{
-		"list": l.Values(),
-	}).Warnf("%s: Finish cpeToCollect() Debug", id)
+	//Reconstruct
+	for _, c := range listComponents.Values() {
+		lMatch, _ := listMatchs.Get(c.(map[string]string)["CPE"])
+		matchs := make([]models.ResponseListMatch, lMatch.(*arraylist.List).Size())
+		for i, d := range lMatch.(*arraylist.List).Values() {
+			matchs[i] = d.(models.ResponseListMatch)
+		}
+		l.Add(models.ResponseListEntry{
+			Component: c.(map[string]string),
+			Matchs:    matchs,
+		})
+	}
 	return l
 }
 
 //List display known CVE stored by this module in DB
-func (m *ModuleNVD) List() error {
+func (m *ModuleNVD) List() (*arraylist.List, error) {
+	l := arraylist.New()
+	nbVulns := 0
 	log.Infof("%s: Start List() ", id)
-	m.cpeToCollect()
-	return nil
+	els := m.elToMatch()
+	for _, b := range els.Values() {
+		el := b.(models.ResponseListEntry)
+		cpes := make([]models.NvdCPE, 0)
+		db.Orm().Where("id LIKE ?", el.Component["CPE"]+"%").Find(&cpes)
+		//.Preload("NvdCPE", "id LIKE ?", el.Component["CPE"]+"%").Find(&vulns)
+		for _, cpe := range cpes {
+			log.WithFields(log.Fields{
+				"cpe": el.Component["CPE"],
+			}).Infof("%s: Found CPE : %s", id, cpe.ID)
+			vulns := make([]models.NvdCVE, 0)
+			db.Orm().Model(&cpe).Association("RelatedCVEs").Find(&vulns)
+			resVulns := make([]models.ResponseListVuln, len(vulns))
+			for i, vuln := range vulns {
+				log.WithFields(log.Fields{
+					"cpe": el.Component["CPE"],
+				}).Debugf("%s: Found Vuln : %s", id, vuln.ID)
+				resVulns[i] = models.ResponseListVuln{
+					Source: id,
+					Value: map[string]string{
+						"ID":      vuln.ID,
+						"Summary": vuln.Summary,
+						"URL":     fmt.Sprintf(nvdURLFormat, vuln.ID),
+					},
+				}
+				nbVulns++
+			}
+			l.Add(models.ResponseListEntry{
+				Component: el.Component,
+				Matchs:    el.Matchs,
+				Vulns:     resVulns,
+			})
+		}
+
+	}
+	log.Infof("%s: Found %d vulns", id, nbVulns)
+	return l, nil
 	//return fmt.Errorf("Module '%s' does not implement List().", id)
 }

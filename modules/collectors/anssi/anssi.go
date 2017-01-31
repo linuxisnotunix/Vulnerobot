@@ -343,6 +343,6 @@ func parseAVI(AVIid string) (*models.AnssiAVI, error) {
 }
 
 //List display known AVI stored by this module in DB
-func (m *ModuleANSSI) List() error {
-	return fmt.Errorf("Module '%s' does not implement List().", id) //TODO
+func (m *ModuleANSSI) List() (*arraylist.List, error) {
+	return nil, fmt.Errorf("Module '%s' does not implement List().", id) //TODO
 }
