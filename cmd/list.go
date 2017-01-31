@@ -31,7 +31,7 @@ var CmdList = cli.Command{
 		},
 		cli.StringFlag{
 			Name:  "format, f",
-			Value: "csv",
+			Value: "json",
 			Usage: "Format to output (ex : csv or json)", //TODO
 		},
 		cli.StringFlag{
@@ -51,9 +51,10 @@ func runList(c *cli.Context) error {
 	cl := collectors.Init(map[string]interface{}{
 		"appList":       ParseConfigurationFlag(),
 		"pluginList":    ParsePluginFlag(),
-		"outputFormat":  tools.ParseFlagList(c.String("format")),
+		"outputFormat":  c.String("format"),
 		"functionList":  tools.ParseFlagList(c.String("functions")),
 		"componentList": tools.ParseFlagList(c.String("components")),
 	})
+
 	return cl.List(os.Stdout)
 }

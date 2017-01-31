@@ -68,9 +68,7 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 			"pluginList":    tools.ParseFlagList(q.Get("plugins")),
 			"functionList":  tools.ParseFlagList(q.Get("functions")),
 			"componentList": tools.ParseFlagList(q.Get("components")),
-			/* TODO from args
-			"outputFormat":  tools.ParseFlagList(c.String("format")),
-			*/
+			"outputFormat":  q.Get("format"),
 		})
 		cl.List(res)
 		/*

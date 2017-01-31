@@ -1,6 +1,7 @@
 package collectors
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -137,9 +138,56 @@ func (cl *CollectorList) List(o io.Writer) error {
 			log.Debug("Skipping empty module ", id, " !")
 		}
 	}
-	j, _ := json.Marshal(hl)
-	//fmt.Print(string(j)) //TODO handle other export module
-	fmt.Fprint(o, string(j))
+
+	//Format output
+	switch cl.options["outputFormat"].(string) {
+	case "csv":
+		log.Debug("Exporting to CSV format ...")
+		w := csv.NewWriter(o)
+		defer w.Flush()
+		w.Write([]string{
+			"Source",
+			"ComponentName", "ComponentVersion", "ComponentFunction", "ComponentCPE",
+			"VulnID", "VulnURL",
+		})
+		for _, collectorResults := range hl {
+			for _, e := range collectorResults {
+				entry := e.(models.ResponseListEntry)
+				for _, vuln := range entry.Vulns {
+					w.Write([]string{
+						vuln.Source,
+						entry.Component["Name"], entry.Component["Version"], entry.Component["Function"], entry.Component["CPE"],
+						vuln.Value["ID"], vuln.Value["Summary"], vuln.Value["URL"],
+					})
+				}
+			}
+		}
+	case "csv-short":
+		log.Debug("Exporting to CSV format (shorted format) ...")
+		w := csv.NewWriter(o)
+		defer w.Flush()
+		w.Write([]string{
+			"Source", "VulnID", "VulnURL",
+		})
+		for _, collectorResults := range hl {
+			for _, e := range collectorResults {
+				entry := e.(models.ResponseListEntry)
+				for _, vuln := range entry.Vulns {
+					w.Write([]string{
+						vuln.Source, vuln.Value["ID"], vuln.Value["URL"],
+					})
+				}
+			}
+		}
+	case "json":
+		log.Debug("Exporting to JSON format ...")
+		j, _ := json.Marshal(hl)
+		fmt.Fprint(o, string(j))
+	default:
+		log.Debug("Exporting to JSON format (by default)...")
+		j, _ := json.Marshal(hl)
+		fmt.Fprint(o, string(j))
+	}
 	return nil
 }
 
