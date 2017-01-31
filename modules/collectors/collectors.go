@@ -70,14 +70,20 @@ func getCollectors(options map[string]interface{}) map[string]models.Collector {
 }
 
 //Info display information on all available plugins
-func (cl *CollectorList) Info() error {
+func (cl *CollectorList) Info(o io.Writer) error {
+	keys := []string{}
 	for id, collector := range cl.list {
 		if collector != nil {
 			log.Infof("%s is loaded and %s", collector.ID(), map[bool]string{true: "available", false: "un-available"}[collector.IsAvailable()])
+			keys = append(keys, id)
 		} else {
 			log.Debug("Skipping empty module ", id, " !")
 		}
 	}
+	j, _ := json.Marshal(models.ResponseStatus{
+		Plugins: keys,
+	})
+	fmt.Fprint(o, string(j))
 	return nil
 }
 

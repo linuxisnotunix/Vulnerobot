@@ -34,3 +34,8 @@ type ResponseListVuln struct {
 	Source string
 	Value  map[string]string
 }
+
+//ResponseStatus represent the status of the app
+type ResponseStatus struct {
+	Plugins []string
+}

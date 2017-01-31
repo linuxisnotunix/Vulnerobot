@@ -79,11 +79,9 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 				log.Warn(err)
 			}
 		*/
-	case "/status":
-		_, err := res.Write([]byte("{error:'not implemented'}"))
-		if err != nil {
-			log.Warn(err)
-		}
+	case "/info":
+		cl := collectors.Init(map[string]interface{}{})
+		cl.Info(res)
 	default:
 		_, err := res.Write([]byte("{error:'not found'}"))
 		if err != nil {
