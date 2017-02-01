@@ -32,5 +32,6 @@ _testmain.go
 /cover
 /data/sqlite.db
 /dump.log
+/output*
 /data/dump.sql
-/modules/models/xsd/
+#/modules/models/xsd/
