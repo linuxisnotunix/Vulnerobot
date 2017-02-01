@@ -16,7 +16,6 @@ import (
 	"github.com/gosuri/uiprogress"
 
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/anssi"
-	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/dummy"
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors/nvd"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
@@ -24,8 +23,8 @@ import (
 )
 
 var (
-	listCollector = []func(map[string]interface{}) models.Collector{anssi.New, dummy.New, nvd.New}
-	//listCollector = []func(map[string]interface{}) models.Collector{nvd.New}
+	//listCollector = []func(map[string]interface{}) models.Collector{anssi.New, dummy.New, nvd.New}
+	listCollector = []func(map[string]interface{}) models.Collector{anssi.New, nvd.New}
 )
 
 //CollectorList list of collector
