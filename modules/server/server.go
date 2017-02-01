@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"sync"
 
 	log "github.com/Sirupsen/logrus"
 
@@ -11,6 +12,10 @@ import (
 	"github.com/linuxisnotunix/Vulnerobot/modules/collectors"
 	"github.com/linuxisnotunix/Vulnerobot/modules/settings"
 	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
+)
+
+var (
+	mutexCollect sync.Mutex
 )
 
 //HandlePublic handlerfunc to publish assets
@@ -54,7 +59,21 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 	switch path {
 	case "/collect":
-		_, err := res.Write([]byte("{error:'not implemented'}"))
+		mutexCollect.Lock()
+		settings.UIDontDisplayProgress = true //Force to not display progress bar
+		data, err := ioutil.ReadFile(settings.ConfigPath)
+		if err != nil {
+			log.Fatalf("Fail to get config file : %v", err)
+		}
+		_, hasForce := q["force"]
+		cl := collectors.Init(map[string]interface{}{
+			"appList":      tools.ParseConfiguration(string(data)),
+			"pluginList":   tools.ParseFlagList(q.Get("plugins")),
+			"forceRefresh": hasForce,
+		})
+		cl.Collect()
+		mutexCollect.Unlock()
+		_, err = res.Write([]byte("Done!"))
 		if err != nil {
 			log.Warn(err)
 		}
@@ -71,12 +90,6 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 			"outputFormat":  q.Get("format"),
 		})
 		cl.List(res)
-		/*
-			_, err := res.Write([]byte("{error:'not implemented'}"))
-			if err != nil {
-				log.Warn(err)
-			}
-		*/
 	case "/info":
 		data, err := ioutil.ReadFile(settings.ConfigPath)
 		if err != nil {
