@@ -16,12 +16,6 @@ var CmdCollect = cli.Command{
 	Action:      runCollect,
 	Flags: []cli.Flag{
 		cli.StringFlag{
-			Name:        "config, c",
-			Value:       "data/configuration",
-			Usage:       "Application list to monitor",
-			Destination: &settings.ConfigPath,
-		},
-		cli.StringFlag{
 			Name:        "plugins, p",
 			Value:       "all",
 			Usage:       "Plugins to load (all or separated by comma)",

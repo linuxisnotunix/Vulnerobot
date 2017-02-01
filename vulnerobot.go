@@ -44,12 +44,26 @@ func main() {
 			fmt.Printf("%s == Version: %s ==\n", c.App.Name, c.App.Version)
 		}
 	}
-	app.Flags = append(app.Flags, cli.BoolFlag{
-		Name:        "debug, d",
-		Usage:       "Turns on verbose logging",
-		EnvVar:      "DEBUG",
-		Destination: &settings.AppVerbose,
-	})
+	app.Flags = append(app.Flags,
+		cli.BoolFlag{
+			Name:        "debug, d",
+			Usage:       "Turns on verbose logging",
+			EnvVar:      "DEBUG",
+			Destination: &settings.AppVerbose,
+		},
+		cli.StringFlag{
+			Name:        "config, c",
+			Value:       "data/configuration",
+			Usage:       "Application list to monitor",
+			Destination: &settings.ConfigPath,
+		},
+		cli.StringFlag{
+			Name:        "database, db",
+			Value:       "data/sqlite.db",
+			Usage:       "Application database to use",
+			Destination: &settings.DBPath,
+		},
+	)
 	app.EnableBashCompletion = true
 
 	app.Before = setup

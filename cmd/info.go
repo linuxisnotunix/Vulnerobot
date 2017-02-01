@@ -18,14 +18,7 @@ var CmdInfo = cli.Command{
 	Usage:       "Display global info like the of list plugins availables",
 	Description: `Ask each modules to describe itself.`,
 	Action:      runListDesc,
-	Flags: []cli.Flag{
-		cli.StringFlag{
-			Name:        "config, c",
-			Value:       "data/configuration",
-			Usage:       "Application list to monitor",
-			Destination: &settings.ConfigPath,
-		},
-	},
+	Flags:       []cli.Flag{},
 }
 
 func runListDesc(c *cli.Context) error {

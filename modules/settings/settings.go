@@ -33,7 +33,6 @@ func init() {
 	// Note: we don't use path.Dir here because it does not handle case
 	//	which path starts with two "/" in Windows: "//psf/Home/..."
 	AppPath = strings.Replace(AppPath, "\\", "/", -1)
-	DBPath = WorkDir() + "/data/sqlite.db"
 }
 
 // execPath returns the executable path.

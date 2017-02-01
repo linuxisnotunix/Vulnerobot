@@ -2,6 +2,7 @@ package database
 
 import (
 	"os"
+	"path/filepath"
 	"sync"
 
 	log "github.com/Sirupsen/logrus"
@@ -44,8 +45,12 @@ func Orm() *gorm.DB {
 
 //Setup construct database
 func setup() {
+	if _, err := os.Stat(filepath.Dir(settings.DBPath)); os.IsNotExist(err) { //Try to create folder of sqlite
+		err = os.MkdirAll(filepath.Dir(settings.DBPath), 0755)
+		log.Warnf("Creating folder (%s) file containing db file. %v\n", filepath.Dir(settings.DBPath), err)
+	}
 	var err error
-	_, err = os.Stat(settings.DBPath)
+	_, err = os.Stat(settings.DBPath) //Check if file exist
 	if err != nil {
 		//Db don't exist
 		orm, err = gorm.Open("sqlite3", settings.DBPath)

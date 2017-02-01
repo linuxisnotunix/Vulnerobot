@@ -19,12 +19,6 @@ var CmdWeb = cli.Command{
 	Action:      runWeb,
 	Flags: []cli.Flag{
 		cli.StringFlag{
-			Name:        "config, c",
-			Value:       "data/configuration",
-			Usage:       "Application list to monitor",
-			Destination: &settings.ConfigPath,
-		},
-		cli.StringFlag{
 			Name:        "listen, l",
 			Value:       "127.0.0.1:8080",
 			Destination: &settings.WebListen,
