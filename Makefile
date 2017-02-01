@@ -78,14 +78,14 @@ release: clean generate deps format
 	@upx --brute  build/${APP_NAME}-darwin-amd64 || upx-ucl --brute  build/${APP_NAME}-darwin-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for win32 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o build/${APP_NAME}-win-386 -ldflags "$(LDFLAGS_RELEASE)"
+	CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o build/${APP_NAME}-win-386.exe -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
-	@upx --brute  build/${APP_NAME}-win-386 || upx-ucl --brute  build/${APP_NAME}-win-386 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
+	@upx --brute  build/${APP_NAME}-win-386.exe || upx-ucl --brute  build/${APP_NAME}-win-386.exe || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for win64 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o build/${APP_NAME}-win-amd64 -ldflags "$(LDFLAGS_RELEASE)"
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o build/${APP_NAME}-win-amd64.exe -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
-	@upx --brute  build/${APP_NAME}-win-amd64 || upx-ucl --brute  build/${APP_NAME}-win-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
+	@upx --brute  build/${APP_NAME}-win-amd64.exe || upx-ucl --brute  build/${APP_NAME}-win-amd64.exe || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Archiving ...$(NO_COLOR)"
 	@tar -zcvf $(ARCHIVE) LICENSE README.md build/
