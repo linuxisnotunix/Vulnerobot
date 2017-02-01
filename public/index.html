@@ -21,7 +21,7 @@
 				<span> Please choose data source </span><br>
 				<select ng-model="SelectedDataSource" ng-change="addDataSource()" class="form-elm">
 					<option disabled="disabled" selected="selected" value="Choose a plugin">Choose a plugin</option>
-					<option ng-repeat="src in info.Plugins" value={{src}}>{{src}}</option>
+					<option ng-disabled="pluginSources.indexOf(src) != -1" ng-repeat="src in info.Plugins" value={{src}}>{{src}}</option>
 				</select>
 				<button ng-repeat="(i, p) in pluginSources" class="btn bg-white" ng-click="pluginSources.splice(i, 1);" >{{p}}</button>
 			</div>
@@ -31,7 +31,7 @@
 				<button class="btn" ng-click="addComponent()" >Add</button>
 				<datalist id="listComponents">
 					<option disabled="disabled" value=""></option>
-					<option ng-repeat="item in info.Components" value="{{item.Name}}:{{item.Version}}">{{item.Name}} ({{item.Version}})</option>
+					<option ng-disabled="componentList.indexOf(item.Name+':'+item.Version) != -1"  ng-repeat="item in info.Components" value="{{item.Name}}:{{item.Version}}">{{item.Name}} ({{item.Version}})</option>
 				</datalist>
 				<button ng-repeat="(i, c) in componentList" class="btn bg-white" ng-click="componentList.splice(i, 1);" >{{c}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
@@ -42,7 +42,7 @@
 				<button class="btn" ng-click="addFunction()" >Add</button>
 				<datalist id="listFunctions">
 					<option disabled="disabled" value=""></option>
-					<option ng-repeat="item in info.Functions" value="{{item}}">
+					<option ng-disabled="functionList.indexOf(item) != -1" ng-repeat="item in info.Functions" value="{{item}}">
 				</datalist>
 				<button ng-repeat="(i, f) in functionList" class="btn bg-white" ng-click="functionList.splice(i, 1);" >{{f}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
