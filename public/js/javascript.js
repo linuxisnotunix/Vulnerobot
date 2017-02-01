@@ -20,19 +20,19 @@ app.controller('AppCtrl', function($scope, $http) {
 		console.log("addDataSource : " + $scope.SelectedDataSource)
 		$scope.pluginSources.push($scope.SelectedDataSource)
 		$scope.SelectedDataSource = "Choose a plugin" //Reset
-		$scope.refreshData();
+		//$scope.refreshData();
 	}
 	$scope.addComponent = function() {
 		console.log("addComponent : " + $scope.nameComponent)
 		$scope.componentList.push($scope.nameComponent)
 		$scope.nameComponent = "" //Reset
-		$scope.refreshData();
+		//$scope.refreshData();
 	}
 	$scope.addFunction = function() {
 		console.log("addFunction : " + $scope.nameFunction)
 		$scope.functionList.push($scope.nameFunction)
 		$scope.nameFunction = "" //Reset
-		$scope.refreshData();
+		//$scope.refreshData();
 	}
 
 	$scope.buildQuery = function() {

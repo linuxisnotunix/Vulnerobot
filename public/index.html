@@ -31,7 +31,7 @@
 				<button class="btn" ng-click="addComponent()" >Add</button>
 				<datalist id="listComponents">
 					<option disabled="disabled" value=""></option>
-					<option ng-repeat="item in info.Components" value="{{item.Name}} ({{item.Version}})">
+					<option ng-repeat="item in info.Components" value="{{item.Name}}:{{item.Version}}">{{item.Name}} ({{item.Version}})</option>
 				</datalist>
 				<button ng-repeat="(i, c) in componentList" class="btn bg-white" ng-click="componentList.splice(i, 1);" >{{c}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
@@ -47,6 +47,7 @@
 				<button ng-repeat="(i, f) in functionList" class="btn bg-white" ng-click="functionList.splice(i, 1);" >{{f}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
 			</div>
+			<button class="btn bg-white" ng-click="refreshData()">Refresh Table</button> -
 			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv'}}" target='_blank' >Export CSV</a>
 			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv-short'}}" target='_blank' >Export CSV short</a>
 			<div class="blocking-overlay" ng-show="state != 'ready !'"></div>
@@ -72,6 +73,7 @@
 				</tbody>
 			</table>
 		</div>
+                <br><br><br>
 	</div>
 </body>
 </html>
