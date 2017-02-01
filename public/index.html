@@ -47,9 +47,9 @@
 				<button ng-repeat="(i, f) in functionList" class="btn bg-blue" ng-click="functionList.splice(i, 1);" >{{f}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
 			</div>
-			<button class="btn bg-white" ng-click="refreshData()">Refresh Table</button> -
-			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv'}}" target='_blank' >Export CSV</a>
-			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv-short'}}" target='_blank' >Export CSV short</a>
+			<button class="btn bg-black" ng-click="refreshData()" style="width: 276px;">Apply filters</button>
+			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv'}}" style="float: right;" target='_blank' >Export CSV</a>
+			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv-short'}}" style="float: right;" target='_blank' >Export CSV short</a>
 			<div class="blocking-overlay" ng-show="state != 'ready !'"></div>
 		</div>
 		<hr>
