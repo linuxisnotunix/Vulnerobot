@@ -9,8 +9,6 @@ app.controller('AppCtrl', function($scope, $http) {
 
 	$scope.tableResult=[]
 
-	$scope.VisibledTable = false;
-
 	$scope.collect = function() {
 		$scope.state="collecting ..."
 		$http.get('../api/collect')
