@@ -29,7 +29,7 @@ var CmdCollect = cli.Command{
 		},
 		cli.BoolFlag{
 			Name:  "force, f",
-			Usage: "Force reload of data", //TODO
+			Usage: "Force reload of data (Not Implemented Yet)", //TODO
 		},
 		cli.BoolFlag{
 			Name:        "no-progress",

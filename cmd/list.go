@@ -32,17 +32,17 @@ var CmdList = cli.Command{
 		cli.StringFlag{
 			Name:  "format, f",
 			Value: "json",
-			Usage: "Format to output (ex : csv or json)", //TODO
+			Usage: "Format to output (ex : csv, csv-short or json)",
 		},
 		cli.StringFlag{
 			Name:  "functions",
 			Value: "all",
-			Usage: "Functions to match from configuration (ex : f1,f5,...)", //TODO
+			Usage: "Functions to match from configuration (ex : f1,f5,...)",
 		},
 		cli.StringFlag{
 			Name:  "components",
 			Value: "all",
-			Usage: "Components to match from configuration (ex : c1,c5,...)", //TODO
+			Usage: "Components to match from configuration (ex : c1,c5,...)",
 		},
 	},
 }
