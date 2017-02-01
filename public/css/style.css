@@ -1,2 +1,18 @@
-/* Some style */
-	
+body > .container{
+	width: 75%
+}
+
+body > .container > .header > h1 {
+	display: inline-block;
+}
+body > .container > .header > p {
+	display: inline-block;
+	margin-left: 10px
+}
+
+.results>table{
+	width: 100%;
+}
+.form-elm{
+	background: #EEE
+}

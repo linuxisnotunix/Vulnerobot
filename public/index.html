@@ -6,45 +6,68 @@
 	<title>VulneRobor Result</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	<script src="js/javascript.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/caiuss/1.4.6/caiuss.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
 </head>
 <body>
-	<h1>VulneRobot</h1>
-	<div ng-app="App" ng-controller="AppCtrl">
-		<span> Please choose a data source </span><br>
-		<select ng-model="SelectedDataSource" ng-change="loadSelectedDataSource()">
-			<option ng-repeat="src in sources.Plugins" value={{src}}>{{src}}</option>
-		</select>
-		<br>
-		<br>
-		<span>Select a specific software or function</span><br>
-		<input list="listenters" name="specificEnter" ng-model="nameFilter">
-		<datalist id="listenters">
-			<option ng-repeat="item in sources.Components" value="{{item.Name}} ({{item.Version}})">
-		</datalist>
-		<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
-		<br>
-		<table class="table tableCustom" ng-show="VisibledTable" >
-			<thead>
-				<tr>
-					<th>Software</th>
-					<th>Version</th>
-					<th>Function</th>
-					<th>ID Vulnerability</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="line in tableResult | filter : nameFilter">
-					<td>{{line.Software}}</td>
-					<td>{{line.Version}}</td>
-					<td>{{line.Function}}</td>
-					<td><a href={{line.Link}}>{{line.IDVuln}}</a></td>
-				</tr>
-			</tbody>
-		</table>
-		<br>
-		<br>
+	<div ng-app="App" ng-controller="AppCtrl" class="container">
+		<div class="header">
+			<h1>VulneRobot</h1> <p>{{state}}</p>
+		</div>
+		<div class="form">
+			<div class="plugin-sources">
+				<span> Please choose data source </span><br>
+				<select ng-model="SelectedDataSource" ng-change="addDataSource()" class="form-elm">
+					<option disabled="disabled" selected="selected" value="Choose a plugin">Choose a plugin</option>
+					<option ng-repeat="src in info.Plugins" value={{src}}>{{src}}</option>
+				</select>
+				<button ng-repeat="(i, p) in pluginSources" class="btn bg-white" ng-click="pluginSources.splice(i, 1);" >{{p}}</button>
+			</div>
+			<div class="components">
+				<span>Select a specific components</span><br>
+				<input list="listComponents" ng-model="nameComponent" class="form-elm">
+				<button class="btn" ng-click="addComponent()" >Add</button>
+				<datalist id="listComponents">
+					<option disabled="disabled" value=""></option>
+					<option ng-repeat="item in info.Components" value="{{item.Name}} ({{item.Version}})">
+				</datalist>
+				<button ng-repeat="(i, c) in componentList" class="btn bg-white" ng-click="componentList.splice(i, 1);" >{{c}}</button>
+				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
+			</div>
+			<div class="functions">
+				<span>Select a specific functions</span><br>
+				<input list="listFunctions" ng-model="nameFunction" class="form-elm">
+				<button class="btn" ng-click="addFunction()" >Add</button>
+				<datalist id="listFunctions">
+					<option disabled="disabled" value=""></option>
+					<option ng-repeat="item in info.Functions" value="{{item}}">
+				</datalist>
+				<button ng-repeat="(i, f) in functionList" class="btn bg-white" ng-click="functionList.splice(i, 1);" >{{f}}</button>
+				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
+			</div>
+		</div>
+		<hr>
+		<div class="results">
+			<table class="table" >
+				<thead>
+					<tr>
+						<th>Software</th>
+						<th>Version</th>
+						<th>Function</th>
+						<th>ID Vulnerability</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="line in tableResult | orderBy: line.Software ">
+						<td>{{line.Software}}</td>
+						<td>{{line.Version}}</td>
+						<td>{{line.Function}}</td>
+						<td><a href={{line.Link}}>{{line.IDVuln}}</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
-</html>		
+</html>
