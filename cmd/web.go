@@ -28,7 +28,7 @@ var CmdWeb = cli.Command{
 			Name:        "listen, l",
 			Value:       "127.0.0.1:8080",
 			Destination: &settings.WebListen,
-			Usage:       "Addres and port ot listen (ex: 127.0.0.1:8080 or 127.0.0.1:4242 or :8080)",
+			Usage:       "Address and port to listen (ex: 127.0.0.1:8080 or 127.0.0.1:4242 or :8080)",
 		}},
 }
 
