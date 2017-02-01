@@ -16,6 +16,7 @@ import (
 
 var (
 	mutexCollect sync.Mutex
+	status       = "ready"
 )
 
 //HandlePublic handlerfunc to publish assets
@@ -60,6 +61,7 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 	switch path {
 	case "/collect":
 		mutexCollect.Lock()
+		status = "collecting"
 		settings.UIDontDisplayProgress = true //Force to not display progress bar
 		data, err := ioutil.ReadFile(settings.ConfigPath)
 		if err != nil {
@@ -72,6 +74,7 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 			"forceRefresh": hasForce,
 		})
 		cl.Collect()
+		status = "ready"
 		mutexCollect.Unlock()
 		_, err = res.Write([]byte("Done!"))
 		if err != nil {
@@ -99,6 +102,11 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 			"appList": tools.ParseConfiguration(string(data)),
 		})
 		cl.Info(res)
+	case "/status":
+		_, err := res.Write([]byte("{State:'" + status + "'}"))
+		if err != nil {
+			log.Warn(err)
+		}
 	default:
 		_, err := res.Write([]byte("{error:'not found'}"))
 		if err != nil {
