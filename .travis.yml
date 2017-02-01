@@ -19,6 +19,6 @@ script:
 - make test
 - make lint || true
 - ./vulnerobot
-- ./vulnerobot plugins
+- ./vulnerobot --config /dev/null info
 after_success:
 - make release
