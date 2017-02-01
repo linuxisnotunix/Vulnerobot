@@ -46,6 +46,7 @@
 				<button ng-repeat="(i, f) in functionList" class="btn bg-white" ng-click="functionList.splice(i, 1);" >{{f}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
 			</div>
+			<div class="blocking-overlay" ng-show="state != 'ready !'"></div>
 		</div>
 		<hr>
 		<div class="results">
@@ -59,7 +60,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr data-ng-repeat="line in tableResult | orderBy: line.Software ">
+					<tr ng-repeat="line in tableResult | orderBy: features.Software ">
 						<td>{{line.Software}}</td>
 						<td>{{line.Version}}</td>
 						<td>{{line.Function}}</td>

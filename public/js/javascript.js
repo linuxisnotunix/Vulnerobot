@@ -59,29 +59,6 @@ app.controller('AppCtrl', function($scope, $http) {
 				}
 				$scope.state="ready !"
 			});
-		/*
-		//TODO Find a best way to delete it
-		if ($scope.tableResult.length != 0) {
-			while($scope.tableResult.length != 0 ) {
-				$scope.tableResult.pop()
-			}
-		}
-
-		for (soft of $scope.Result) {
-			if (soft.Vulns.length > 0) {
-				for (vuln of soft.Vulns) {
-					var element = {};
-					element.Software = soft.Component.Name;
-					element.Version = soft.Component.Version;
-					element.Function = soft.Component.Function;
-					element.IDVuln = vuln.Value.ID;
-					element.Link = vuln.Value.URL;
-
-					$scope.tableResult.push(element)
-				}
-			}
-		}
-		*/
 	}
 
 	$scope.loadConfig = function() {
