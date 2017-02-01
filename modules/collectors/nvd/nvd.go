@@ -63,7 +63,7 @@ func (m *ModuleNVD) IsAvailable() bool {
 func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 	log.Infof("%s: Start Collect() ", id)
 
-	neededList := listUpdatedList()
+	neededList := listUpdatedList(m.opts["forceRefresh"].(bool))
 	if neededList.Size() > 0 {
 		if bar != nil {
 			bar.Total = neededList.Size()
@@ -232,13 +232,20 @@ func hasBeenUpdated(old, new *models.NvdList, err error) bool {
 
 	return strings.Compare(old.Sha256, new.Sha256) != 0
 }
-func listUpdatedList() *arraylist.List {
+func listUpdatedList(forceRefresh bool) *arraylist.List {
 	log.WithFields(log.Fields{
 		"minYear": minYear,
 		"maxYear": maxYear,
 	}).Infof("%s: Getting list of CVE to collect", id)
 	list := arraylist.New()
 	for y := minYear; y <= maxYear; y++ {
+		if forceRefresh {
+			log.WithFields(log.Fields{
+				"year": y,
+			}).Infof("%s: Adding year to list of CVE to collect (forced)", id)
+			list.Add(y) //Forced
+			continue
+		}
 		var listInDB models.NvdList
 		db.Orm().Where("year = ?", y).First(&listInDB)
 		if listInDB.Year == strconv.Itoa(y) {

@@ -38,6 +38,7 @@ var (
 
 //ModuleANSSI retrieve information form http://cert.ssi.gouv.fr/
 type ModuleANSSI struct {
+	opts map[string]interface{}
 }
 
 func parseDate(date string) time.Time {
@@ -71,7 +72,7 @@ func New(options map[string]interface{}) models.Collector {
 		"options": options,
 	}).Debug("Creating new Module")
 	maxYear = time.Now().Year()
-	return &ModuleANSSI{}
+	return &ModuleANSSI{opts: options}
 }
 
 //ID Return the id of the module
@@ -153,7 +154,11 @@ func listNeededAVI(lastAVIInDB string) (*arraylist.List, error) {
 func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 	log.Infof("%s: Start Collect() ", id)
 
-	neededAVI, err := listNeededAVI(getLastKnownAVI())
+	var lastAvi string
+	if !m.opts["forceRefresh"].(bool) {
+		lastAvi = getLastKnownAVI()
+	}
+	neededAVI, err := listNeededAVI(lastAvi)
 	if err != nil {
 		return err
 	}

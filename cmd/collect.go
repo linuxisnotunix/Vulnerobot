@@ -29,7 +29,7 @@ var CmdCollect = cli.Command{
 		},
 		cli.BoolFlag{
 			Name:  "force, f",
-			Usage: "Force reload of data (Not Implemented Yet)", //TODO
+			Usage: "Force reload of data",
 		},
 		cli.BoolFlag{
 			Name:        "no-progress",
@@ -41,8 +41,9 @@ var CmdCollect = cli.Command{
 
 func runCollect(c *cli.Context) error {
 	cl := collectors.Init(map[string]interface{}{
-		"appList":    ParseConfigurationFlag(),
-		"pluginList": ParsePluginFlag(),
+		"appList":      ParseConfigurationFlag(),
+		"pluginList":   ParsePluginFlag(),
+		"forceRefresh": c.Bool("force"),
 	})
 	return cl.Collect()
 	//return nil
