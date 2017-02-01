@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8" />
-	<title>VulneRobor Result</title>
+	<title>VulneRobot</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	<script src="js/javascript.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/caiuss/1.4.6/caiuss.min.css">
@@ -14,6 +14,7 @@
 	<div ng-app="App" ng-controller="AppCtrl" class="container">
 		<div class="header">
 			<h1>VulneRobot</h1> <p>{{state}}</p>
+			<button class="btn bg-white" style="float:right;" ng-click="collect()" ng-disabled="state != 'ready !'" >Collect</button>
 		</div>
 		<div class="form">
 			<div class="plugin-sources">
@@ -46,6 +47,8 @@
 				<button ng-repeat="(i, f) in functionList" class="btn bg-white" ng-click="functionList.splice(i, 1);" >{{f}}</button>
 				<!-- Note: The datalist tag is not supported in Internet Explorer 9 and earlier versions, or in Safari. -->
 			</div>
+			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv'}}" target='_blank' >Export CSV</a>
+			<a class="btn bg-white" href="{{'../api/list?'+$scope.buildQuery()+'&format=csv-short'}}" target='_blank' >Export CSV short</a>
 			<div class="blocking-overlay" ng-show="state != 'ready !'"></div>
 		</div>
 		<hr>

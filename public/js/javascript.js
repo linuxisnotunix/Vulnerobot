@@ -11,6 +11,13 @@ app.controller('AppCtrl', function($scope, $http) {
 
 	$scope.VisibledTable = false;
 
+	$scope.collect = function() {
+		$scope.state="collecting ..."
+		$http.get('../api/collect')
+			.then(function(response) {
+				$scope.state="ready !"
+			});
+	}
 	$scope.addDataSource = function() {
 		console.log("addDataSource : " + $scope.SelectedDataSource)
 		$scope.pluginSources.push($scope.SelectedDataSource)

@@ -76,7 +76,7 @@ func HandleAPI(res http.ResponseWriter, req *http.Request) {
 		cl.Collect()
 		status = "ready"
 		mutexCollect.Unlock()
-		_, err = res.Write([]byte("Done!"))
+		_, err = res.Write([]byte(`{"Result":"ok"}`))
 		if err != nil {
 			log.Warn(err)
 		}
