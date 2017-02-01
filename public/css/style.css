@@ -33,3 +33,7 @@ body > .container > .header > p {
 .form-elm{
 	background: #EEE
 }
+
+a:not(.btn):hover {
+	color: #0e6c41;
+}
