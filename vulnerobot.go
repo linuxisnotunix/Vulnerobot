@@ -60,7 +60,7 @@ func main() {
 		cli.StringFlag{
 			Name:        "database, db",
 			Value:       "data/sqlite.db",
-			Usage:       "Application database to use",
+			Usage:       "Application database to use (data/sqlite.db or :memory:)",
 			Destination: &settings.DBPath,
 		},
 	)
