@@ -55,7 +55,8 @@ func setup() {
 	}
 	if err != nil || settings.DBPath == ":memory:" {
 		//Db don't exist
-		orm, err = gorm.Open("sqlite3", "file:"+settings.DBPath+"?cache=shared")
+		//orm, err = gorm.Open("sqlite3", "file:"+settings.DBPath+"?cache=shared&mode=rwc")
+		orm, err = gorm.Open("sqlite3", settings.DBPath)
 		setLogger()
 		if err != nil {
 			log.Debugf("Fail to access DB file(%s) but this is ok since the file don't exist: %v\n", settings.DBPath, err)
@@ -69,7 +70,8 @@ func setup() {
 		orm.CreateTable(models.NvdCPE{})
 	} else {
 		//DB exist
-		orm, err = gorm.Open("sqlite3", "file:"+settings.DBPath+"?cache=shared")
+		//orm, err = gorm.Open("sqlite3", "file:"+settings.DBPath+"?cache=shared&mode=rwc")
+		orm, err = gorm.Open("sqlite3", settings.DBPath)
 		setLogger()
 		if err != nil {
 			log.Fatalf("Fail to access DB file(%s): %v\n", settings.DBPath, err)
