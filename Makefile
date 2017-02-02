@@ -53,17 +53,17 @@ generate: dev-deps
 release: clean generate deps format
 	@mkdir build || echo -e "$(WARN_COLOR)==> Build dir (/build) allready exist.$(NO_COLOR)"
 	@echo -e "$(OK_COLOR)==> Building for linux 32 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -o build/${APP_NAME}-linux-386 -ldflags "$(LDFLAGS_RELEASE)"
+	CGO_ENABLED=1 GOOS=linux GOARCH=386 go build -o build/${APP_NAME}-linux-386 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-linux-386 || upx-ucl --brute  build/${APP_NAME}-linux-386 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for linux 64 ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o build/${APP_NAME}-linux-amd64 -ldflags "$(LDFLAGS_RELEASE)"
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o build/${APP_NAME}-linux-amd64 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-linux-amd64 || upx-ucl --brute  build/${APP_NAME}-linux-amd64 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
 	@echo -e "$(OK_COLOR)==> Building for linux arm ...$(NO_COLOR)"
-	CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o build/${APP_NAME}-linux-armv6 -ldflags "$(LDFLAGS_RELEASE)"
+	CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=6 CC="armv6l-unknown-linux-gnueabihf-gcc" go build -o build/${APP_NAME}-linux-armv6 -ldflags "$(LDFLAGS_RELEASE)"
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
 	@upx --brute  build/${APP_NAME}-linux-armv6 || upx-ucl --brute  build/${APP_NAME}-linux-armv6 || echo -e "$(WARN_COLOR)==> No tools found to compress binary.$(NO_COLOR)"
 
