@@ -167,17 +167,21 @@ func (m *ModuleANSSI) Collect(bar *uiprogress.Bar) error {
 			bar.Total = neededAVI.Size()
 		}
 
-		tx := db.Orm().Begin() //Start sql session
-		it := neededAVI.Iterator()
-		for it.Next() {
-			avi, err := parseAVI(it.Value().(string))
+		avis := make([]*models.AnssiAVI, neededAVI.Size())
+		for i := 0; i < neededAVI.Size(); i++ {
+			avi, _ := neededAVI.Get(i)
+			avis[i], err = parseAVI(avi.(string))
 			if err != nil {
-				log.Warnf("Failed to get AVI : %s", it.Value().(string))
-			} else {
-				tx.Save(avi)
+				log.Warnf("Failed to get AVI : %s", avi.(string))
 			}
 			if bar != nil {
 				bar.Incr()
+			}
+		}
+		tx := db.Orm().Begin() //Start sql session
+		for i := 0; i < neededAVI.Size(); i++ {
+			if avis[i] != nil {
+				tx.Save(avis[i])
 			}
 		}
 		tx.Commit() //Commit session

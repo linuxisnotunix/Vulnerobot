@@ -68,10 +68,10 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 		if bar != nil {
 			bar.Total = neededList.Size()
 		}
-		tx := db.Orm().Begin() //Start sql session
 		it := neededList.Iterator()
 		for it.Next() {
 			cveList, err := getList(it.Value().(int))
+			tx := db.Orm().Begin() //Start sql session
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
@@ -93,11 +93,11 @@ func (m *ModuleNVD) Collect(bar *uiprogress.Bar) error {
 				}
 
 			}
+			tx.Commit() //Commit session
 			if bar != nil {
 				bar.Incr()
 			}
 		}
-		tx.Commit() //Commit session
 	} else {
 		//Nothing to do
 		log.Infof("%s: No new CVE to collect.", id)
