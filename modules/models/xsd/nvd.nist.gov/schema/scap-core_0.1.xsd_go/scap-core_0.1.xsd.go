@@ -92,32 +92,11 @@ func (me *XsdGoPkgHasGroup_CpeReferenceGroup) Walk() (err error) {
 				return
 			}
 		}
-		if err = me.XsdGoPkgHasElem_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
 		if err = me.XsdGoPkgHasElem_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ struct {
-	CpeSearchableNames []TcpeSearchableNamePatternType `xml:"http://scap.nist.gov/schema/scap-core/0.1 cpe-searchable-name"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ instance.
-func (me *XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
+		if err = me.XsdGoPkgHasElem_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -128,37 +107,6 @@ func (me *XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSea
 	return
 }
 
-//	The name pattern of the CPE part component.
-//	The name pattern of a CPE component.
-type TcpeComponentPatternType xsdt.Token
-
-//	Since TcpeComponentPatternType is just a simple String type, this merely returns the current string value.
-func (me TcpeComponentPatternType) String() string { return xsdt.Token(me).String() }
-
-//	This convenience method just performs a simple type conversion to TcpeComponentPatternType's alias type xsdt.Token.
-func (me TcpeComponentPatternType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
-
-//	Since TcpeComponentPatternType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TcpeComponentPatternType) Set(s string) { (*xsdt.Token)(me).Set(s) }
-
-type TcpePartComponentPatternType TcpeComponentPatternType
-
-//	Since TcpePartComponentPatternType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TcpePartComponentPatternType) Set(s string) { (*TcpeComponentPatternType)(me).Set(s) }
-
-//	Since TcpePartComponentPatternType is just a simple String type, this merely returns the current string value.
-func (me TcpePartComponentPatternType) String() string { return TcpeComponentPatternType(me).String() }
-
-//	This convenience method just performs a simple type conversion to TcpePartComponentPatternType's alias type TcpeComponentPatternType.
-func (me TcpePartComponentPatternType) ToTcpeComponentPatternType() TcpeComponentPatternType {
-	return TcpeComponentPatternType(me)
-}
-
-type XsdGoPkgHasAttr_Name_XsdtToken_ struct {
-	Name xsdt.Token `xml:"http://scap.nist.gov/schema/scap-core/0.1 name,attr"`
-}
-
-//	The notesType defines an element that consists of one or more child note elements. It is assumed that each of these note elements are representative of the same language as defined by their parent.
 //	This type allows the xml:lang attribute to associate a specific language with an element's string content.
 type TtextType struct {
 	XsdtString
@@ -209,6 +157,7 @@ func (me *XsdGoPkgHasElems_NotesequencenotesTypeschema_Note_TtextType_) Walk() (
 	return
 }
 
+//	The notesType defines an element that consists of one or more child note elements. It is assumed that each of these note elements are representative of the same language as defined by their parent.
 type TnotesType struct {
 	XsdGoPkgHasElems_NotesequencenotesTypeschema_Note_TtextType_
 }
@@ -233,38 +182,22 @@ func (me *TnotesType) Walk() (err error) {
 	return
 }
 
-type TsearchableCpeReferencesType struct {
-	XsdGoPkgHasGroup_CpeReferenceGroup
-}
-
-//	If the WalkHandlers.TsearchableCpeReferencesType function is not nil (ie. was set by outside code), calls it with this TsearchableCpeReferencesType instance as the single argument. Then calls the Walk() method on 1/1 embed(s) and 0/0 field(s) belonging to this TsearchableCpeReferencesType instance.
-func (me *TsearchableCpeReferencesType) Walk() (err error) {
-	if fn := WalkHandlers.TsearchableCpeReferencesType; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if err = me.XsdGoPkgHasGroup_CpeReferenceGroup.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
+type XsdGoPkgHasAttr_Value_XsdtToken_ struct {
+	Value xsdt.Token `xml:"http://scap.nist.gov/schema/scap-core/0.1 value,attr"`
 }
 
 type XsdGoPkgHasAttr_System_XsdtAnyURI_ struct {
 	System xsdt.AnyURI `xml:"http://scap.nist.gov/schema/scap-core/0.1 system,attr"`
 }
 
-type TcheckSearchType struct {
-	XsdGoPkgHasAttr_Name_XsdtToken_
+type XsdGoPkgHasAttr_Name_XsdtToken_ struct {
+	Name xsdt.Token `xml:"http://scap.nist.gov/schema/scap-core/0.1 name,attr"`
+}
 
+type TcheckSearchType struct {
 	XsdGoPkgHasAttr_System_XsdtAnyURI_
+
+	XsdGoPkgHasAttr_Name_XsdtToken_
 }
 
 //	If the WalkHandlers.TcheckSearchType function is not nil (ie. was set by outside code), calls it with this TcheckSearchType instance as the single argument. Then calls the Walk() method on 0/2 embed(s) and 0/0 field(s) belonging to this TcheckSearchType instance.
@@ -284,47 +217,27 @@ func (me *TcheckSearchType) Walk() (err error) {
 	return
 }
 
-type XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ struct {
-	CpeNames []TcpeNamePatternType `xml:"http://scap.nist.gov/schema/scap-core/0.1 cpe-name"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ instance.
-func (me *XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
+//	Type for a reference in the description of a CPE item. This would normally be used to point to extra descriptive material, or the supplier's web site, or the platform documentation. It consists of a piece of text (intended to be human-readable) and a URI (intended to be a URL, and point to a real resource).
 type XsdGoPkgHasAttr_Href_XsdtAnyURI_ struct {
 	Href xsdt.AnyURI `xml:"http://scap.nist.gov/schema/scap-core/0.1 href,attr"`
 }
 
-//	Data type for the check element, a checking system specification URI, string content, and an optional external file reference. The checking system specification should be the URI for a particular version of OVAL or a related system testing language, and the content will be an identifier of a test written in that language. The external file reference could be used to point to the file in which the content test identifier is defined.
-type TcheckReferenceType struct {
-	XsdGoPkgHasAttr_System_XsdtAnyURI_
+type TreferenceType struct {
+	TtextType
 
 	XsdGoPkgHasAttr_Href_XsdtAnyURI_
-
-	XsdGoPkgHasAttr_Name_XsdtToken_
 }
 
-//	If the WalkHandlers.TcheckReferenceType function is not nil (ie. was set by outside code), calls it with this TcheckReferenceType instance as the single argument. Then calls the Walk() method on 0/3 embed(s) and 0/0 field(s) belonging to this TcheckReferenceType instance.
-func (me *TcheckReferenceType) Walk() (err error) {
-	if fn := WalkHandlers.TcheckReferenceType; me != nil {
+//	If the WalkHandlers.TreferenceType function is not nil (ie. was set by outside code), calls it with this TreferenceType instance as the single argument. Then calls the Walk() method on 1/2 embed(s) and 0/0 field(s) belonging to this TreferenceType instance.
+func (me *TreferenceType) Walk() (err error) {
+	if fn := WalkHandlers.TreferenceType; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
+		}
+		if err = me.TtextType.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -333,10 +246,6 @@ func (me *TcheckReferenceType) Walk() (err error) {
 		}
 	}
 	return
-}
-
-type XsdGoPkgHasAttr_Value_XsdtToken_ struct {
-	Value xsdt.Token `xml:"http://scap.nist.gov/schema/scap-core/0.1 value,attr"`
 }
 
 type TtagType struct {
@@ -362,7 +271,62 @@ func (me *TtagType) Walk() (err error) {
 	return
 }
 
+//	Data type for the check element, a checking system specification URI, string content, and an optional external file reference. The checking system specification should be the URI for a particular version of OVAL or a related system testing language, and the content will be an identifier of a test written in that language. The external file reference could be used to point to the file in which the content test identifier is defined.
+type TcheckReferenceType struct {
+	XsdGoPkgHasAttr_Href_XsdtAnyURI_
+
+	XsdGoPkgHasAttr_Name_XsdtToken_
+
+	XsdGoPkgHasAttr_System_XsdtAnyURI_
+}
+
+//	If the WalkHandlers.TcheckReferenceType function is not nil (ie. was set by outside code), calls it with this TcheckReferenceType instance as the single argument. Then calls the Walk() method on 0/3 embed(s) and 0/0 field(s) belonging to this TcheckReferenceType instance.
+func (me *TcheckReferenceType) Walk() (err error) {
+	if fn := WalkHandlers.TcheckReferenceType; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	The name pattern of the CPE part component.
+//	The name pattern of a CPE component.
+type TcpeComponentPatternType xsdt.Token
+
+//	Since TcpeComponentPatternType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TcpeComponentPatternType) Set(s string) { (*xsdt.Token)(me).Set(s) }
+
+//	Since TcpeComponentPatternType is just a simple String type, this merely returns the current string value.
+func (me TcpeComponentPatternType) String() string { return xsdt.Token(me).String() }
+
+//	This convenience method just performs a simple type conversion to TcpeComponentPatternType's alias type xsdt.Token.
+func (me TcpeComponentPatternType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
+
+type TcpePartComponentPatternType TcpeComponentPatternType
+
+//	Since TcpePartComponentPatternType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TcpePartComponentPatternType) Set(s string) { (*TcpeComponentPatternType)(me).Set(s) }
+
+//	Since TcpePartComponentPatternType is just a simple String type, this merely returns the current string value.
+func (me TcpePartComponentPatternType) String() string { return TcpeComponentPatternType(me).String() }
+
+//	This convenience method just performs a simple type conversion to TcpePartComponentPatternType's alias type TcpeComponentPatternType.
+func (me TcpePartComponentPatternType) ToTcpeComponentPatternType() TcpeComponentPatternType {
+	return TcpeComponentPatternType(me)
+}
+
 type TcweNamePatternType xsdt.Token
+
+//	This convenience method just performs a simple type conversion to TcweNamePatternType's alias type xsdt.Token.
+func (me TcweNamePatternType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
 
 //	Since TcweNamePatternType is just a simple String type, this merely sets the current value from the specified string.
 func (me *TcweNamePatternType) Set(s string) { (*xsdt.Token)(me).Set(s) }
@@ -370,26 +334,41 @@ func (me *TcweNamePatternType) Set(s string) { (*xsdt.Token)(me).Set(s) }
 //	Since TcweNamePatternType is just a simple String type, this merely returns the current string value.
 func (me TcweNamePatternType) String() string { return xsdt.Token(me).String() }
 
-//	This convenience method just performs a simple type conversion to TcweNamePatternType's alias type xsdt.Token.
-func (me TcweNamePatternType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
-
-//	Type for a reference in the description of a CPE item. This would normally be used to point to extra descriptive material, or the supplier's web site, or the platform documentation. It consists of a piece of text (intended to be human-readable) and a URI (intended to be a URL, and point to a real resource).
-type TreferenceType struct {
-	TtextType
-
-	XsdGoPkgHasAttr_Href_XsdtAnyURI_
+type TsearchableCpeReferencesType struct {
+	XsdGoPkgHasGroup_CpeReferenceGroup
 }
 
-//	If the WalkHandlers.TreferenceType function is not nil (ie. was set by outside code), calls it with this TreferenceType instance as the single argument. Then calls the Walk() method on 1/2 embed(s) and 0/0 field(s) belonging to this TreferenceType instance.
-func (me *TreferenceType) Walk() (err error) {
-	if fn := WalkHandlers.TreferenceType; me != nil {
+//	If the WalkHandlers.TsearchableCpeReferencesType function is not nil (ie. was set by outside code), calls it with this TsearchableCpeReferencesType instance as the single argument. Then calls the Walk() method on 1/1 embed(s) and 0/0 field(s) belonging to this TsearchableCpeReferencesType instance.
+func (me *TsearchableCpeReferencesType) Walk() (err error) {
+	if fn := WalkHandlers.TsearchableCpeReferencesType; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
 		}
-		if err = me.TtextType.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+		if err = me.XsdGoPkgHasGroup_CpeReferenceGroup.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ struct {
+	CpeSearchableNames []TcpeSearchableNamePatternType `xml:"http://scap.nist.gov/schema/scap-core/0.1 cpe-searchable-name"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ instance.
+func (me *XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -445,6 +424,27 @@ func (me *XsdGoPkgHasElem_NotesequencenotesTypeschema_Note_TtextType_) Walk() (e
 	return
 }
 
+type XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ struct {
+	CpeNames []TcpeNamePatternType `xml:"http://scap.nist.gov/schema/scap-core/0.1 cpe-name"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_ instance.
+func (me *XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
 var (
 	//	Set this to false to break a Walk() immediately as soon as the first error is returned by a custom handler function.
 	//	If true, Walk() proceeds and accumulates all errors in the WalkErrors slice.
@@ -461,20 +461,20 @@ var (
 //	Provides 15 strong-typed hooks for your own custom handler functions to be invoked when the Walk() method is called on any instance of any (non-attribute-related) struct type defined in this package.
 //	If your custom handler does get called at all for a given struct instance, then it always gets called twice, first with the 'enter' bool argument set to true, then (after having Walk()ed all subordinate struct instances, if any) once again with it set to false.
 type XsdGoPkgWalkHandlers struct {
-	XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_                               func(*XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_, bool) error
-	TcheckReferenceType                                                                                              func(*TcheckReferenceType, bool) error
+	XsdGoPkgHasGroup_CpeReferenceGroup                                                                               func(*XsdGoPkgHasGroup_CpeReferenceGroup, bool) error
 	TreferenceType                                                                                                   func(*TreferenceType, bool) error
-	XsdGoPkgHasElem_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_  func(*XsdGoPkgHasElem_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_, bool) error
-	TtextType                                                                                                        func(*TtextType, bool) error
+	TcheckReferenceType                                                                                              func(*TcheckReferenceType, bool) error
 	XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_ func(*XsdGoPkgHasElems_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_, bool) error
-	TnotesType                                                                                                       func(*TnotesType, bool) error
-	XsdGoPkgHasElem_NotesequencenotesTypeschema_Note_TtextType_                                                      func(*XsdGoPkgHasElem_NotesequencenotesTypeschema_Note_TtextType_, bool) error
-	TcheckSearchType                                                                                                 func(*TcheckSearchType, bool) error
 	XsdGoPkgHasCdata                                                                                                 func(*XsdGoPkgHasCdata, bool) error
-	XsdGoPkgHasElems_NotesequencenotesTypeschema_Note_TtextType_                                                     func(*XsdGoPkgHasElems_NotesequencenotesTypeschema_Note_TtextType_, bool) error
-	TsearchableCpeReferencesType                                                                                     func(*TsearchableCpeReferencesType, bool) error
+	XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_                               func(*XsdGoPkgHasElems_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_, bool) error
+	TtextType                                                                                                        func(*TtextType, bool) error
+	TcheckSearchType                                                                                                 func(*TcheckSearchType, bool) error
 	TtagType                                                                                                         func(*TtagType, bool) error
 	XsdGoPkgHasElem_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_                                func(*XsdGoPkgHasElem_CpeNamechoicecpeReferenceGroupschema_CpeName_TcpeNamePatternType_, bool) error
-	XsdGoPkgHasGroup_CpeReferenceGroup                                                                               func(*XsdGoPkgHasGroup_CpeReferenceGroup, bool) error
+	XsdGoPkgHasElem_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_  func(*XsdGoPkgHasElem_CpeSearchableNamechoicecpeReferenceGroupschema_CpeSearchableName_TcpeSearchableNamePatternType_, bool) error
+	XsdGoPkgHasElems_NotesequencenotesTypeschema_Note_TtextType_                                                     func(*XsdGoPkgHasElems_NotesequencenotesTypeschema_Note_TtextType_, bool) error
+	TnotesType                                                                                                       func(*TnotesType, bool) error
+	TsearchableCpeReferencesType                                                                                     func(*TsearchableCpeReferencesType, bool) error
+	XsdGoPkgHasElem_NotesequencenotesTypeschema_Note_TtextType_                                                      func(*XsdGoPkgHasElem_NotesequencenotesTypeschema_Note_TtextType_, bool) error
 }
 type XsdtString xsdt.String

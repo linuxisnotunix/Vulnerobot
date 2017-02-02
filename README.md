@@ -11,10 +11,10 @@ go get -u -v github.com/linuxisnotunix/Vulnerobot
 Binary for most platform can also be found [here](https://github.com/linuxisnotunix/Vulnerobot/releases).
 
 ## Start
-```
-./vulnerobot collect
-./vulnerobot list
-```
+
+Follow the [get started guide](https://github.com/linuxisnotunix/Vulnerobot/wiki/Get-Started).
+
+## Command Description
 
 For more advance params : ```./vulnerobot help```
 ```

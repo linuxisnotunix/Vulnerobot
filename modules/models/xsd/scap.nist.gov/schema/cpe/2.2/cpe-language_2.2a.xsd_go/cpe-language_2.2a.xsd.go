@@ -21,189 +21,19 @@ import (
 //	This element is the root element of a CPE
 //	Language XML documents and therefore acts as a container for child platform
 //	definitions.
+//	The id attribute holds a locally unique
+//	name for the platform. There is no defined format for this id, it just has
+//	to be unique to the containing language document.
+type XsdGoPkgHasAttr_Id_XsdtAnyURI_ struct {
+	//	The id attribute holds a locally unique
+	//	name for the platform. There is no defined format for this id, it just has
+	//	to be unique to the containing language document.
+	Id xsdt.AnyURI `xml:"http://cpe.mitre.org/language/2.0 id,attr"`
+}
+
 //	The platform element represents the description
 //	or qualifications of a particular IT platform type. The platform is defined
 //	by the logical-test child element.
-//	The logical-test element appears as a child of a
-//	platform element, and may also be nested to create more complex logical
-//	tests. The content consists of one or more elements: fact-ref, and
-//	logical-test children are permitted. The operator to be applied, and
-//	optional negation of the test, are given as attributes.
-type XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ struct {
-	LogicalTests []*TLogicalTestType `xml:"http://cpe.mitre.org/language/2.0 logical-test"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ instance.
-func (me *XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-//	The fact-ref element appears as a
-//	child of a logical-test element. It is simply a reference to a CPE Name that
-//	always evaluates to a Boolean result.
-//	Define the format for acceptable CPE Names. A URN
-//	format is used with the id starting with the word cpe followed by :/ and
-//	then some number of individual components separated by
-//	colons.
-type TnamePattern xsdt.AnyURI
-
-//	Since TnamePattern is just a simple String type, this merely sets the current value from the specified string.
-func (me *TnamePattern) Set(s string) { (*xsdt.AnyURI)(me).Set(s) }
-
-//	Since TnamePattern is just a simple String type, this merely returns the current string value.
-func (me TnamePattern) String() string { return xsdt.AnyURI(me).String() }
-
-//	This convenience method just performs a simple type conversion to TnamePattern's alias type xsdt.AnyURI.
-func (me TnamePattern) ToXsdtAnyURI() xsdt.AnyURI { return xsdt.AnyURI(me) }
-
-type XsdGoPkgHasAttr_Name_TnamePattern_ struct {
-	Name TnamePattern `xml:"http://cpe.mitre.org/language/2.0 name,attr"`
-}
-
-type TFactRefType struct {
-	XsdGoPkgHasAttr_Name_TnamePattern_
-}
-
-//	If the WalkHandlers.TFactRefType function is not nil (ie. was set by outside code), calls it with this TFactRefType instance as the single argument. Then calls the Walk() method on 0/1 embed(s) and 0/0 field(s) belonging to this TFactRefType instance.
-func (me *TFactRefType) Walk() (err error) {
-	if fn := WalkHandlers.TFactRefType; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_FactRef struct {
-	FactRefs []*TFactRefType `xml:"http://cpe.mitre.org/language/2.0 fact-ref"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_FactRef function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_FactRef instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_FactRef instance.
-func (me *XsdGoPkgHasElems_FactRef) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_FactRef; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.FactRefs {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasAttr_Negate_XsdtBoolean_ struct {
-	Negate xsdt.Boolean `xml:"http://cpe.mitre.org/language/2.0 negate,attr"`
-}
-
-//	The OperatorEnumeration simple type defines
-//	acceptable operators. Each operator defines how to evaluate multiple
-//	arguments.
-type ToperatorEnumeration xsdt.String
-
-//	Since ToperatorEnumeration is just a simple String type, this merely returns the current string value.
-func (me ToperatorEnumeration) String() string { return xsdt.String(me).String() }
-
-//	This convenience method just performs a simple type conversion to ToperatorEnumeration's alias type xsdt.String.
-func (me ToperatorEnumeration) ToXsdtString() xsdt.String { return xsdt.String(me) }
-
-//	Returns true if the value of this enumerated ToperatorEnumeration is "AND".
-func (me ToperatorEnumeration) IsAnd() bool { return me.String() == "AND" }
-
-//	Returns true if the value of this enumerated ToperatorEnumeration is "OR".
-func (me ToperatorEnumeration) IsOr() bool { return me.String() == "OR" }
-
-//	Since ToperatorEnumeration is just a simple String type, this merely sets the current value from the specified string.
-func (me *ToperatorEnumeration) Set(s string) { (*xsdt.String)(me).Set(s) }
-
-type XsdGoPkgHasAttr_Operator_ToperatorEnumeration_ struct {
-	Operator ToperatorEnumeration `xml:"http://cpe.mitre.org/language/2.0 operator,attr"`
-}
-
-type TLogicalTestType struct {
-	XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_
-
-	XsdGoPkgHasElems_FactRef
-
-	XsdGoPkgHasAttr_Negate_XsdtBoolean_
-
-	XsdGoPkgHasAttr_Operator_ToperatorEnumeration_
-}
-
-//	If the WalkHandlers.TLogicalTestType function is not nil (ie. was set by outside code), calls it with this TLogicalTestType instance as the single argument. Then calls the Walk() method on 2/4 embed(s) and 0/0 field(s) belonging to this TLogicalTestType instance.
-func (me *TLogicalTestType) Walk() (err error) {
-	if fn := WalkHandlers.TLogicalTestType; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if err = me.XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElems_FactRef.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_LogicalTest struct {
-	LogicalTest *TLogicalTestType `xml:"http://cpe.mitre.org/language/2.0 logical-test"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_LogicalTest function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_LogicalTest instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_LogicalTest instance.
-func (me *XsdGoPkgHasElem_LogicalTest) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_LogicalTest; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if err = me.LogicalTest.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
 //	The optional title element may appear as a child
 //	to a platform element. It provides a human-readable title for it. To support
 //	uses intended for multiple languages, this element supports the ‘xml:lang’
@@ -300,6 +130,186 @@ func (me *XsdGoPkgHasElems_RemarksequencePlatformBaseTypeschema_Remark_TextType_
 	return
 }
 
+//	The logical-test element appears as a child of a
+//	platform element, and may also be nested to create more complex logical
+//	tests. The content consists of one or more elements: fact-ref, and
+//	logical-test children are permitted. The operator to be applied, and
+//	optional negation of the test, are given as attributes.
+type XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ struct {
+	LogicalTests []*TLogicalTestType `xml:"http://cpe.mitre.org/language/2.0 logical-test"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ instance.
+func (me *XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	The fact-ref element appears as a
+//	child of a logical-test element. It is simply a reference to a CPE Name that
+//	always evaluates to a Boolean result.
+//	Define the format for acceptable CPE Names. A URN
+//	format is used with the id starting with the word cpe followed by :/ and
+//	then some number of individual components separated by
+//	colons.
+type TnamePattern xsdt.AnyURI
+
+//	This convenience method just performs a simple type conversion to TnamePattern's alias type xsdt.AnyURI.
+func (me TnamePattern) ToXsdtAnyURI() xsdt.AnyURI { return xsdt.AnyURI(me) }
+
+//	Since TnamePattern is just a simple String type, this merely sets the current value from the specified string.
+func (me *TnamePattern) Set(s string) { (*xsdt.AnyURI)(me).Set(s) }
+
+//	Since TnamePattern is just a simple String type, this merely returns the current string value.
+func (me TnamePattern) String() string { return xsdt.AnyURI(me).String() }
+
+type XsdGoPkgHasAttr_Name_TnamePattern_ struct {
+	Name TnamePattern `xml:"http://cpe.mitre.org/language/2.0 name,attr"`
+}
+
+type TFactRefType struct {
+	XsdGoPkgHasAttr_Name_TnamePattern_
+}
+
+//	If the WalkHandlers.TFactRefType function is not nil (ie. was set by outside code), calls it with this TFactRefType instance as the single argument. Then calls the Walk() method on 0/1 embed(s) and 0/0 field(s) belonging to this TFactRefType instance.
+func (me *TFactRefType) Walk() (err error) {
+	if fn := WalkHandlers.TFactRefType; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_FactRef struct {
+	FactRefs []*TFactRefType `xml:"http://cpe.mitre.org/language/2.0 fact-ref"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_FactRef function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_FactRef instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_FactRef instance.
+func (me *XsdGoPkgHasElems_FactRef) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_FactRef; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.FactRefs {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	The OperatorEnumeration simple type defines
+//	acceptable operators. Each operator defines how to evaluate multiple
+//	arguments.
+type ToperatorEnumeration xsdt.String
+
+//	Since ToperatorEnumeration is just a simple String type, this merely sets the current value from the specified string.
+func (me *ToperatorEnumeration) Set(s string) { (*xsdt.String)(me).Set(s) }
+
+//	Since ToperatorEnumeration is just a simple String type, this merely returns the current string value.
+func (me ToperatorEnumeration) String() string { return xsdt.String(me).String() }
+
+//	This convenience method just performs a simple type conversion to ToperatorEnumeration's alias type xsdt.String.
+func (me ToperatorEnumeration) ToXsdtString() xsdt.String { return xsdt.String(me) }
+
+//	Returns true if the value of this enumerated ToperatorEnumeration is "AND".
+func (me ToperatorEnumeration) IsAnd() bool { return me.String() == "AND" }
+
+//	Returns true if the value of this enumerated ToperatorEnumeration is "OR".
+func (me ToperatorEnumeration) IsOr() bool { return me.String() == "OR" }
+
+type XsdGoPkgHasAttr_Operator_ToperatorEnumeration_ struct {
+	Operator ToperatorEnumeration `xml:"http://cpe.mitre.org/language/2.0 operator,attr"`
+}
+
+type XsdGoPkgHasAttr_Negate_XsdtBoolean_ struct {
+	Negate xsdt.Boolean `xml:"http://cpe.mitre.org/language/2.0 negate,attr"`
+}
+
+type TLogicalTestType struct {
+	XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_
+
+	XsdGoPkgHasElems_FactRef
+
+	XsdGoPkgHasAttr_Operator_ToperatorEnumeration_
+
+	XsdGoPkgHasAttr_Negate_XsdtBoolean_
+}
+
+//	If the WalkHandlers.TLogicalTestType function is not nil (ie. was set by outside code), calls it with this TLogicalTestType instance as the single argument. Then calls the Walk() method on 2/4 embed(s) and 0/0 field(s) belonging to this TLogicalTestType instance.
+func (me *TLogicalTestType) Walk() (err error) {
+	if fn := WalkHandlers.TLogicalTestType; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if err = me.XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if err = me.XsdGoPkgHasElems_FactRef.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElem_LogicalTest struct {
+	LogicalTest *TLogicalTestType `xml:"http://cpe.mitre.org/language/2.0 logical-test"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_LogicalTest function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_LogicalTest instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_LogicalTest instance.
+func (me *XsdGoPkgHasElem_LogicalTest) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_LogicalTest; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if err = me.LogicalTest.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
 type TPlatformBaseType struct {
 	//	The optional title element may appear as a child
 	//	to a platform element. It provides a human-readable title for it. To support
@@ -325,13 +335,13 @@ func (me *TPlatformBaseType) Walk() (err error) {
 				return
 			}
 		}
+		if err = me.XsdGoPkgHasElem_LogicalTest.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
 		if err = me.XsdGoPkgHasElems_TitlesequencePlatformBaseTypeschema_Title_TextType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if err = me.XsdGoPkgHasElems_RemarksequencePlatformBaseTypeschema_Remark_TextType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElem_LogicalTest.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if fn != nil {
@@ -341,16 +351,6 @@ func (me *TPlatformBaseType) Walk() (err error) {
 		}
 	}
 	return
-}
-
-//	The id attribute holds a locally unique
-//	name for the platform. There is no defined format for this id, it just has
-//	to be unique to the containing language document.
-type XsdGoPkgHasAttr_Id_XsdtAnyURI_ struct {
-	//	The id attribute holds a locally unique
-	//	name for the platform. There is no defined format for this id, it just has
-	//	to be unique to the containing language document.
-	Id xsdt.AnyURI `xml:"http://cpe.mitre.org/language/2.0 id,attr"`
 }
 
 type TPlatformType struct {
@@ -692,26 +692,26 @@ var (
 //	Provides 21 strong-typed hooks for your own custom handler functions to be invoked when the Walk() method is called on any instance of any (non-attribute-related) struct type defined in this package.
 //	If your custom handler does get called at all for a given struct instance, then it always gets called twice, first with the 'enter' bool argument set to true, then (after having Walk()ed all subordinate struct instances, if any) once again with it set to false.
 type XsdGoPkgWalkHandlers struct {
-	XsdGoPkgHasElem_FactRef                                                                 func(*XsdGoPkgHasElem_FactRef, bool) error
-	XsdGoPkgHasCdata                                                                        func(*XsdGoPkgHasCdata, bool) error
-	XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ func(*XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_, bool) error
-	XsdGoPkgHasElem_LogicalTest                                                             func(*XsdGoPkgHasElem_LogicalTest, bool) error
-	TextType                                                                                func(*TextType, bool) error
-	XsdGoPkgHasElems_TitlesequencePlatformBaseTypeschema_Title_TextType_                    func(*XsdGoPkgHasElems_TitlesequencePlatformBaseTypeschema_Title_TextType_, bool) error
 	XsdGoPkgHasElem_PlatformSpecification                                                   func(*XsdGoPkgHasElem_PlatformSpecification, bool) error
-	XsdGoPkgHasElems_PlatformSpecification                                                  func(*XsdGoPkgHasElems_PlatformSpecification, bool) error
-	TFactRefType                                                                            func(*TFactRefType, bool) error
-	TLogicalTestType                                                                        func(*TLogicalTestType, bool) error
-	TplatformSpecificationType                                                              func(*TplatformSpecificationType, bool) error
-	XsdGoPkgHasElems_PlatformConfiguration                                                  func(*XsdGoPkgHasElems_PlatformConfiguration, bool) error
-	XsdGoPkgHasElem_TitlesequencePlatformBaseTypeschema_Title_TextType_                     func(*XsdGoPkgHasElem_TitlesequencePlatformBaseTypeschema_Title_TextType_, bool) error
+	TextType                                                                                func(*TextType, bool) error
 	XsdGoPkgHasElems_RemarksequencePlatformBaseTypeschema_Remark_TextType_                  func(*XsdGoPkgHasElems_RemarksequencePlatformBaseTypeschema_Remark_TextType_, bool) error
-	XsdGoPkgHasElems_Platform                                                               func(*XsdGoPkgHasElems_Platform, bool) error
-	TPlatformType                                                                           func(*TPlatformType, bool) error
-	XsdGoPkgHasElem_Platform                                                                func(*XsdGoPkgHasElem_Platform, bool) error
+	XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_ func(*XsdGoPkgHasElems_LogicalTestsequenceLogicalTestTypeschema_LogicalTest_TLogicalTestType_, bool) error
+	TLogicalTestType                                                                        func(*TLogicalTestType, bool) error
 	XsdGoPkgHasElem_PlatformConfiguration                                                   func(*XsdGoPkgHasElem_PlatformConfiguration, bool) error
-	XsdGoPkgHasElem_RemarksequencePlatformBaseTypeschema_Remark_TextType_                   func(*XsdGoPkgHasElem_RemarksequencePlatformBaseTypeschema_Remark_TextType_, bool) error
+	XsdGoPkgHasElems_TitlesequencePlatformBaseTypeschema_Title_TextType_                    func(*XsdGoPkgHasElems_TitlesequencePlatformBaseTypeschema_Title_TextType_, bool) error
+	TFactRefType                                                                            func(*TFactRefType, bool) error
 	XsdGoPkgHasElems_FactRef                                                                func(*XsdGoPkgHasElems_FactRef, bool) error
+	XsdGoPkgHasCdata                                                                        func(*XsdGoPkgHasCdata, bool) error
+	XsdGoPkgHasElem_TitlesequencePlatformBaseTypeschema_Title_TextType_                     func(*XsdGoPkgHasElem_TitlesequencePlatformBaseTypeschema_Title_TextType_, bool) error
+	XsdGoPkgHasElem_LogicalTest                                                             func(*XsdGoPkgHasElem_LogicalTest, bool) error
+	TPlatformType                                                                           func(*TPlatformType, bool) error
+	XsdGoPkgHasElem_FactRef                                                                 func(*XsdGoPkgHasElem_FactRef, bool) error
+	XsdGoPkgHasElems_PlatformSpecification                                                  func(*XsdGoPkgHasElems_PlatformSpecification, bool) error
+	XsdGoPkgHasElem_Platform                                                                func(*XsdGoPkgHasElem_Platform, bool) error
+	XsdGoPkgHasElems_PlatformConfiguration                                                  func(*XsdGoPkgHasElems_PlatformConfiguration, bool) error
+	XsdGoPkgHasElem_RemarksequencePlatformBaseTypeschema_Remark_TextType_                   func(*XsdGoPkgHasElem_RemarksequencePlatformBaseTypeschema_Remark_TextType_, bool) error
 	TPlatformBaseType                                                                       func(*TPlatformBaseType, bool) error
+	XsdGoPkgHasElems_Platform                                                               func(*XsdGoPkgHasElems_Platform, bool) error
+	TplatformSpecificationType                                                              func(*TplatformSpecificationType, bool) error
 }
 type XsdtString xsdt.String
