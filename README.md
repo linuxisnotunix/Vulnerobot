@@ -3,12 +3,12 @@ Robot de collecte d'alertes de sécurité
 
 ## Get & Build
 ```
-git clone https://github.com/linuxisnotunix/Vulnerobot.git && cd Vulnerobot && make
- - or -
 go get -u -v github.com/linuxisnotunix/Vulnerobot
 ```
 
 Binary for most platform can also be found [here](https://github.com/linuxisnotunix/Vulnerobot/releases).
+
+NB: A makefile is available to generate optimized binary (compressed + compile flags) that you can use inside ```$GOPATH/src/github.com/linuxisnotunix/Vulnerobot```
 
 ## Start
 
