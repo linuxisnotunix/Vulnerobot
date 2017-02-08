@@ -196,6 +196,7 @@ func executeCollectorCollect(p *uiprogress.Progress, wg *sync.WaitGroup, id stri
 	if collector != nil {
 		if !collector.IsAvailable() {
 			log.Warnf("Skipping plugins %s since it is not available.", collector.ID())
+			wg.Done()
 			return nil
 		}
 		log.Info("Starting module ", id, " ...")
