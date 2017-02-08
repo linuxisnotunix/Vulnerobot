@@ -32,3 +32,37 @@ func TestParseConfigurationSample(t *testing.T) {
 		t.Error("Expected first line name to be Ubuntu !")
 	}
 }
+
+func TestParseFlagListDefault(t *testing.T) {
+	v := ParseFlagList("")
+	if v != nil {
+		t.Error("Expected default parsed flag result to be null !")
+	}
+}
+
+func TestParseFlagListAll(t *testing.T) {
+	v := ParseFlagList("")
+	if v != nil {
+		t.Error("Expected 'all' parsed flag result to be null !")
+	}
+}
+
+func TestParseFlagListNVD(t *testing.T) {
+	v := ParseFlagList("nvd")
+	if v == nil {
+		t.Error("Expected 'nvd' parsed flag result to not be null !")
+	}
+	if v.Size() != 1 {
+		t.Error("Expected 'nvd' parsed flag result size 1 !")
+	}
+}
+
+func TestParseFlagListMultilple(t *testing.T) {
+	v := ParseFlagList("nvd,anssi")
+	if v == nil {
+		t.Error("Expected 'nvd,anssi' parsed flag result to not be null !")
+	}
+	if v.Size() != 2 {
+		t.Error("Expected 'nvd,anssi' parsed flag result size 2 !")
+	}
+}

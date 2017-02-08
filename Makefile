@@ -108,7 +108,8 @@ format:
 test: deps format
 	@echo -e "$(OK_COLOR)==> Running tests...$(NO_COLOR)"
 	go vet . ./... || true
-	go test -v -race . ./cmd/... ./modules/...
+	go test -v -race -covermode=atomic  . ./cmd/... ./modules/...
+#	go test -v -race -coverprofile=coverage.out -covermode=atomic ./modules/tools
 
 #TODO cover with gocovmerge
 #go tool cover -html=coverage.out -o coverage.html
