@@ -53,11 +53,7 @@ func getCollectors(options map[string]interface{}) map[string]models.Collector {
 	for _, builder := range listCollector {
 		collector := builder(options)
 		if pluginList == nil || pluginList.Contains(strings.ToLower(strings.TrimSpace(collector.ID()))) { //Only init collectors based on options args
-			if collector.IsAvailable() {
-				l[collector.ID()] = collector
-			} else {
-				log.Warnf("Skipping plugins %s since it is not available.", collector.ID())
-			}
+			l[collector.ID()] = collector
 			if pluginList != nil {
 				pluginList.Remove(strings.ToLower(strings.TrimSpace(collector.ID())))
 			}
@@ -198,6 +194,10 @@ func (cl *CollectorList) List(o io.Writer) error {
 func executeCollectorCollect(p *uiprogress.Progress, wg *sync.WaitGroup, id string, collector models.Collector) error {
 	wg.Add(1)
 	if collector != nil {
+		if !collector.IsAvailable() {
+			log.Warnf("Skipping plugins %s since it is not available.", collector.ID())
+			return nil
+		}
 		log.Info("Starting module ", id, " ...")
 		var bar *uiprogress.Bar
 		if p != nil {
