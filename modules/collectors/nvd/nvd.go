@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -20,6 +19,7 @@ import (
 	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
 	feed "github.com/linuxisnotunix/Vulnerobot/modules/models/xsd/nvd.nist.gov/schema/nvd-cve-feed_2.0.xsd_go"
+	"github.com/linuxisnotunix/Vulnerobot/modules/tools"
 )
 
 const (
@@ -58,16 +58,14 @@ func (m *ModuleNVD) ID() string {
 
 //IsAvailable Return the availability of the module
 func (m *ModuleNVD) IsAvailable() bool {
-	conn, err := net.DialTimeout("tcp", testEndpoint, 5*time.Second)
+	ok, err := tools.IsTCPAccessible(testEndpoint)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err":      err,
 			"endpoint": testEndpoint,
 		}).Warnf("%s: Failed to access endpoint !", id)
-		return false
 	}
-	conn.Close()
-	return true
+	return ok
 }
 
 //Collect collect and parse data to put in database

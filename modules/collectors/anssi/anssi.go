@@ -2,7 +2,6 @@ package anssi
 
 import (
 	"fmt"
-	"net"
 	"regexp"
 	"strconv"
 	"strings"
@@ -84,16 +83,14 @@ func (m *ModuleANSSI) ID() string {
 
 //IsAvailable Return the availability of the module
 func (m *ModuleANSSI) IsAvailable() bool {
-	conn, err := net.DialTimeout("tcp", testEndpoint, 5*time.Second)
+	ok, err := tools.IsTCPAccessible(testEndpoint)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err":      err,
 			"endpoint": testEndpoint,
 		}).Warnf("%s: Failed to access endpoint !", id)
-		return false
 	}
-	conn.Close()
-	return true
+	return ok
 }
 
 func getLastKnownAVI() string {
