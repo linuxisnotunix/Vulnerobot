@@ -10,20 +10,26 @@ import (
 
 type TxsdLang xsdt.String
 
+//	Since TxsdLang is just a simple String type, this merely sets the current value from the specified string.
+func (me *TxsdLang) Set(s string) { (*xsdt.String)(me).Set(s) }
+
 //	Since TxsdLang is just a simple String type, this merely returns the current string value.
 func (me TxsdLang) String() string { return xsdt.String(me).String() }
 
 //	This convenience method just performs a simple type conversion to TxsdLang's alias type xsdt.String.
 func (me TxsdLang) ToXsdtString() xsdt.String { return xsdt.String(me) }
 
-//	Since TxsdLang is just a simple String type, this merely sets the current value from the specified string.
-func (me *TxsdLang) Set(s string) { (*xsdt.String)(me).Set(s) }
-
 type XsdGoPkgHasAttr_Lang struct {
 	Lang TxsdLang `xml:"http://www.w3.org/XML/1998/namespace lang,attr"`
 }
 
 type TxsdSpace xsdt.NCName
+
+//	This convenience method just performs a simple type conversion to TxsdSpace's alias type xsdt.NCName.
+func (me TxsdSpace) ToXsdtNCName() xsdt.NCName { return xsdt.NCName(me) }
+
+//	Returns true if the value of this enumerated TxsdSpace is "default".
+func (me TxsdSpace) IsDefault() bool { return me.String() == "default" }
 
 //	Returns true if the value of this enumerated TxsdSpace is "preserve".
 func (me TxsdSpace) IsPreserve() bool { return me.String() == "preserve" }
@@ -33,12 +39,6 @@ func (me *TxsdSpace) Set(s string) { (*xsdt.NCName)(me).Set(s) }
 
 //	Since TxsdSpace is just a simple String type, this merely returns the current string value.
 func (me TxsdSpace) String() string { return xsdt.NCName(me).String() }
-
-//	This convenience method just performs a simple type conversion to TxsdSpace's alias type xsdt.NCName.
-func (me TxsdSpace) ToXsdtNCName() xsdt.NCName { return xsdt.NCName(me) }
-
-//	Returns true if the value of this enumerated TxsdSpace is "default".
-func (me TxsdSpace) IsDefault() bool { return me.String() == "default" }
 
 type XsdGoPkgHasAttr_Space struct {
 	Space TxsdSpace `xml:"http://www.w3.org/XML/1998/namespace space,attr"`
@@ -85,6 +85,9 @@ func (me *XsdGoPkgHasCdata) Walk() (err error) {
 
 type TxsdLangTxsdLangUnion xsdt.String
 
+//	TxsdLang is an XSD union-type of several types. This is a simple type conversion to TxsdLangTxsdLangUnion, but keep in mind the actual value may or may not be a valid TxsdLangTxsdLangUnion value.
+func (me TxsdLang) ToTxsdLangTxsdLangUnion() TxsdLangTxsdLangUnion { return TxsdLangTxsdLangUnion(me) }
+
 //	Since TxsdLangTxsdLangUnion is just a simple String type, this merely sets the current value from the specified string.
 func (me *TxsdLangTxsdLangUnion) Set(s string) { (*xsdt.String)(me).Set(s) }
 
@@ -99,9 +102,6 @@ func (me TxsdLangTxsdLangUnion) Is() bool { return me.String() == "" }
 
 //	TxsdLang is an XSD union-type of several types. This is a simple type conversion to XsdtLanguage, but keep in mind the actual value may or may not be a valid XsdtLanguage value.
 func (me TxsdLang) ToXsdtLanguage() xsdt.Language { return xsdt.Language(me) }
-
-//	TxsdLang is an XSD union-type of several types. This is a simple type conversion to TxsdLangTxsdLangUnion, but keep in mind the actual value may or may not be a valid TxsdLangTxsdLangUnion value.
-func (me TxsdLang) ToTxsdLangTxsdLangUnion() TxsdLangTxsdLangUnion { return TxsdLangTxsdLangUnion(me) }
 
 var (
 	//	Set this to false to break a Walk() immediately as soon as the first error is returned by a custom handler function.

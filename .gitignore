@@ -34,4 +34,5 @@ _testmain.go
 /dump.log
 /output*
 /data/dump.sql
+/.gopath
 #/modules/models/xsd/
