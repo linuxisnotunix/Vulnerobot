@@ -53,7 +53,11 @@ func getCollectors(options map[string]interface{}) map[string]models.Collector {
 	for _, builder := range listCollector {
 		collector := builder(options)
 		if pluginList == nil || pluginList.Contains(strings.ToLower(strings.TrimSpace(collector.ID()))) { //Only init collectors based on options args
-			l[collector.ID()] = collector
+			if collector.IsAvailable() {
+				l[collector.ID()] = collector
+			} else {
+				log.Warnf("Skipping plugins %s since it is not available.", collector.ID())
+			}
 			if pluginList != nil {
 				pluginList.Remove(strings.ToLower(strings.TrimSpace(collector.ID())))
 			}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -23,6 +24,7 @@ import (
 
 const (
 	id                   = "NVD"
+	testEndpoint         = `static.nvd.nist.gov:https`
 	yearXMLURLFormat     = `https://static.nvd.nist.gov/feeds/xml/cve/nvdcve-2.0-%d.xml.gz`
 	yearXMLMETAURLFormat = `https://static.nvd.nist.gov/feeds/xml/cve/2.0/nvdcve-2.0-%s.meta`
 	nvdURLFormat         = `https://web.nvd.nist.gov/view/vuln/detail?vulnId=%s`
@@ -56,7 +58,16 @@ func (m *ModuleNVD) ID() string {
 
 //IsAvailable Return the availability of the module
 func (m *ModuleNVD) IsAvailable() bool {
-	return true //TODO
+	conn, err := net.DialTimeout("tcp", testEndpoint, 5*time.Second)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err":      err,
+			"endpoint": testEndpoint,
+		}).Warnf("%s: Failed to access endpoint !", id)
+		return false
+	}
+	conn.Close()
+	return true
 }
 
 //Collect collect and parse data to put in database

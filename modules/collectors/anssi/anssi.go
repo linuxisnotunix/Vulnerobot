@@ -2,6 +2,7 @@ package anssi
 
 import (
 	"fmt"
+	"net"
 	"regexp"
 	"strconv"
 	"strings"
@@ -18,6 +19,7 @@ import (
 
 const (
 	id                 = "ANSSI"
+	testEndpoint       = `cert.ssi.gouv.fr:http`
 	listURLFormat      = `http://cert.ssi.gouv.fr/site/%dindex.html`
 	aviURLFormat       = `http://www.cert.ssi.gouv.fr/site/%s/index.html`
 	aviDirectURLFormat = `http://www.cert.ssi.gouv.fr/site/%s/%s.html`
@@ -82,7 +84,16 @@ func (m *ModuleANSSI) ID() string {
 
 //IsAvailable Return the availability of the module
 func (m *ModuleANSSI) IsAvailable() bool {
-	return true //TODO
+	conn, err := net.DialTimeout("tcp", testEndpoint, 5*time.Second)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err":      err,
+			"endpoint": testEndpoint,
+		}).Warnf("%s: Failed to access endpoint !", id)
+		return false
+	}
+	conn.Close()
+	return true
 }
 
 func getLastKnownAVI() string {
