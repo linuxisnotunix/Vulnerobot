@@ -32,6 +32,12 @@ build: clean generate deps format compile
 compile:
 	@echo -e "$(OK_COLOR)==> Building...$(NO_COLOR)"
 	go build -o ${APP_NAME} -v -ldflags "$(LDFLAGS)"
+	
+#	@ln -s $(shell pwd) $(shell pwd)/vendor/github.com/linuxisnotunix/Vulnerobot 2&> /dev/null || echo -e "$(OK_COLOR)==> Vendor linking allready exist.$(NO_COLOR)"
+#mkdir -p $(shell pwd)/.gopath/src/github.com/linuxisnotunix
+#ln -s $(shell pwd) $(shell pwd)/.gopath/src/github.com/linuxisnotunix/Vulnerobot || echo -e "$(OK_COLOR)==> GOPATH linking allready exist.$(NO_COLOR)"
+#cd $(shell pwd)/.gopath/src/github.com/linuxisnotunix/Vulnerobot
+#GOPATH=$(shell pwd)/.gopath
 
 generate: dev-deps
 	$(GOPATH)/bin/go-embed -input public/ -output modules/assets/main.go
@@ -94,6 +100,7 @@ clean:
 	@if [ -x ${APP_NAME} ]; then rm ${APP_NAME}; fi
 	@if [ -x Vulnerobot ]; then rm Vulnerobot; fi #go build bin
 	@if [ -d build ]; then rm -R build; fi
+	@if [ -d $(shell pwd)/vendor/github.com/linuxisnotunix/Vulnerobot ]; then rm $(shell pwd)/vendor/github.com/linuxisnotunix/Vulnerobot; fi
 
 compress:
 	@echo -e "$(OK_COLOR)==> Trying to compress binary ...$(NO_COLOR)"
