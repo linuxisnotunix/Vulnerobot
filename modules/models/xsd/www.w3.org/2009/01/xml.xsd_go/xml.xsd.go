@@ -25,6 +25,12 @@ type XsdGoPkgHasAttr_Lang struct {
 
 type TxsdSpace xsdt.NCName
 
+//	Since TxsdSpace is just a simple String type, this merely sets the current value from the specified string.
+func (me *TxsdSpace) Set(s string) { (*xsdt.NCName)(me).Set(s) }
+
+//	Since TxsdSpace is just a simple String type, this merely returns the current string value.
+func (me TxsdSpace) String() string { return xsdt.NCName(me).String() }
+
 //	This convenience method just performs a simple type conversion to TxsdSpace's alias type xsdt.NCName.
 func (me TxsdSpace) ToXsdtNCName() xsdt.NCName { return xsdt.NCName(me) }
 
@@ -33,12 +39,6 @@ func (me TxsdSpace) IsDefault() bool { return me.String() == "default" }
 
 //	Returns true if the value of this enumerated TxsdSpace is "preserve".
 func (me TxsdSpace) IsPreserve() bool { return me.String() == "preserve" }
-
-//	Since TxsdSpace is just a simple String type, this merely sets the current value from the specified string.
-func (me *TxsdSpace) Set(s string) { (*xsdt.NCName)(me).Set(s) }
-
-//	Since TxsdSpace is just a simple String type, this merely returns the current string value.
-func (me TxsdSpace) String() string { return xsdt.NCName(me).String() }
 
 type XsdGoPkgHasAttr_Space struct {
 	Space TxsdSpace `xml:"http://www.w3.org/XML/1998/namespace space,attr"`
@@ -53,19 +53,16 @@ type XsdGoPkgHasAttr_Id struct {
 }
 
 type XsdGoPkgHasAtts_SpecialAttrs struct {
-	XsdGoPkgHasAttr_Space
-
-	XsdGoPkgHasAttr_Id
-
 	XsdGoPkgHasAttr_Base
 
 	XsdGoPkgHasAttr_Lang
+
+	XsdGoPkgHasAttr_Space
+
+	XsdGoPkgHasAttr_Id
 }
 
 type TxsdLangTxsdLangUnion xsdt.String
-
-//	TxsdLang is an XSD union-type of several types. This is a simple type conversion to TxsdLangTxsdLangUnion, but keep in mind the actual value may or may not be a valid TxsdLangTxsdLangUnion value.
-func (me TxsdLang) ToTxsdLangTxsdLangUnion() TxsdLangTxsdLangUnion { return TxsdLangTxsdLangUnion(me) }
 
 //	Since TxsdLangTxsdLangUnion is just a simple String type, this merely sets the current value from the specified string.
 func (me *TxsdLangTxsdLangUnion) Set(s string) { (*xsdt.String)(me).Set(s) }
@@ -81,6 +78,9 @@ func (me TxsdLangTxsdLangUnion) Is() bool { return me.String() == "" }
 
 //	TxsdLang is an XSD union-type of several types. This is a simple type conversion to XsdtLanguage, but keep in mind the actual value may or may not be a valid XsdtLanguage value.
 func (me TxsdLang) ToXsdtLanguage() xsdt.Language { return xsdt.Language(me) }
+
+//	TxsdLang is an XSD union-type of several types. This is a simple type conversion to TxsdLangTxsdLangUnion, but keep in mind the actual value may or may not be a valid TxsdLangTxsdLangUnion value.
+func (me TxsdLang) ToTxsdLangTxsdLangUnion() TxsdLangTxsdLangUnion { return TxsdLangTxsdLangUnion(me) }
 
 type XsdGoPkgHasCdata struct {
 	XsdGoPkgCDATA string `xml:",chardata"`

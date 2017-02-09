@@ -22,12 +22,12 @@ var _JsJavascriptJS = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x02\xff\x94\x55\x
 // it is not found
 func Asset(base, path string) ([]byte, string, string, error) {
 	switch path {
-	case "/css/style.css":
-		return _CssStyleCSS, "f60a246c951e9ba1a835c1e831ddfe78", "text/css; charset=utf-8", nil
 	case "/index.html":
 		return _IndexHTML, "72ac0ee2d0d46f55eb631134d1ae8be0", "text/html; charset=utf-8", nil
 	case "/js/javascript.js":
 		return _JsJavascriptJS, "0559174601ff918d7a4a4a56a698642b", "application/x-javascript", nil
+	case "/css/style.css":
+		return _CssStyleCSS, "f60a246c951e9ba1a835c1e831ddfe78", "text/css; charset=utf-8", nil
 	default:
 		return nil, "", "", ErrAssetFileNotFound
 	}

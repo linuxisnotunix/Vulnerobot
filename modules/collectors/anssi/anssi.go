@@ -10,6 +10,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	log "github.com/Sirupsen/logrus"
 	"github.com/emirpasic/gods/lists/arraylist"
+	"github.com/emirpasic/gods/maps/hashmap"
+	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gosuri/uiprogress"
 	db "github.com/linuxisnotunix/Vulnerobot/modules/database"
 	"github.com/linuxisnotunix/Vulnerobot/modules/models"
@@ -359,7 +361,127 @@ func parseAVI(AVIid string) (*models.AnssiAVI, error) {
 	return &models.AnssiAVI{ID: AVIid, Title: title, Risk: contents["Risque"], SystemAffected: contents["Systèmes"], Release: parseDate(headers["Date de la première version"]), LastUpdate: parseDate(headers["Date de la dernière version"])}, nil
 }
 
+func (m *ModuleANSSI) elToMatch() *arraylist.List {
+	log.WithFields(log.Fields{
+		"options": m.opts,
+	}).Debugf("%s: Start elToMatch()", id)
+	l := arraylist.New()
+	listComponents := hashmap.New()
+	listMatchs := hashmap.New()
+
+	if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil || m.opts["componentList"] != nil && m.opts["componentList"].(*hashset.Set) != nil {
+		if m.opts["functionList"] != nil && m.opts["functionList"].(*hashset.Set) != nil {
+			for _, fp := range m.opts["functionList"].(*hashset.Set).Values() {
+				for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+					_, okf := app.(map[string]string)["Function"]
+					if okf && strings.Contains(strings.ToLower(app.(map[string]string)["Function"]), strings.ToLower(fp.(string))) { //TODO better like split by comma ...
+						c := app.(map[string]string)
+						if _, ok := listComponents.Get(c["CPE"]); ok {
+							lMatch, _ := listMatchs.Get(c["CPE"])
+							lMatch.(*arraylist.List).Add(models.ResponseListMatch{
+								Type:  "Function",
+								Value: fp.(string),
+							})
+						} else {
+							listComponents.Put(c["CPE"], c)
+							lMatch := arraylist.New()
+							lMatch.Add(models.ResponseListMatch{
+								Type:  "Function",
+								Value: fp.(string),
+							})
+							listMatchs.Put(c["CPE"], lMatch)
+						}
+					}
+				}
+			}
+		}
+
+		if m.opts["componentList"] != nil && m.opts["componentList"].(*hashset.Set) != nil {
+			for _, cp := range m.opts["componentList"].(*hashset.Set).Values() {
+				for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+					_, okv := app.(map[string]string)["Version"]
+					_, okn := app.(map[string]string)["Name"]
+					if okn && okv && strings.Contains(strings.ToLower(app.(map[string]string)["Name"]+":"+app.(map[string]string)["Version"]), strings.ToLower(cp.(string))) { //TODO better match for components
+						c := app.(map[string]string)
+						if _, ok := listComponents.Get(c["CPE"]); ok {
+							lMatch, _ := listMatchs.Get(c["CPE"])
+							lMatch.(*arraylist.List).Add(models.ResponseListMatch{
+								Type:  "Component",
+								Value: cp.(string),
+							})
+						} else {
+							listComponents.Put(c["CPE"], c)
+							lMatch := arraylist.New()
+							lMatch.Add(models.ResponseListMatch{
+								Type:  "Component",
+								Value: cp.(string),
+							})
+							listMatchs.Put(c["CPE"], lMatch)
+						}
+					}
+				}
+			}
+		}
+		//Reconstruct
+		for _, c := range listComponents.Values() {
+			lMatch, _ := listMatchs.Get(c.(map[string]string)["CPE"])
+			matchs := make([]models.ResponseListMatch, lMatch.(*arraylist.List).Size())
+			for i, d := range lMatch.(*arraylist.List).Values() {
+				matchs[i] = d.(models.ResponseListMatch)
+			}
+			l.Add(models.ResponseListEntry{
+				Component: c.(map[string]string),
+				Matchs:    matchs,
+			})
+		}
+		return l
+	}
+	//By default Load all components by defaults
+	for _, app := range m.opts["appList"].(*arraylist.List).Values() {
+		l.Add(models.ResponseListEntry{
+			Component: app.(map[string]string),
+			Matchs:    []models.ResponseListMatch{},
+		})
+	}
+	return l
+
+}
+
 //List display known AVI stored by this module in DB
 func (m *ModuleANSSI) List() (*arraylist.List, error) {
-	return nil, fmt.Errorf("Module '%s' does not implement List().", id) //TODO
+	//return nil, fmt.Errorf("Module '%s' does not implement List().", id) //TODO
+
+	l := arraylist.New()
+	nbVulns := 0
+	log.Infof("%s: Start List() ", id)
+	els := m.elToMatch()
+	for _, b := range els.Values() {
+		el := b.(models.ResponseListEntry)
+		avis := make([]models.AnssiAVI, 0)
+		db.Orm().Where("system_affected LIKE ?", "%"+el.Component["Name"]+"%").Find(&avis)
+		resVulns := arraylist.New()
+		for _, avi := range avis {
+			resVulns.Add(models.ResponseListVuln{
+				Source: id,
+				Value: map[string]string{
+					"ID":      avi.ID,
+					"Summary": avi.Title,
+					"URL":     fmt.Sprintf(aviURLFormat, avi.ID),
+				},
+			})
+			nbVulns++
+		}
+		//Switch format (casting)
+		vs := make([]models.ResponseListVuln, resVulns.Size())
+		for i, v := range resVulns.Values() {
+			vs[i] = v.(models.ResponseListVuln)
+		}
+		l.Add(models.ResponseListEntry{
+			Component: el.Component,
+			Matchs:    el.Matchs,
+			Vulns:     vs,
+		})
+	}
+	log.Infof("%s: Found %d vulns", id, nbVulns)
+	return l, nil
 }

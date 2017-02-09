@@ -26,9 +26,6 @@ type XsdGoPkgHasAtts_VectorAttributeGroup struct {
 
 type TaccessComplexityEnumType xsdt.Token
 
-//	Returns true if the value of this enumerated TaccessComplexityEnumType is "MEDIUM".
-func (me TaccessComplexityEnumType) IsMedium() bool { return me.String() == "MEDIUM" }
-
 //	Returns true if the value of this enumerated TaccessComplexityEnumType is "LOW".
 func (me TaccessComplexityEnumType) IsLow() bool { return me.String() == "LOW" }
 
@@ -43,6 +40,9 @@ func (me TaccessComplexityEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token
 
 //	Returns true if the value of this enumerated TaccessComplexityEnumType is "HIGH".
 func (me TaccessComplexityEnumType) IsHigh() bool { return me.String() == "HIGH" }
+
+//	Returns true if the value of this enumerated TaccessComplexityEnumType is "MEDIUM".
+func (me TaccessComplexityEnumType) IsMedium() bool { return me.String() == "MEDIUM" }
 
 type TaccessComplexityType struct {
 	TaccessComplexityEnumType
@@ -93,9 +93,6 @@ func (me *XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessC
 
 type TauthenticationEnumType xsdt.Token
 
-//	Returns true if the value of this enumerated TauthenticationEnumType is "NONE".
-func (me TauthenticationEnumType) IsNone() bool { return me.String() == "NONE" }
-
 //	Since TauthenticationEnumType is just a simple String type, this merely sets the current value from the specified string.
 func (me *TauthenticationEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
 
@@ -112,6 +109,9 @@ func (me TauthenticationEnumType) IsMultipleInstances() bool {
 
 //	Returns true if the value of this enumerated TauthenticationEnumType is "SINGLE_INSTANCE".
 func (me TauthenticationEnumType) IsSingleInstance() bool { return me.String() == "SINGLE_INSTANCE" }
+
+//	Returns true if the value of this enumerated TauthenticationEnumType is "NONE".
+func (me TauthenticationEnumType) IsNone() bool { return me.String() == "NONE" }
 
 type TauthenticationType struct {
 	XsdGoPkgHasAtts_VectorAttributeGroup
@@ -162,6 +162,12 @@ func (me *XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentic
 
 type TciaEnumType xsdt.Token
 
+//	Since TciaEnumType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TciaEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
+
+//	Since TciaEnumType is just a simple String type, this merely returns the current string value.
+func (me TciaEnumType) String() string { return xsdt.Token(me).String() }
+
 //	This convenience method just performs a simple type conversion to TciaEnumType's alias type xsdt.Token.
 func (me TciaEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
 
@@ -173,12 +179,6 @@ func (me TciaEnumType) IsPartial() bool { return me.String() == "PARTIAL" }
 
 //	Returns true if the value of this enumerated TciaEnumType is "COMPLETE".
 func (me TciaEnumType) IsComplete() bool { return me.String() == "COMPLETE" }
-
-//	Since TciaEnumType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TciaEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
-
-//	Since TciaEnumType is just a simple String type, this merely returns the current string value.
-func (me TciaEnumType) String() string { return xsdt.Token(me).String() }
 
 type TciaType struct {
 	TciaEnumType
@@ -277,12 +277,6 @@ func (me *XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsGroupschema_Avail
 
 type TaccessVectorEnumType xsdt.Token
 
-//	Returns true if the value of this enumerated TaccessVectorEnumType is "ADJACENT_NETWORK".
-func (me TaccessVectorEnumType) IsAdjacentNetwork() bool { return me.String() == "ADJACENT_NETWORK" }
-
-//	Returns true if the value of this enumerated TaccessVectorEnumType is "NETWORK".
-func (me TaccessVectorEnumType) IsNetwork() bool { return me.String() == "NETWORK" }
-
 //	Since TaccessVectorEnumType is just a simple String type, this merely sets the current value from the specified string.
 func (me *TaccessVectorEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
 
@@ -294,6 +288,12 @@ func (me TaccessVectorEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me)
 
 //	Returns true if the value of this enumerated TaccessVectorEnumType is "LOCAL".
 func (me TaccessVectorEnumType) IsLocal() bool { return me.String() == "LOCAL" }
+
+//	Returns true if the value of this enumerated TaccessVectorEnumType is "ADJACENT_NETWORK".
+func (me TaccessVectorEnumType) IsAdjacentNetwork() bool { return me.String() == "ADJACENT_NETWORK" }
+
+//	Returns true if the value of this enumerated TaccessVectorEnumType is "NETWORK".
+func (me TaccessVectorEnumType) IsNetwork() bool { return me.String() == "NETWORK" }
 
 type TaccessVectorType struct {
 	TaccessVectorEnumType
@@ -343,6 +343,8 @@ func (me *XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVecto
 }
 
 type XsdGoPkgHasGroup_BaseVectorsGroup struct {
+	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_
+
 	XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_
 
 	XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_
@@ -352,8 +354,6 @@ type XsdGoPkgHasGroup_BaseVectorsGroup struct {
 	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_
 
 	XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_
-
-	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_
 }
 
 //	If the WalkHandlers.XsdGoPkgHasGroup_BaseVectorsGroup function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasGroup_BaseVectorsGroup instance as the single argument. Then calls the Walk() method on 6/6 embed(s) and 0/0 field(s) belonging to this XsdGoPkgHasGroup_BaseVectorsGroup instance.
@@ -363,6 +363,12 @@ func (me *XsdGoPkgHasGroup_BaseVectorsGroup) Walk() (err error) {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
+		}
+		if err = me.XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if err = me.XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
 		if err = me.XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
@@ -376,12 +382,6 @@ func (me *XsdGoPkgHasGroup_BaseVectorsGroup) Walk() (err error) {
 		if err = me.XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
-		if err = me.XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
@@ -393,20 +393,14 @@ func (me *XsdGoPkgHasGroup_BaseVectorsGroup) Walk() (err error) {
 
 type TcollateralDamagePotentialEnumType xsdt.Token
 
-//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "LOW_MEDIUM".
-func (me TcollateralDamagePotentialEnumType) IsLowMedium() bool { return me.String() == "LOW_MEDIUM" }
-
-//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "MEDIUM_HIGH".
-func (me TcollateralDamagePotentialEnumType) IsMediumHigh() bool { return me.String() == "MEDIUM_HIGH" }
-
-//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "HIGH".
-func (me TcollateralDamagePotentialEnumType) IsHigh() bool { return me.String() == "HIGH" }
-
-//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "NOT_DEFINED".
-func (me TcollateralDamagePotentialEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
-
 //	Since TcollateralDamagePotentialEnumType is just a simple String type, this merely sets the current value from the specified string.
 func (me *TcollateralDamagePotentialEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
+
+//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "LOW".
+func (me TcollateralDamagePotentialEnumType) IsLow() bool { return me.String() == "LOW" }
+
+//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "LOW_MEDIUM".
+func (me TcollateralDamagePotentialEnumType) IsLowMedium() bool { return me.String() == "LOW_MEDIUM" }
 
 //	Since TcollateralDamagePotentialEnumType is just a simple String type, this merely returns the current string value.
 func (me TcollateralDamagePotentialEnumType) String() string { return xsdt.Token(me).String() }
@@ -417,8 +411,14 @@ func (me TcollateralDamagePotentialEnumType) ToXsdtToken() xsdt.Token { return x
 //	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "NONE".
 func (me TcollateralDamagePotentialEnumType) IsNone() bool { return me.String() == "NONE" }
 
-//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "LOW".
-func (me TcollateralDamagePotentialEnumType) IsLow() bool { return me.String() == "LOW" }
+//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "MEDIUM_HIGH".
+func (me TcollateralDamagePotentialEnumType) IsMediumHigh() bool { return me.String() == "MEDIUM_HIGH" }
+
+//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "HIGH".
+func (me TcollateralDamagePotentialEnumType) IsHigh() bool { return me.String() == "HIGH" }
+
+//	Returns true if the value of this enumerated TcollateralDamagePotentialEnumType is "NOT_DEFINED".
+func (me TcollateralDamagePotentialEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
 
 type TcollateralDamagePotentialType struct {
 	TcollateralDamagePotentialEnumType
@@ -469,18 +469,6 @@ func (me *XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsG
 
 type TtargetDistributionEnumType xsdt.Token
 
-//	Returns true if the value of this enumerated TtargetDistributionEnumType is "NONE".
-func (me TtargetDistributionEnumType) IsNone() bool { return me.String() == "NONE" }
-
-//	Returns true if the value of this enumerated TtargetDistributionEnumType is "LOW".
-func (me TtargetDistributionEnumType) IsLow() bool { return me.String() == "LOW" }
-
-//	Returns true if the value of this enumerated TtargetDistributionEnumType is "MEDIUM".
-func (me TtargetDistributionEnumType) IsMedium() bool { return me.String() == "MEDIUM" }
-
-//	Returns true if the value of this enumerated TtargetDistributionEnumType is "HIGH".
-func (me TtargetDistributionEnumType) IsHigh() bool { return me.String() == "HIGH" }
-
 //	Returns true if the value of this enumerated TtargetDistributionEnumType is "NOT_DEFINED".
 func (me TtargetDistributionEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
 
@@ -492,6 +480,18 @@ func (me TtargetDistributionEnumType) String() string { return xsdt.Token(me).St
 
 //	This convenience method just performs a simple type conversion to TtargetDistributionEnumType's alias type xsdt.Token.
 func (me TtargetDistributionEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
+
+//	Returns true if the value of this enumerated TtargetDistributionEnumType is "NONE".
+func (me TtargetDistributionEnumType) IsNone() bool { return me.String() == "NONE" }
+
+//	Returns true if the value of this enumerated TtargetDistributionEnumType is "LOW".
+func (me TtargetDistributionEnumType) IsLow() bool { return me.String() == "LOW" }
+
+//	Returns true if the value of this enumerated TtargetDistributionEnumType is "MEDIUM".
+func (me TtargetDistributionEnumType) IsMedium() bool { return me.String() == "MEDIUM" }
+
+//	Returns true if the value of this enumerated TtargetDistributionEnumType is "HIGH".
+func (me TtargetDistributionEnumType) IsHigh() bool { return me.String() == "HIGH" }
 
 type TtargetDistributionType struct {
 	TtargetDistributionEnumType
@@ -542,6 +542,15 @@ func (me *XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsGroupsch
 
 type TciaRequirementEnumType xsdt.Token
 
+//	Since TciaRequirementEnumType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TciaRequirementEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
+
+//	Since TciaRequirementEnumType is just a simple String type, this merely returns the current string value.
+func (me TciaRequirementEnumType) String() string { return xsdt.Token(me).String() }
+
+//	This convenience method just performs a simple type conversion to TciaRequirementEnumType's alias type xsdt.Token.
+func (me TciaRequirementEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
+
 //	Returns true if the value of this enumerated TciaRequirementEnumType is "LOW".
 func (me TciaRequirementEnumType) IsLow() bool { return me.String() == "LOW" }
 
@@ -553,15 +562,6 @@ func (me TciaRequirementEnumType) IsHigh() bool { return me.String() == "HIGH" }
 
 //	Returns true if the value of this enumerated TciaRequirementEnumType is "NOT_DEFINED".
 func (me TciaRequirementEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
-
-//	Since TciaRequirementEnumType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TciaRequirementEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
-
-//	Since TciaRequirementEnumType is just a simple String type, this merely returns the current string value.
-func (me TciaRequirementEnumType) String() string { return xsdt.Token(me).String() }
-
-//	This convenience method just performs a simple type conversion to TciaRequirementEnumType's alias type xsdt.Token.
-func (me TciaRequirementEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
 
 type TciaRequirementType struct {
 	TciaRequirementEnumType
@@ -678,6 +678,9 @@ func (me *XsdGoPkgHasGroup_EnvironmentalVectorsGroup) Walk() (err error) {
 				return
 			}
 		}
+		if err = me.XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
 		if err = me.XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
@@ -690,7 +693,74 @@ func (me *XsdGoPkgHasGroup_EnvironmentalVectorsGroup) Walk() (err error) {
 		if err = me.XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
-		if err = me.XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type TconfidenceEnumType xsdt.Token
+
+//	Since TconfidenceEnumType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TconfidenceEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
+
+//	Since TconfidenceEnumType is just a simple String type, this merely returns the current string value.
+func (me TconfidenceEnumType) String() string { return xsdt.Token(me).String() }
+
+//	This convenience method just performs a simple type conversion to TconfidenceEnumType's alias type xsdt.Token.
+func (me TconfidenceEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
+
+//	Returns true if the value of this enumerated TconfidenceEnumType is "UNCONFIRMED".
+func (me TconfidenceEnumType) IsUnconfirmed() bool { return me.String() == "UNCONFIRMED" }
+
+//	Returns true if the value of this enumerated TconfidenceEnumType is "UNCORROBORATED".
+func (me TconfidenceEnumType) IsUncorroborated() bool { return me.String() == "UNCORROBORATED" }
+
+//	Returns true if the value of this enumerated TconfidenceEnumType is "CONFIRMED".
+func (me TconfidenceEnumType) IsConfirmed() bool { return me.String() == "CONFIRMED" }
+
+//	Returns true if the value of this enumerated TconfidenceEnumType is "NOT_DEFINED".
+func (me TconfidenceEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
+
+type TconfidenceType struct {
+	TconfidenceEnumType
+
+	XsdGoPkgHasAtts_VectorAttributeGroup
+}
+
+//	If the WalkHandlers.TconfidenceType function is not nil (ie. was set by outside code), calls it with this TconfidenceType instance as the single argument. Then calls the Walk() method on 0/2 embed(s) and 0/0 field(s) belonging to this TconfidenceType instance.
+func (me *TconfidenceType) Walk() (err error) {
+	if fn := WalkHandlers.TconfidenceType; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ struct {
+	ReportConfidence *TconfidenceType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 report-confidence"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ instance.
+func (me *XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if err = me.ReportConfidence.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if fn != nil {
@@ -777,18 +847,6 @@ func (me *XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Explo
 
 type TremediationLevelEnumType xsdt.Token
 
-//	Returns true if the value of this enumerated TremediationLevelEnumType is "WORKAROUND".
-func (me TremediationLevelEnumType) IsWorkaround() bool { return me.String() == "WORKAROUND" }
-
-//	Returns true if the value of this enumerated TremediationLevelEnumType is "UNAVAILABLE".
-func (me TremediationLevelEnumType) IsUnavailable() bool { return me.String() == "UNAVAILABLE" }
-
-//	Returns true if the value of this enumerated TremediationLevelEnumType is "NOT_DEFINED".
-func (me TremediationLevelEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
-
-//	Since TremediationLevelEnumType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TremediationLevelEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
-
 //	Since TremediationLevelEnumType is just a simple String type, this merely returns the current string value.
 func (me TremediationLevelEnumType) String() string { return xsdt.Token(me).String() }
 
@@ -801,10 +859,22 @@ func (me TremediationLevelEnumType) IsOfficialFix() bool { return me.String() ==
 //	Returns true if the value of this enumerated TremediationLevelEnumType is "TEMPORARY_FIX".
 func (me TremediationLevelEnumType) IsTemporaryFix() bool { return me.String() == "TEMPORARY_FIX" }
 
-type TremediationLevelType struct {
-	XsdGoPkgHasAtts_VectorAttributeGroup
+//	Returns true if the value of this enumerated TremediationLevelEnumType is "WORKAROUND".
+func (me TremediationLevelEnumType) IsWorkaround() bool { return me.String() == "WORKAROUND" }
 
+//	Returns true if the value of this enumerated TremediationLevelEnumType is "UNAVAILABLE".
+func (me TremediationLevelEnumType) IsUnavailable() bool { return me.String() == "UNAVAILABLE" }
+
+//	Returns true if the value of this enumerated TremediationLevelEnumType is "NOT_DEFINED".
+func (me TremediationLevelEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
+
+//	Since TremediationLevelEnumType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TremediationLevelEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
+
+type TremediationLevelType struct {
 	TremediationLevelEnumType
+
+	XsdGoPkgHasAtts_VectorAttributeGroup
 }
 
 //	If the WalkHandlers.TremediationLevelType function is not nil (ie. was set by outside code), calls it with this TremediationLevelType instance as the single argument. Then calls the Walk() method on 0/2 embed(s) and 0/0 field(s) belonging to this TremediationLevelType instance.
@@ -848,82 +918,12 @@ func (me *XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsGroupschema_Rem
 	return
 }
 
-type TconfidenceEnumType xsdt.Token
-
-//	Returns true if the value of this enumerated TconfidenceEnumType is "UNCONFIRMED".
-func (me TconfidenceEnumType) IsUnconfirmed() bool { return me.String() == "UNCONFIRMED" }
-
-//	Returns true if the value of this enumerated TconfidenceEnumType is "UNCORROBORATED".
-func (me TconfidenceEnumType) IsUncorroborated() bool { return me.String() == "UNCORROBORATED" }
-
-//	Returns true if the value of this enumerated TconfidenceEnumType is "CONFIRMED".
-func (me TconfidenceEnumType) IsConfirmed() bool { return me.String() == "CONFIRMED" }
-
-//	Returns true if the value of this enumerated TconfidenceEnumType is "NOT_DEFINED".
-func (me TconfidenceEnumType) IsNotDefined() bool { return me.String() == "NOT_DEFINED" }
-
-//	Since TconfidenceEnumType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TconfidenceEnumType) Set(s string) { (*xsdt.Token)(me).Set(s) }
-
-//	Since TconfidenceEnumType is just a simple String type, this merely returns the current string value.
-func (me TconfidenceEnumType) String() string { return xsdt.Token(me).String() }
-
-//	This convenience method just performs a simple type conversion to TconfidenceEnumType's alias type xsdt.Token.
-func (me TconfidenceEnumType) ToXsdtToken() xsdt.Token { return xsdt.Token(me) }
-
-type TconfidenceType struct {
-	TconfidenceEnumType
-
-	XsdGoPkgHasAtts_VectorAttributeGroup
-}
-
-//	If the WalkHandlers.TconfidenceType function is not nil (ie. was set by outside code), calls it with this TconfidenceType instance as the single argument. Then calls the Walk() method on 0/2 embed(s) and 0/0 field(s) belonging to this TconfidenceType instance.
-func (me *TconfidenceType) Walk() (err error) {
-	if fn := WalkHandlers.TconfidenceType; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ struct {
-	ReportConfidence *TconfidenceType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 report-confidence"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_ instance.
-func (me *XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if err = me.ReportConfidence.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
 type XsdGoPkgHasGroup_TemporalVectorsGroup struct {
+	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_
+
 	XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_
 
 	XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_
-
-	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_
 }
 
 //	If the WalkHandlers.XsdGoPkgHasGroup_TemporalVectorsGroup function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasGroup_TemporalVectorsGroup instance as the single argument. Then calls the Walk() method on 3/3 embed(s) and 0/0 field(s) belonging to this XsdGoPkgHasGroup_TemporalVectorsGroup instance.
@@ -1079,6 +1079,8 @@ func (me *XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupsche
 }
 
 type XsdGoPkgHasGroup_BaseVectorsCriteriaGroup struct {
+	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_
+
 	XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_
 
 	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_
@@ -1088,8 +1090,6 @@ type XsdGoPkgHasGroup_BaseVectorsCriteriaGroup struct {
 	XsdGoPkgHasElem_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_
 
 	XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_
-
-	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_
 }
 
 //	If the WalkHandlers.XsdGoPkgHasGroup_BaseVectorsCriteriaGroup function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasGroup_BaseVectorsCriteriaGroup instance as the single argument. Then calls the Walk() method on 6/6 embed(s) and 0/0 field(s) belonging to this XsdGoPkgHasGroup_BaseVectorsCriteriaGroup instance.
@@ -1099,9 +1099,6 @@ func (me *XsdGoPkgHasGroup_BaseVectorsCriteriaGroup) Walk() (err error) {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
-		}
-		if err = me.XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
 		}
 		if err = me.XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
@@ -1117,6 +1114,51 @@ func (me *XsdGoPkgHasGroup_BaseVectorsCriteriaGroup) Walk() (err error) {
 		}
 		if err = me.XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
+		}
+		if err = me.XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ struct {
+	ConfidentialityRequirement TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-requirement"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance.
+func (me *XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ struct {
+	IntegrityRequirement TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-requirement"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance.
+func (me *XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -1190,48 +1232,6 @@ func (me *XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsCriteria
 	return
 }
 
-type XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ struct {
-	ConfidentialityRequirement TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-requirement"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance.
-func (me *XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ struct {
-	IntegrityRequirement TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-requirement"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance.
-func (me *XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
 type XsdGoPkgHasGroup_EnvironmentalVectorsCriteriaGroup struct {
 	XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_
 
@@ -1266,27 +1266,6 @@ func (me *XsdGoPkgHasGroup_EnvironmentalVectorsCriteriaGroup) Walk() (err error)
 		}
 		if err = me.XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ struct {
-	Exploitability TexploitabilityEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploitability"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance.
-func (me *XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -1339,6 +1318,27 @@ func (me *XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsCriteriaGroupsc
 	return
 }
 
+type XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ struct {
+	Exploitability TexploitabilityEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploitability"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance.
+func (me *XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
 type XsdGoPkgHasGroup_TemporalVectorsCriteriaGroup struct {
 	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_
 
@@ -1355,14 +1355,117 @@ func (me *XsdGoPkgHasGroup_TemporalVectorsCriteriaGroup) Walk() (err error) {
 				return
 			}
 		}
+		if err = me.XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
 		if err = me.XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if err = me.XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
-		if err = me.XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasCdata struct {
+	XsdGoPkgCDATA string `xml:",chardata"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasCdata function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasCdata instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasCdata instance.
+func (me *XsdGoPkgHasCdata) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasCdata; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	Base impact sub-score assigned to a vulnerability by a source
+//	Value restriction to single decimal values from 0.0 to 10.0, as used in CVSS scores
+type TzeroToTenDecimalType xsdt.Decimal
+
+//	This convenience method just performs a simple type conversion to TzeroToTenDecimalType's alias type xsdt.Decimal.
+func (me TzeroToTenDecimalType) ToXsdtDecimal() xsdt.Decimal { return xsdt.Decimal(me) }
+
+//	Since TzeroToTenDecimalType is just a simple String type, this merely sets the current value from the specified string.
+func (me *TzeroToTenDecimalType) Set(s string) { (*xsdt.Decimal)(me).Set(s) }
+
+//	Since TzeroToTenDecimalType is just a simple String type, this merely returns the current string value.
+func (me TzeroToTenDecimalType) String() string { return xsdt.Decimal(me).String() }
+
+type XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ struct {
+	//	Base impact sub-score assigned to a vulnerability by a source
+	ImpactSubscores []TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 impact-subscore"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ instance.
+func (me *XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ struct {
+	GeneratedOnDatetime xsdt.DateTime `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 generated-on-datetime"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance.
+func (me *XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ struct {
+	TargetDistributions []*TtargetDistributionType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 target-distribution"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ instance.
+func (me *XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.TargetDistributions {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -1404,18 +1507,6 @@ func (me *TmetricsType) Walk() (err error) {
 }
 
 //	Base severity score assigned to a vulnerability by a source
-//	Value restriction to single decimal values from 0.0 to 10.0, as used in CVSS scores
-type TzeroToTenDecimalType xsdt.Decimal
-
-//	This convenience method just performs a simple type conversion to TzeroToTenDecimalType's alias type xsdt.Decimal.
-func (me TzeroToTenDecimalType) ToXsdtDecimal() xsdt.Decimal { return xsdt.Decimal(me) }
-
-//	Since TzeroToTenDecimalType is just a simple String type, this merely sets the current value from the specified string.
-func (me *TzeroToTenDecimalType) Set(s string) { (*xsdt.Decimal)(me).Set(s) }
-
-//	Since TzeroToTenDecimalType is just a simple String type, this merely returns the current string value.
-func (me TzeroToTenDecimalType) String() string { return xsdt.Decimal(me).String() }
-
 type XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_ struct {
 	//	Base severity score assigned to a vulnerability by a source
 	Score TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 score"`
@@ -1507,33 +1598,7 @@ func (me *XsdGoPkgHasElem_SourcesequenceextensioncomplexContentbaseMetricsTypesc
 	return
 }
 
-type XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ struct {
-	GeneratedOnDatetime xsdt.DateTime `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 generated-on-datetime"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance.
-func (me *XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
 type TbaseMetricsType struct {
-	TmetricsType
-
-	//	Base severity score assigned to a vulnerability by a source
-	XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_
-
 	//	Base exploit sub-score assigned to a vulnerability by a source
 	XsdGoPkgHasElem_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_
 
@@ -1546,6 +1611,11 @@ type TbaseMetricsType struct {
 	XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_
 
 	XsdGoPkgHasGroup_BaseVectorsGroup
+
+	TmetricsType
+
+	//	Base severity score assigned to a vulnerability by a source
+	XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_
 }
 
 //	If the WalkHandlers.TbaseMetricsType function is not nil (ie. was set by outside code), calls it with this TbaseMetricsType instance as the single argument. Then calls the Walk() method on 7/7 embed(s) and 0/0 field(s) belonging to this TbaseMetricsType instance.
@@ -1555,6 +1625,12 @@ func (me *TbaseMetricsType) Walk() (err error) {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
+		}
+		if err = me.XsdGoPkgHasGroup_BaseVectorsGroup.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if err = me.TmetricsType.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
 		if err = me.XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
@@ -1569,12 +1645,6 @@ func (me *TbaseMetricsType) Walk() (err error) {
 			return
 		}
 		if err = me.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasGroup_BaseVectorsGroup.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.TmetricsType.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if fn != nil {
@@ -1633,6 +1703,12 @@ func (me *TenvironmentalMetricsType) Walk() (err error) {
 				return
 			}
 		}
+		if err = me.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if err = me.XsdGoPkgHasGroup_EnvironmentalVectorsGroup.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
 		if err = me.TmetricsType.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
@@ -1640,12 +1716,6 @@ func (me *TenvironmentalMetricsType) Walk() (err error) {
 			return
 		}
 		if err = me.XsdGoPkgHasElem_SourcesequenceextensioncomplexContentbaseMetricsTypeschema_Source_XsdtAnyURI_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasGroup_EnvironmentalVectorsGroup.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if fn != nil {
@@ -1817,40 +1887,19 @@ func (me *TcvssType) Walk() (err error) {
 	return
 }
 
-type XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ struct {
-	AccessComplexities []TaccessComplexityEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-complexity"`
+type XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ struct {
+	BaseMetrics *TbaseMetricsType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 base_metrics"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ instance.
-func (me *XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ instance.
+func (me *XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
 		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ struct {
-	EnvironmentalMetrics *TenvironmentalMetricsType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 environmental_metrics"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ instance.
-func (me *XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if err = me.EnvironmentalMetrics.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+		if err = me.BaseMetrics.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if fn != nil {
@@ -1862,69 +1911,20 @@ func (me *XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_Environment
 	return
 }
 
-type XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ struct {
-	GeneratedOnDatetimes []xsdt.DateTime `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 generated-on-datetime"`
+type XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ struct {
+	EnvironmentalMetrics *TenvironmentalMetricsType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 environmental_metrics"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance.
-func (me *XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_ instance.
+func (me *XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
 		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ struct {
-	CollateralDamagePotentials []*TcollateralDamagePotentialType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 collateral-damage-potential"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ instance.
-func (me *XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.CollateralDamagePotentials {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ struct {
-	ConfidentialityImpacts []*TciaType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-impact"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ instance.
-func (me *XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.ConfidentialityImpacts {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
+		if err = me.EnvironmentalMetrics.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -1959,216 +1959,14 @@ func (me *XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssIm
 	return
 }
 
-type XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ struct {
-	RemediationLevels []*TremediationLevelType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 remediation-level"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ instance.
-func (me *XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.RemediationLevels {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ struct {
-	AccessVectors []TaccessVectorEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-vector"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ instance.
-func (me *XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ struct {
-	AvailabilityImpacts []TciaEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-impact"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ instance.
-func (me *XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ struct {
-	IntegrityRequirements []TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-requirement"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance.
-func (me *XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ struct {
-	Authentications []TauthenticationEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 authentication"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ instance.
-func (me *XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ struct {
-	RemediationLevels []TremediationLevelEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 remediation-level"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ instance.
-func (me *XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ struct {
-	Exploitabilities []*TexploitabilityType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploitability"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ instance.
-func (me *XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.Exploitabilities {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ struct {
-	TargetDistributions []TtargetDistributionEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 target-distribution"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ instance.
-func (me *XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ struct {
-	BaseMetrics *TbaseMetricsType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 base_metrics"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 1/1 field(s) belonging to this XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_ instance.
-func (me *XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if err = me.BaseMetrics.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
 type TcvssImpactType struct {
+	XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_
+
 	XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_
 
 	TcvssType
 
 	XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_
-
-	XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_
 }
 
 //	If the WalkHandlers.TcvssImpactType function is not nil (ie. was set by outside code), calls it with this TcvssImpactType instance as the single argument. Then calls the Walk() method on 4/4 embed(s) and 0/0 field(s) belonging to this TcvssImpactType instance.
@@ -2179,40 +1977,17 @@ func (me *TcvssImpactType) Walk() (err error) {
 				return
 			}
 		}
-		if err = me.XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
 		if err = me.TcvssType.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if err = me.XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
+		if err = me.XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
-	}
-	return
-}
-
-//	Base severity score assigned to a vulnerability by a source
-type XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_ struct {
-	//	Base severity score assigned to a vulnerability by a source
-	Scores []TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 score"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_ instance.
-func (me *XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
+		if err = me.XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
 		}
 		if fn != nil {
 			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -2223,313 +1998,13 @@ func (me *XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypesc
 	return
 }
 
-type XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ struct {
-	Sources []xsdt.AnyURI `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 source"`
+type XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ struct {
+	GeneratedOnDatetimes []xsdt.DateTime `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 generated-on-datetime"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ instance.
-func (me *XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ struct {
-	AccessVectors []*TaccessVectorType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-vector"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ instance.
-func (me *XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.AccessVectors {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ struct {
-	IntegrityImpacts []TciaEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-impact"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ instance.
-func (me *XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ struct {
-	AvailabilityRequirements []*TciaRequirementType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-requirement"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ instance.
-func (me *XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.AvailabilityRequirements {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ struct {
-	ConfidentialityImpacts []TciaEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-impact"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ instance.
-func (me *XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ struct {
-	AvailabilityImpacts []*TciaType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-impact"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ instance.
-func (me *XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.AvailabilityImpacts {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ struct {
-	AvailabilityRequirements []TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-requirement"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ instance.
-func (me *XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ struct {
-	CollateralDamagePotentials []TcollateralDamagePotentialEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 collateral-damage-potential"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ instance.
-func (me *XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-//	The temporal multiplier is a number between zero and one.  Reference the CVSS standard for computation.
-type XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ struct {
-	//	The temporal multiplier is a number between zero and one.  Reference the CVSS standard for computation.
-	TemporalMultipliers []xsdt.Decimal `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 temporal-multiplier"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ instance.
-func (me *XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ struct {
-	ConfidentialityRequirements []TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-requirement"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance.
-func (me *XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ struct {
-	Exploitabilities []TexploitabilityEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploitability"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance.
-func (me *XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ struct {
-	AccessComplexities []*TaccessComplexityType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-complexity"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ instance.
-func (me *XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.AccessComplexities {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ struct {
-	TargetDistributions []*TtargetDistributionType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 target-distribution"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_ instance.
-func (me *XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.TargetDistributions {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ struct {
-	ReportConfidences []TconfidenceEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 report-confidence"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ instance.
-func (me *XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_ instance.
+func (me *XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
@@ -2570,20 +2045,15 @@ func (me *XsdGoPkgHasElems_AuthenticationsequencebaseVectorsGroupschema_Authenti
 	return
 }
 
-type XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ struct {
-	ConfidentialityRequirements []*TciaRequirementType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-requirement"`
+type XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ struct {
+	ConfidentialityRequirements []TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-requirement"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ instance.
-func (me *XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_ instance.
+func (me *XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.ConfidentialityRequirements {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
 		}
@@ -2596,15 +2066,13 @@ func (me *XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVector
 	return
 }
 
-//	Base exploit sub-score assigned to a vulnerability by a source
-type XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ struct {
-	//	Base exploit sub-score assigned to a vulnerability by a source
-	ExploitSubscores []TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploit-subscore"`
+type XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ struct {
+	RemediationLevels []TremediationLevelEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 remediation-level"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ instance.
-func (me *XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_ instance.
+func (me *XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
@@ -2645,42 +2113,19 @@ func (me *XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsGroup
 	return
 }
 
-//	Base impact sub-score assigned to a vulnerability by a source
-type XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ struct {
-	//	Base impact sub-score assigned to a vulnerability by a source
-	ImpactSubscores []TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 impact-subscore"`
+type XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ struct {
+	Exploitabilities []*TexploitabilityType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploitability"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_ instance.
-func (me *XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_ instance.
+func (me *XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
 		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ struct {
-	IntegrityImpacts []*TciaType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-impact"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ instance.
-func (me *XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.IntegrityImpacts {
+		for _, x := range me.Exploitabilities {
 			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
@@ -2694,13 +2139,316 @@ func (me *XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_Integri
 	return
 }
 
-type XsdGoPkgHasCdata struct {
-	XsdGoPkgCDATA string `xml:",chardata"`
+type XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ struct {
+	RemediationLevels []*TremediationLevelType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 remediation-level"`
 }
 
-//	If the WalkHandlers.XsdGoPkgHasCdata function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasCdata instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasCdata instance.
-func (me *XsdGoPkgHasCdata) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasCdata; me != nil {
+//	If the WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_ instance.
+func (me *XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.RemediationLevels {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ struct {
+	CollateralDamagePotentials []*TcollateralDamagePotentialType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 collateral-damage-potential"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_ instance.
+func (me *XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.CollateralDamagePotentials {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ struct {
+	AccessComplexities []TaccessComplexityEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-complexity"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_ instance.
+func (me *XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ struct {
+	AccessVectors []*TaccessVectorType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-vector"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_ instance.
+func (me *XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.AccessVectors {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ struct {
+	ConfidentialityImpacts []TciaEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-impact"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_ instance.
+func (me *XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ struct {
+	AccessComplexities []*TaccessComplexityType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-complexity"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_ instance.
+func (me *XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.AccessComplexities {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ struct {
+	AvailabilityImpacts []*TciaType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-impact"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_ instance.
+func (me *XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.AvailabilityImpacts {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ struct {
+	TargetDistributions []TtargetDistributionEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 target-distribution"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_ instance.
+func (me *XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_ struct {
+	Scores []TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 score"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_ instance.
+func (me *XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ struct {
+	CollateralDamagePotentials []TcollateralDamagePotentialEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 collateral-damage-potential"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ instance.
+func (me *XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ struct {
+	ConfidentialityRequirements []*TciaRequirementType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-requirement"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_ instance.
+func (me *XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.ConfidentialityRequirements {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ struct {
+	AvailabilityRequirements []TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-requirement"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_ instance.
+func (me *XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ struct {
+	Sources []xsdt.AnyURI `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 source"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_ instance.
+func (me *XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ struct {
+	IntegrityRequirements []TciaRequirementEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-requirement"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_ instance.
+func (me *XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
@@ -2741,6 +2489,256 @@ func (me *XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsGroupschema_Re
 	return
 }
 
+type XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ struct {
+	IntegrityImpacts []*TciaType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-impact"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_ instance.
+func (me *XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.IntegrityImpacts {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	Base exploit sub-score assigned to a vulnerability by a source
+type XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ struct {
+	//	Base exploit sub-score assigned to a vulnerability by a source
+	ExploitSubscores []TzeroToTenDecimalType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploit-subscore"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_ instance.
+func (me *XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ struct {
+	AvailabilityRequirements []*TciaRequirementType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-requirement"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_ instance.
+func (me *XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.AvailabilityRequirements {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ struct {
+	Exploitabilities []TexploitabilityEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 exploitability"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_ instance.
+func (me *XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ struct {
+	IntegrityImpacts []TciaEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 integrity-impact"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_ instance.
+func (me *XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ struct {
+	AvailabilityImpacts []TciaEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 availability-impact"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_ instance.
+func (me *XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	The temporal multiplier is a number between zero and one.  Reference the CVSS standard for computation.
+type XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ struct {
+	//	The temporal multiplier is a number between zero and one.  Reference the CVSS standard for computation.
+	TemporalMultipliers []xsdt.Decimal `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 temporal-multiplier"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_ instance.
+func (me *XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ struct {
+	Authentications []TauthenticationEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 authentication"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_ instance.
+func (me *XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ struct {
+	ConfidentialityImpacts []*TciaType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 confidentiality-impact"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_ instance.
+func (me *XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.ConfidentialityImpacts {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ struct {
+	AccessVectors []TaccessVectorEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 access-vector"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_ instance.
+func (me *XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ struct {
+	ReportConfidences []TconfidenceEnumType `xml:"http://scap.nist.gov/schema/cvss-v2/0.2 report-confidence"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_ instance.
+func (me *XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
 var (
 	//	Set this to false to break a Walk() immediately as soon as the first error is returned by a custom handler function.
 	//	If true, Walk() proceeds and accumulates all errors in the WalkErrors slice.
@@ -2757,101 +2755,101 @@ var (
 //	Provides 97 strong-typed hooks for your own custom handler functions to be invoked when the Walk() method is called on any instance of any (non-attribute-related) struct type defined in this package.
 //	If your custom handler does get called at all for a given struct instance, then it always gets called twice, first with the 'enter' bool argument set to true, then (after having Walk()ed all subordinate struct instances, if any) once again with it set to false.
 type XsdGoPkgWalkHandlers struct {
-	XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_                                                 func(*XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_, bool) error
-	XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_                             func(*XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_, bool) error
-	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_                                                     func(*XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_, bool) error
-	XsdGoPkgHasElem_SourcesequenceextensioncomplexContentbaseMetricsTypeschema_Source_XsdtAnyURI_                                                           func(*XsdGoPkgHasElem_SourcesequenceextensioncomplexContentbaseMetricsTypeschema_Source_XsdtAnyURI_, bool) error
-	XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_                                              func(*XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_, bool) error
-	XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_                                                      func(*XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_, bool) error
-	XsdGoPkgHasElems_TemporalMetricssequencecvssTypeschema_TemporalMetrics_TtemporalMetricsType_                                                            func(*XsdGoPkgHasElems_TemporalMetricssequencecvssTypeschema_TemporalMetrics_TtemporalMetricsType_, bool) error
-	XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_                                                    func(*XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_, bool) error
-	XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_                             func(*XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_, bool) error
-	TaccessComplexityType                                                                                                                                   func(*TaccessComplexityType, bool) error
-	XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_                                                           func(*XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_, bool) error
-	XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_                                              func(*XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_, bool) error
-	XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_                                      func(*XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_, bool) error
-	XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_                                                  func(*XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_, bool) error
-	TaccessVectorType                                                                                                                                       func(*TaccessVectorType, bool) error
-	XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_                       func(*XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_, bool) error
-	TremediationLevelType                                                                                                                                   func(*TremediationLevelType, bool) error
-	TenvironmentalMetricsType                                                                                                                               func(*TenvironmentalMetricsType, bool) error
-	TciaType                                                                                                                                                func(*TciaType, bool) error
-	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_                                                              func(*XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_, bool) error
-	TexploitabilityType                                                                                                                                     func(*TexploitabilityType, bool) error
-	XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_           func(*XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_, bool) error
-	XsdGoPkgHasGroup_BaseVectorsCriteriaGroup                                                                                                               func(*XsdGoPkgHasGroup_BaseVectorsCriteriaGroup, bool) error
-	TcvssType                                                                                                                                               func(*TcvssType, bool) error
-	XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_                      func(*XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_, bool) error
-	XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_          func(*XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_, bool) error
-	XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_                               func(*XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_, bool) error
-	XsdGoPkgHasGroup_TemporalVectorsGroup                                                                                                                   func(*XsdGoPkgHasGroup_TemporalVectorsGroup, bool) error
-	XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_                                  func(*XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_, bool) error
-	TmetricsType                                                                                                                                            func(*TmetricsType, bool) error
-	XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_             func(*XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_, bool) error
-	XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_                                                   func(*XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_, bool) error
-	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_                                        func(*XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_, bool) error
-	TtemporalMetricsType                                                                                                                                    func(*TtemporalMetricsType, bool) error
-	XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_                      func(*XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_, bool) error
-	TcvssImpactType                                                                                                                                         func(*TcvssImpactType, bool) error
-	XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_                                                                func(*XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_, bool) error
-	XsdGoPkgHasGroup_TemporalVectorsCriteriaGroup                                                                                                           func(*XsdGoPkgHasGroup_TemporalVectorsCriteriaGroup, bool) error
-	XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_                                                          func(*XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_, bool) error
-	XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_                                       func(*XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_, bool) error
-	XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_                                                     func(*XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_, bool) error
-	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_                                                                 func(*XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_, bool) error
-	TciaRequirementType                                                                                                                                     func(*TciaRequirementType, bool) error
-	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_                                                    func(*XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_, bool) error
-	XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_                                                    func(*XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_, bool) error
-	XsdGoPkgHasElems_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_                                                       func(*XsdGoPkgHasElems_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_, bool) error
-	XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_                                           func(*XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_, bool) error
-	XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_                                  func(*XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_, bool) error
-	XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_                             func(*XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_, bool) error
-	TauthenticationType                                                                                                                                     func(*TauthenticationType, bool) error
-	XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_              func(*XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_, bool) error
-	XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_                       func(*XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_, bool) error
-	XsdGoPkgHasElem_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_                                func(*XsdGoPkgHasElem_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_, bool) error
-	XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_                                              func(*XsdGoPkgHasElem_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_, bool) error
-	XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_                                 func(*XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_, bool) error
 	XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_                                        func(*XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_, bool) error
-	XsdGoPkgHasCdata                                                                                                                                        func(*XsdGoPkgHasCdata, bool) error
-	XsdGoPkgHasGroup_BaseVectorsGroup                                                                                                                       func(*XsdGoPkgHasGroup_BaseVectorsGroup, bool) error
-	TtargetDistributionType                                                                                                                                 func(*TtargetDistributionType, bool) error
-	XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_                                   func(*XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_, bool) error
-	XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_                                   func(*XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_, bool) error
-	XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_                                                 func(*XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_, bool) error
-	XsdGoPkgHasGroup_EnvironmentalVectorsCriteriaGroup                                                                                                      func(*XsdGoPkgHasGroup_EnvironmentalVectorsCriteriaGroup, bool) error
-	XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_                                             func(*XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_, bool) error
-	XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_                                                 func(*XsdGoPkgHasElems_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_, bool) error
-	XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_                                                        func(*XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_, bool) error
-	TcollateralDamagePotentialType                                                                                                                          func(*TcollateralDamagePotentialType, bool) error
-	XsdGoPkgHasGroup_EnvironmentalVectorsGroup                                                                                                              func(*XsdGoPkgHasGroup_EnvironmentalVectorsGroup, bool) error
-	XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_                                         func(*XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_, bool) error
-	XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_                       func(*XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_, bool) error
-	XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_                              func(*XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_, bool) error
-	XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_                                                  func(*XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_, bool) error
-	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_                                                  func(*XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_, bool) error
-	TbaseMetricsType                                                                                                                                        func(*TbaseMetricsType, bool) error
-	XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_                                     func(*XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_, bool) error
-	XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_                     func(*XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentenvironmentalMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_, bool) error
-	XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_                                        func(*XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_, bool) error
-	XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_                      func(*XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_, bool) error
-	XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_                                  func(*XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_, bool) error
-	XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_                               func(*XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_, bool) error
-	XsdGoPkgHasElems_BaseMetricssequencecvssTypeschema_BaseMetrics_TbaseMetricsType_                                                                        func(*XsdGoPkgHasElems_BaseMetricssequencecvssTypeschema_BaseMetrics_TbaseMetricsType_, bool) error
-	XsdGoPkgHasElems_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_                                             func(*XsdGoPkgHasElems_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_, bool) error
-	TconfidenceType                                                                                                                                         func(*TconfidenceType, bool) error
-	XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_                                               func(*XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_, bool) error
-	XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_                 func(*XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_, bool) error
-	XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_  func(*XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_, bool) error
-	XsdGoPkgHasElem_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_                              func(*XsdGoPkgHasElem_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_, bool) error
-	XsdGoPkgHasElem_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_                              func(*XsdGoPkgHasElem_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_, bool) error
-	XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_                            func(*XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_, bool) error
-	XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_                func(*XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_, bool) error
-	XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_                                                   func(*XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_, bool) error
-	XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_                                          func(*XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_, bool) error
-	XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_                                                             func(*XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_, bool) error
-	XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_                                                    func(*XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_, bool) error
-	XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ func(*XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_, bool) error
-	XsdGoPkgHasElem_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_                                            func(*XsdGoPkgHasElem_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_, bool) error
 	XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_                                       func(*XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_, bool) error
+	TaccessComplexityType                                                                                                                                   func(*TaccessComplexityType, bool) error
+	XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_                                         func(*XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsCriteriaGroupschema_ConfidentialityImpact_TciaEnumType_, bool) error
+	XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_                             func(*XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_, bool) error
+	TmetricsType                                                                                                                                            func(*TmetricsType, bool) error
+	XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_                                                    func(*XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_, bool) error
+	XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_                       func(*XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_, bool) error
+	XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_                                   func(*XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_, bool) error
+	XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_                                                   func(*XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_, bool) error
+	TciaRequirementType                                                                                                                                     func(*TciaRequirementType, bool) error
+	XsdGoPkgHasElems_BaseMetricssequencecvssTypeschema_BaseMetrics_TbaseMetricsType_                                                                        func(*XsdGoPkgHasElems_BaseMetricssequencecvssTypeschema_BaseMetrics_TbaseMetricsType_, bool) error
+	XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_                               func(*XsdGoPkgHasElem_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_, bool) error
+	XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_                      func(*XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_, bool) error
+	XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_                                           func(*XsdGoPkgHasElems_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_, bool) error
+	XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_                                                    func(*XsdGoPkgHasElems_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_, bool) error
+	TtargetDistributionType                                                                                                                                 func(*TtargetDistributionType, bool) error
+	XsdGoPkgHasCdata                                                                                                                                        func(*XsdGoPkgHasCdata, bool) error
+	XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_                 func(*XsdGoPkgHasElem_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_, bool) error
+	XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_                                        func(*XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsCriteriaGroupschema_ReportConfidence_TconfidenceEnumType_, bool) error
+	XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_                                          func(*XsdGoPkgHasElem_BaseMetricssequencerestrictioncomplexContentcvssImpactTypeschema_BaseMetrics_TbaseMetricsType_, bool) error
+	XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_               func(*XsdGoPkgHasElem_EnvironmentalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_, bool) error
+	XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_                              func(*XsdGoPkgHasElem_TemporalMetricssequencerestrictioncomplexContentcvssImpactTypeschema_TemporalMetrics_TtemporalMetricsType_, bool) error
+	XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_          func(*XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_, bool) error
+	TauthenticationType                                                                                                                                     func(*TauthenticationType, bool) error
+	TconfidenceType                                                                                                                                         func(*TconfidenceType, bool) error
+	XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_ func(*XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_, bool) error
+	XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_             func(*XsdGoPkgHasElems_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_, bool) error
+	XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_                                     func(*XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_, bool) error
+	TaccessVectorType                                                                                                                                       func(*TaccessVectorType, bool) error
+	XsdGoPkgHasGroup_EnvironmentalVectorsGroup                                                                                                              func(*XsdGoPkgHasGroup_EnvironmentalVectorsGroup, bool) error
+	XsdGoPkgHasElem_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_                              func(*XsdGoPkgHasElem_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_, bool) error
+	TcvssType                                                                                                                                               func(*TcvssType, bool) error
+	XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_                                                  func(*XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_, bool) error
+	XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_                                                        func(*XsdGoPkgHasElem_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_, bool) error
+	XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_              func(*XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsGroupschema_CollateralDamagePotential_TcollateralDamagePotentialType_, bool) error
+	XsdGoPkgHasElem_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_                              func(*XsdGoPkgHasElem_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_, bool) error
+	XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_                                             func(*XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_, bool) error
+	XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_                                                             func(*XsdGoPkgHasElems_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_, bool) error
+	XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_                                              func(*XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_, bool) error
+	XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_                                                           func(*XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_, bool) error
+	XsdGoPkgHasGroup_BaseVectorsGroup                                                                                                                       func(*XsdGoPkgHasGroup_BaseVectorsGroup, bool) error
+	TtemporalMetricsType                                                                                                                                    func(*TtemporalMetricsType, bool) error
+	XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_                              func(*XsdGoPkgHasElems_GeneratedOnDatetimesequenceextensioncomplexContentbaseMetricsTypeschema_GeneratedOnDatetime_XsdtDateTime_, bool) error
+	XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_                func(*XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_AvailabilityRequirement_TciaRequirementEnumType_, bool) error
+	XsdGoPkgHasGroup_TemporalVectorsCriteriaGroup                                                                                                           func(*XsdGoPkgHasGroup_TemporalVectorsCriteriaGroup, bool) error
+	XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_                               func(*XsdGoPkgHasElems_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_, bool) error
+	XsdGoPkgHasElem_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_                                            func(*XsdGoPkgHasElem_AuthenticationsequencebaseVectorsCriteriaGroupschema_Authentication_TauthenticationEnumType_, bool) error
+	XsdGoPkgHasElem_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_                                func(*XsdGoPkgHasElem_ImpactSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ImpactSubscore_TzeroToTenDecimalType_, bool) error
+	XsdGoPkgHasElem_SourcesequenceextensioncomplexContentbaseMetricsTypeschema_Source_XsdtAnyURI_                                                           func(*XsdGoPkgHasElem_SourcesequenceextensioncomplexContentbaseMetricsTypeschema_Source_XsdtAnyURI_, bool) error
+	XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_                      func(*XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_, bool) error
+	XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_                                        func(*XsdGoPkgHasElems_ScoresequenceextensioncomplexContentenvironmentalMetricsTypeschema_Score_TzeroToTenDecimalType_, bool) error
+	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_                                                                 func(*XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_, bool) error
+	XsdGoPkgHasGroup_TemporalVectorsGroup                                                                                                                   func(*XsdGoPkgHasGroup_TemporalVectorsGroup, bool) error
+	XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_                                               func(*XsdGoPkgHasElem_AvailabilityImpactsequencebaseVectorsCriteriaGroupschema_AvailabilityImpact_TciaEnumType_, bool) error
+	XsdGoPkgHasElems_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_                                             func(*XsdGoPkgHasElems_EnvironmentalMetricssequencecvssTypeschema_EnvironmentalMetrics_TenvironmentalMetricsType_, bool) error
+	XsdGoPkgHasElems_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_                                                       func(*XsdGoPkgHasElems_AuthenticationsequencebaseVectorsGroupschema_Authentication_TauthenticationType_, bool) error
+	XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_                                                          func(*XsdGoPkgHasElems_AvailabilityImpactsequencebaseVectorsGroupschema_AvailabilityImpact_TciaType_, bool) error
+	TcollateralDamagePotentialType                                                                                                                          func(*TcollateralDamagePotentialType, bool) error
+	TexploitabilityType                                                                                                                                     func(*TexploitabilityType, bool) error
+	XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_                                                   func(*XsdGoPkgHasElems_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_, bool) error
+	XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_                            func(*XsdGoPkgHasElems_AvailabilityRequirementsequenceenvironmentalVectorsGroupschema_AvailabilityRequirement_TciaRequirementType_, bool) error
+	XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_                                  func(*XsdGoPkgHasElems_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_, bool) error
+	XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_                                                 func(*XsdGoPkgHasElems_AccessComplexitysequencebaseVectorsGroupschema_AccessComplexity_TaccessComplexityType_, bool) error
+	XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_                                      func(*XsdGoPkgHasElem_AccessComplexitysequencebaseVectorsCriteriaGroupschema_AccessComplexity_TaccessComplexityEnumType_, bool) error
+	XsdGoPkgHasGroup_BaseVectorsCriteriaGroup                                                                                                               func(*XsdGoPkgHasGroup_BaseVectorsCriteriaGroup, bool) error
+	XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_                                  func(*XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_, bool) error
+	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_                                        func(*XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_, bool) error
+	TenvironmentalMetricsType                                                                                                                               func(*TenvironmentalMetricsType, bool) error
+	XsdGoPkgHasElems_TemporalMetricssequencecvssTypeschema_TemporalMetrics_TtemporalMetricsType_                                                            func(*XsdGoPkgHasElems_TemporalMetricssequencecvssTypeschema_TemporalMetrics_TtemporalMetricsType_, bool) error
+	XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_                                   func(*XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsGroupschema_TargetDistribution_TtargetDistributionType_, bool) error
+	XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_                                                    func(*XsdGoPkgHasElem_ReportConfidencesequencetemporalVectorsGroupschema_ReportConfidence_TconfidenceType_, bool) error
+	XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_                                                                func(*XsdGoPkgHasElems_IntegrityImpactsequencebaseVectorsGroupschema_IntegrityImpact_TciaType_, bool) error
+	XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_                             func(*XsdGoPkgHasElems_TemporalMultipliersequenceextensioncomplexContenttemporalMetricsTypeschema_TemporalMultiplier_XsdtDecimal_, bool) error
+	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_                                                  func(*XsdGoPkgHasElem_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_, bool) error
+	XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_                                                  func(*XsdGoPkgHasElem_ScoresequenceextensioncomplexContentbaseMetricsTypeschema_Score_TzeroToTenDecimalType_, bool) error
+	XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_                                  func(*XsdGoPkgHasElems_IntegrityRequirementsequenceenvironmentalVectorsGroupschema_IntegrityRequirement_TciaRequirementType_, bool) error
+	XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_                                                      func(*XsdGoPkgHasElems_SourcesequenceextensioncomplexContenttemporalMetricsTypeschema_Source_XsdtAnyURI_, bool) error
+	XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_                                       func(*XsdGoPkgHasElems_ExploitabilitysequencetemporalVectorsCriteriaGroupschema_Exploitability_TexploitabilityEnumType_, bool) error
+	XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_                                                 func(*XsdGoPkgHasElems_AccessVectorsequencebaseVectorsCriteriaGroupschema_AccessVector_TaccessVectorEnumType_, bool) error
+	XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_                                                     func(*XsdGoPkgHasElem_ConfidentialityImpactsequencebaseVectorsGroupschema_ConfidentialityImpact_TciaType_, bool) error
+	XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_                                                              func(*XsdGoPkgHasElem_AccessVectorsequencebaseVectorsGroupschema_AccessVector_TaccessVectorType_, bool) error
+	XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_                                 func(*XsdGoPkgHasElems_RemediationLevelsequencetemporalVectorsCriteriaGroupschema_RemediationLevel_TremediationLevelEnumType_, bool) error
+	XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_                      func(*XsdGoPkgHasElems_ConfidentialityRequirementsequenceenvironmentalVectorsGroupschema_ConfidentialityRequirement_TciaRequirementType_, bool) error
+	XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_                       func(*XsdGoPkgHasElem_IntegrityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_IntegrityRequirement_TciaRequirementEnumType_, bool) error
+	XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_                       func(*XsdGoPkgHasElem_TargetDistributionsequenceenvironmentalVectorsCriteriaGroupschema_TargetDistribution_TtargetDistributionEnumType_, bool) error
+	TbaseMetricsType                                                                                                                                        func(*TbaseMetricsType, bool) error
+	TcvssImpactType                                                                                                                                         func(*TcvssImpactType, bool) error
+	XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_                                              func(*XsdGoPkgHasElem_RemediationLevelsequencetemporalVectorsGroupschema_RemediationLevel_TremediationLevelType_, bool) error
+	XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_           func(*XsdGoPkgHasElem_ConfidentialityRequirementsequenceenvironmentalVectorsCriteriaGroupschema_ConfidentialityRequirement_TciaRequirementEnumType_, bool) error
+	TremediationLevelType                                                                                                                                   func(*TremediationLevelType, bool) error
+	XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_                                                     func(*XsdGoPkgHasElem_IntegrityImpactsequencebaseVectorsCriteriaGroupschema_IntegrityImpact_TciaEnumType_, bool) error
+	XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_  func(*XsdGoPkgHasElem_CollateralDamagePotentialsequenceenvironmentalVectorsCriteriaGroupschema_CollateralDamagePotential_TcollateralDamagePotentialEnumType_, bool) error
+	XsdGoPkgHasGroup_EnvironmentalVectorsCriteriaGroup                                                                                                      func(*XsdGoPkgHasGroup_EnvironmentalVectorsCriteriaGroup, bool) error
+	XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_                             func(*XsdGoPkgHasElems_ExploitSubscoresequenceextensioncomplexContentbaseMetricsTypeschema_ExploitSubscore_TzeroToTenDecimalType_, bool) error
+	TciaType                                                                                                                                                func(*TciaType, bool) error
+	XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_                                                    func(*XsdGoPkgHasElem_ExploitabilitysequencetemporalVectorsGroupschema_Exploitability_TexploitabilityType_, bool) error
 }
