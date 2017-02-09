@@ -53,34 +53,13 @@ type XsdGoPkgHasAttr_Id struct {
 }
 
 type XsdGoPkgHasAtts_SpecialAttrs struct {
-	XsdGoPkgHasAttr_Base
-
-	XsdGoPkgHasAttr_Lang
-
 	XsdGoPkgHasAttr_Space
 
 	XsdGoPkgHasAttr_Id
-}
 
-type XsdGoPkgHasCdata struct {
-	XsdGoPkgCDATA string `xml:",chardata"`
-}
+	XsdGoPkgHasAttr_Base
 
-//	If the WalkHandlers.XsdGoPkgHasCdata function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasCdata instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasCdata instance.
-func (me *XsdGoPkgHasCdata) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasCdata; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
+	XsdGoPkgHasAttr_Lang
 }
 
 type TxsdLangTxsdLangUnion xsdt.String
@@ -102,6 +81,27 @@ func (me TxsdLangTxsdLangUnion) Is() bool { return me.String() == "" }
 
 //	TxsdLang is an XSD union-type of several types. This is a simple type conversion to XsdtLanguage, but keep in mind the actual value may or may not be a valid XsdtLanguage value.
 func (me TxsdLang) ToXsdtLanguage() xsdt.Language { return xsdt.Language(me) }
+
+type XsdGoPkgHasCdata struct {
+	XsdGoPkgCDATA string `xml:",chardata"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasCdata function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasCdata instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasCdata instance.
+func (me *XsdGoPkgHasCdata) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasCdata; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
 
 var (
 	//	Set this to false to break a Walk() immediately as soon as the first error is returned by a custom handler function.

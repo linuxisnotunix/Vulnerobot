@@ -9,6 +9,12 @@ import (
 	xsdt "github.com/metaleap/go-xsd/types"
 )
 
+//	Boolean value.  True of patch is superseded.  False if not.
+type XsdGoPkgHasAttr_Superseded_XsdtBoolean_ struct {
+	//	Boolean value.  True of patch is superseded.  False if not.
+	Superseded xsdt.Boolean `xml:"http://scap.nist.gov/schema/patch/0.1 superseded,attr"`
+}
+
 type XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_ struct {
 	Checks []scap_core.TcheckReferenceType `xml:"http://scap.nist.gov/schema/patch/0.1 check"`
 }
@@ -59,10 +65,16 @@ type XsdGoPkgHasAttr_Deprecated_XsdtBoolean_ struct {
 	Deprecated xsdt.Boolean `xml:"http://scap.nist.gov/schema/patch/0.1 deprecated,attr"`
 }
 
-//	Boolean value.  True of patch is superseded.  False if not.
-type XsdGoPkgHasAttr_Superseded_XsdtBoolean_ struct {
-	//	Boolean value.  True of patch is superseded.  False if not.
-	Superseded xsdt.Boolean `xml:"http://scap.nist.gov/schema/patch/0.1 superseded,attr"`
+//	Identifier unique within the XML document for the given patch.
+type XsdGoPkgHasAttr_Identifier_XsdtDouble_ struct {
+	//	Identifier unique within the XML document for the given patch.
+	Identifier xsdt.Double `xml:"http://scap.nist.gov/schema/patch/0.1 identifier,attr"`
+}
+
+//	Vendor supplied name for the patch.  Will use lower case and underscores for spaces, consistent with CPE naming conventions.
+type XsdGoPkgHasAttr_Name_XsdtString_ struct {
+	//	Vendor supplied name for the patch.  Will use lower case and underscores for spaces, consistent with CPE naming conventions.
+	Name xsdt.String `xml:"http://scap.nist.gov/schema/patch/0.1 name,attr"`
 }
 
 //	Human-formatted title for the patch.  If none given, then duplicate of the name.
@@ -201,29 +213,9 @@ func (me *XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_Tpat
 	return
 }
 
-//	Identifier unique within the XML document for the given patch.
-type XsdGoPkgHasAttr_Identifier_XsdtDouble_ struct {
-	//	Identifier unique within the XML document for the given patch.
-	Identifier xsdt.Double `xml:"http://scap.nist.gov/schema/patch/0.1 identifier,attr"`
-}
-
-//	Vendor supplied name for the patch.  Will use lower case and underscores for spaces, consistent with CPE naming conventions.
-type XsdGoPkgHasAttr_Name_XsdtString_ struct {
-	//	Vendor supplied name for the patch.  Will use lower case and underscores for spaces, consistent with CPE naming conventions.
-	Name xsdt.String `xml:"http://scap.nist.gov/schema/patch/0.1 name,attr"`
-}
-
 type TpatchType struct {
-	XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_
-
-	//	Patches that superceded by the referenced patch.
-	XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_
-
-	//	Indicates that a patch should not be used -- regardless of supersession.
-	XsdGoPkgHasAttr_Deprecated_XsdtBoolean_
-
-	//	Boolean value.  True of patch is superseded.  False if not.
-	XsdGoPkgHasAttr_Superseded_XsdtBoolean_
+	//	Vendor supplied name for the patch.  Will use lower case and underscores for spaces, consistent with CPE naming conventions.
+	XsdGoPkgHasAttr_Name_XsdtString_
 
 	//	Human-formatted title for the patch.  If none given, then duplicate of the name.
 	XsdGoPkgHasElem_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_
@@ -235,11 +227,19 @@ type TpatchType struct {
 	//	Patches that supersede the patch comprising the current XML document.
 	XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_
 
+	//	Boolean value.  True of patch is superseded.  False if not.
+	XsdGoPkgHasAttr_Superseded_XsdtBoolean_
+
+	XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_
+
+	//	Patches that superceded by the referenced patch.
+	XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_
+
+	//	Indicates that a patch should not be used -- regardless of supersession.
+	XsdGoPkgHasAttr_Deprecated_XsdtBoolean_
+
 	//	Identifier unique within the XML document for the given patch.
 	XsdGoPkgHasAttr_Identifier_XsdtDouble_
-
-	//	Vendor supplied name for the patch.  Will use lower case and underscores for spaces, consistent with CPE naming conventions.
-	XsdGoPkgHasAttr_Name_XsdtString_
 }
 
 //	If the WalkHandlers.TpatchType function is not nil (ie. was set by outside code), calls it with this TpatchType instance as the single argument. Then calls the Walk() method on 6/10 embed(s) and 0/0 field(s) belonging to this TpatchType instance.
@@ -250,6 +250,12 @@ func (me *TpatchType) Walk() (err error) {
 				return
 			}
 		}
+		if err = me.XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
+		if err = me.XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+			return
+		}
 		if err = me.XsdGoPkgHasElem_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
@@ -257,12 +263,6 @@ func (me *TpatchType) Walk() (err error) {
 			return
 		}
 		if err = me.XsdGoPkgHasElems_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-			return
-		}
-		if err = me.XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 			return
 		}
 		if err = me.XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
@@ -327,71 +327,6 @@ func (me *XsdGoPkgHasElems_Patch) Walk() (err error) {
 	return
 }
 
-type XsdGoPkgHasCdata struct {
-	XsdGoPkgCDATA string `xml:",chardata"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasCdata function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasCdata instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasCdata instance.
-func (me *XsdGoPkgHasCdata) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasCdata; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-//	Human-formatted title for the patch.  If none given, then duplicate of the name.
-type XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ struct {
-	//	Human-formatted title for the patch.  If none given, then duplicate of the name.
-	Titles []scap_core.TtextType `xml:"http://scap.nist.gov/schema/patch/0.1 title"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ instance.
-func (me *XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ struct {
-	Reference scap_core.TreferenceType `xml:"http://scap.nist.gov/schema/patch/0.1 reference"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ instance.
-func (me *XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
 type XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_ struct {
 	Notes scap_core.TnotesType `xml:"http://scap.nist.gov/schema/patch/0.1 notes"`
 }
@@ -401,32 +336,6 @@ func (me *XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_
 	if fn := WalkHandlers.XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		if fn != nil {
-			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-	}
-	return
-}
-
-type XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ struct {
-	Referenceses []*TxsdPatchTypeSequenceReferences `xml:"http://scap.nist.gov/schema/patch/0.1 references"`
-}
-
-//	If the WalkHandlers.XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ instance.
-func (me *XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_) Walk() (err error) {
-	if fn := WalkHandlers.XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_; me != nil {
-		if fn != nil {
-			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
-				return
-			}
-		}
-		for _, x := range me.Referenceses {
-			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
 			}
 		}
@@ -491,6 +400,27 @@ func (me *XsdGoPkgHasElem_SupersededBysequencepatchTypeschema_SupersededBy_Tpatc
 	return
 }
 
+type XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ struct {
+	Reference scap_core.TreferenceType `xml:"http://scap.nist.gov/schema/patch/0.1 reference"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ instance.
+func (me *XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
 type XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_ struct {
 	Check scap_core.TcheckReferenceType `xml:"http://scap.nist.gov/schema/patch/0.1 check"`
 }
@@ -498,6 +428,76 @@ type XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceT
 //	If the WalkHandlers.XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_ instance.
 func (me *XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_) Walk() (err error) {
 	if fn := WalkHandlers.XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ struct {
+	Referenceses []*TxsdPatchTypeSequenceReferences `xml:"http://scap.nist.gov/schema/patch/0.1 references"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_ instance.
+func (me *XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		for _, x := range me.Referenceses {
+			if err = x.Walk(); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+type XsdGoPkgHasCdata struct {
+	XsdGoPkgCDATA string `xml:",chardata"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasCdata function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasCdata instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasCdata instance.
+func (me *XsdGoPkgHasCdata) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasCdata; me != nil {
+		if fn != nil {
+			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+		if fn != nil {
+			if err = fn(me, false); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
+				return
+			}
+		}
+	}
+	return
+}
+
+//	Human-formatted title for the patch.  If none given, then duplicate of the name.
+type XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ struct {
+	//	Human-formatted title for the patch.  If none given, then duplicate of the name.
+	Titles []scap_core.TtextType `xml:"http://scap.nist.gov/schema/patch/0.1 title"`
+}
+
+//	If the WalkHandlers.XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ function is not nil (ie. was set by outside code), calls it with this XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ instance as the single argument. Then calls the Walk() method on 0/0 embed(s) and 0/1 field(s) belonging to this XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_ instance.
+func (me *XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_) Walk() (err error) {
+	if fn := WalkHandlers.XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_; me != nil {
 		if fn != nil {
 			if err = fn(me, true); xsdt.OnWalkError(&err, &WalkErrors, WalkContinueOnError, WalkOnError) {
 				return
@@ -528,23 +528,23 @@ var (
 //	Provides 19 strong-typed hooks for your own custom handler functions to be invoked when the Walk() method is called on any instance of any (non-attribute-related) struct type defined in this package.
 //	If your custom handler does get called at all for a given struct instance, then it always gets called twice, first with the 'enter' bool argument set to true, then (after having Walk()ed all subordinate struct instances, if any) once again with it set to false.
 type XsdGoPkgWalkHandlers struct {
-	XsdGoPkgHasCdata                                                                                                                     func(*XsdGoPkgHasCdata, bool) error
-	XsdGoPkgHasElem_SupersedessequencepatchTypeschema_Supersedes_TpatchType_                                                             func(*XsdGoPkgHasElem_SupersedessequencepatchTypeschema_Supersedes_TpatchType_, bool) error
 	XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_                                                      func(*XsdGoPkgHasElem_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_, bool) error
-	XsdGoPkgHasElems_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_                                                              func(*XsdGoPkgHasElems_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_, bool) error
-	XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_                                                        func(*XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_, bool) error
-	XsdGoPkgHasElem_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_                                        func(*XsdGoPkgHasElem_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_, bool) error
-	XsdGoPkgHasElem_Patch                                                                                                                func(*XsdGoPkgHasElem_Patch, bool) error
-	XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_                                 func(*XsdGoPkgHasElem_ReferencesequencereferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_, bool) error
-	XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_                                                               func(*XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_, bool) error
-	XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_                                                     func(*XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_, bool) error
-	XsdGoPkgHasElem_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_                                                                func(*XsdGoPkgHasElem_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_, bool) error
-	XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_                                                               func(*XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_, bool) error
-	XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_                                       func(*XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_, bool) error
-	XsdGoPkgHasElem_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_                                                         func(*XsdGoPkgHasElem_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_, bool) error
 	XsdGoPkgHasElems_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_ func(*XsdGoPkgHasElems_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_, bool) error
-	TxsdPatchTypeSequenceReferences                                                                                                      func(*TxsdPatchTypeSequenceReferences, bool) error
-	XsdGoPkgHasElems_Patch                                                                                                               func(*XsdGoPkgHasElems_Patch, bool) error
-	XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_                                                            func(*XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_, bool) error
+	XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_                                                        func(*XsdGoPkgHasElems_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_, bool) error
 	TpatchType                                                                                                                           func(*TpatchType, bool) error
+	XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_                                       func(*XsdGoPkgHasElems_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_, bool) error
+	XsdGoPkgHasCdata                                                                                                                     func(*XsdGoPkgHasCdata, bool) error
+	XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_                                                     func(*XsdGoPkgHasElems_ChecksequencepatchTypeschema_Check_ScapCoreTcheckReferenceType_, bool) error
+	XsdGoPkgHasElem_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_                                        func(*XsdGoPkgHasElem_ReferencessequencepatchTypeschema_References_TxsdPatchTypeSequenceReferences_, bool) error
+	XsdGoPkgHasElem_SupersedessequencepatchTypeschema_Supersedes_TpatchType_                                                             func(*XsdGoPkgHasElem_SupersedessequencepatchTypeschema_Supersedes_TpatchType_, bool) error
+	XsdGoPkgHasElem_Patch                                                                                                                func(*XsdGoPkgHasElem_Patch, bool) error
+	XsdGoPkgHasElem_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_                                                         func(*XsdGoPkgHasElem_SupersededBysequencepatchTypeschema_SupersededBy_TpatchType_, bool) error
+	XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_  func(*XsdGoPkgHasElem_ReferencesequenceTxsdPatchTypeSequenceReferencesreferencessequencepatchTypeschema_Reference_ScapCoreTreferenceType_, bool) error
+	XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_                                                            func(*XsdGoPkgHasElems_SupersedessequencepatchTypeschema_Supersedes_TpatchType_, bool) error
+	XsdGoPkgHasElem_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_                                                                func(*XsdGoPkgHasElem_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_, bool) error
+	TxsdPatchTypeSequenceReferences                                                                                                      func(*TxsdPatchTypeSequenceReferences, bool) error
+	XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_                                                               func(*XsdGoPkgHasElems_TitlesequencepatchTypeschema_Title_ScapCoreTtextType_, bool) error
+	XsdGoPkgHasElems_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_                                                              func(*XsdGoPkgHasElems_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_, bool) error
+	XsdGoPkgHasElems_Patch                                                                                                               func(*XsdGoPkgHasElems_Patch, bool) error
+	XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_                                                               func(*XsdGoPkgHasElem_NotessequencepatchTypeschema_Notes_ScapCoreTnotesType_, bool) error
 }
