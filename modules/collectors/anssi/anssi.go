@@ -449,8 +449,6 @@ func (m *ModuleANSSI) elToMatch() *arraylist.List {
 
 //List display known AVI stored by this module in DB
 func (m *ModuleANSSI) List() (*arraylist.List, error) {
-	//return nil, fmt.Errorf("Module '%s' does not implement List().", id) //TODO
-
 	l := arraylist.New()
 	nbVulns := 0
 	log.Infof("%s: Start List() ", id)
@@ -484,4 +482,5 @@ func (m *ModuleANSSI) List() (*arraylist.List, error) {
 	}
 	log.Infof("%s: Found %d vulns", id, nbVulns)
 	return l, nil
+	//TODO add indice for indicating match (name 50% + version 75% + cpe 100%)
 }
