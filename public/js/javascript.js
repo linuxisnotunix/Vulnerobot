@@ -35,6 +35,15 @@ app.controller('AppCtrl', function($scope, $http) {
 		//$scope.refreshData();
 	}
 
+	$scope.openCSV = function(format) {
+	  var win = window.open('../api/list?'+$scope.buildQuery()+'&format=csv', '_blank');
+	  win.focus();
+	}
+	$scope.openCSVShort = function(format) {
+	  var win = window.open('../api/list?'+$scope.buildQuery()+'&format=csv-short', '_blank');
+	  win.focus();
+	}
+
 	$scope.buildQuery = function() {
 		return "plugins="+$scope.pluginSources.join()+"&components="+$scope.componentList.join()+"&functions="+$scope.functionList.join()
 	}
